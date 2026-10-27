@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SCANDIA BOTANI · Lihat di Ruangan (AR)</title>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<style>
+:root{--bg:#f2e6d6;--card:#fdf8f0;--ink:#3b2a1e;--mut:#8c7662;--ac2:#7d4e2d;--sand:#e5d0b6;--line:#e3d2bc;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;display:flex;flex-direction:column}
+.bar{padding:calc(14px + env(safe-area-inset-top,0px)) 16px 12px;text-align:center;background:linear-gradient(180deg,#ecdcc3,#f2e6d6);border-bottom:1px solid #d9bf9c}
+.bar small{letter-spacing:.28em;font-size:10px;color:#7a5f48;text-transform:uppercase}
+.bar b{display:block;font-weight:500;font-size:15px;margin-top:6px}
+main{flex:1;position:relative;min-height:0}
+model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transparent}
+.arbtn{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);border:0;border-radius:2px;background:var(--ac2);color:#fff;padding:15px 24px;font-size:14px;letter-spacing:.05em;white-space:nowrap}
+.nt{padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--mut);line-height:1.55;background:var(--card);text-align:center}
+.err{padding:40px 24px;text-align:center;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="bar"><small>Scandia Botani</small><b id="n">Lihat di ruangan</b></div>
+<main id="m"></main>
+<div class="nt" id="nt">Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Putar dan cubit untuk melihat dari berbagai sisi.</div>
+<script>
+(function(){
+ var q=new URLSearchParams(location.search),m=q.get("m")||"",n=q.get("n")||"Produk";
+ document.getElementById("n").textContent=n;document.title="SCANDIA BOTANI · "+n;
+ var box=document.getElementById("m");
+ if(!/^https:\/\/.+/i.test(m)){box.innerHTML='<div class="err">Model 3D tidak ditemukan. Kembali ke katalog dan coba lagi.</div>';return}
+ var v=document.createElement("model-viewer");
+ v.setAttribute("src",m);v.setAttribute("alt",n);v.setAttribute("ar","");v.setAttribute("ar-modes","scene-viewer webxr quick-look");
+ v.setAttribute("ar-placement","floor");v.setAttribute("camera-controls","");v.setAttribute("auto-rotate","");
+ v.setAttribute("shadow-intensity","1");v.setAttribute("environment-image","neutral");v.setAttribute("exposure","1.05");
+ var b=document.createElement("button");b.slot="ar-button";b.className="arbtn";b.textContent="LIHAT DI RUANGAN SAYA (AR)";v.appendChild(b);
+ box.appendChild(v);
+ v.addEventListener("error",function(){box.innerHTML='<div class="err">Model 3D gagal dimuat. Periksa link file .glb.</div>'});
+ v.addEventListener("ar-status",function(e){if(e.detail.status==="failed")document.getElementById("nt").textContent="AR tidak tersedia di HP/browser ini. Coba pakai Chrome terbaru, atau HP yang mendukung ARCore (Android) / ARKit (iPhone)."});
+})();
+</script>
+</body>
+</html>
