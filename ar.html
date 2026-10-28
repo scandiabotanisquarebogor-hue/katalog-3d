@@ -16,6 +16,7 @@ main{flex:1;position:relative;min-height:0}
 model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transparent}
 .arbtn{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);border:0;border-radius:2px;background:var(--ac2);color:#fff;padding:15px 24px;font-size:14px;letter-spacing:.05em;white-space:nowrap}
 .nt{padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--mut);line-height:1.55;background:var(--card);text-align:center}
+.dg{padding:12px 16px;background:var(--card);border-top:1px solid var(--line);font-size:12px;color:var(--mut);line-height:1.6}.dg a{display:inline-block;margin:6px 8px 0 0;padding:9px 12px;border:1px solid var(--ac2);color:var(--ac2);text-decoration:none;border-radius:2px;font-size:12px}
 .err{padding:40px 24px;text-align:center;color:var(--mut)}
 </style>
 </head>
@@ -23,18 +24,30 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
 <div class="bar"><small>Scandia Botani</small><b id="n">Lihat di ruangan</b></div>
 <main id="m"></main>
 <div class="nt" id="nt">Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Putar dan cubit untuk melihat dari berbagai sisi.</div>
+<div class="dg" id="dg">Memeriksa perangkat…</div>
 <script>
 (function(){
  var q=new URLSearchParams(location.search),m=q.get("m")||"",n=q.get("n")||"Produk";
  document.getElementById("n").textContent=n;document.title="SCANDIA BOTANI · "+n;
  var box=document.getElementById("m");
- if(!/^https:\/\/.+/i.test(m)){box.innerHTML='<div class="err">Model 3D tidak ditemukan. Kembali ke katalog dan coba lagi.</div>';return}
+ if(!/^https:\/\/.+/i.test(m)){document.getElementById("dg").style.display="none";box.innerHTML='<div class="err">Model 3D tidak ditemukan. Kembali ke katalog dan coba lagi.</div>';return}
  var v=document.createElement("model-viewer");
  v.setAttribute("src",m);v.setAttribute("alt",n);v.setAttribute("ar","");v.setAttribute("ar-modes","scene-viewer webxr quick-look");
  v.setAttribute("ar-placement","floor");v.setAttribute("camera-controls","");v.setAttribute("auto-rotate","");
  v.setAttribute("shadow-intensity","1");v.setAttribute("environment-image","neutral");v.setAttribute("exposure","1.05");
  var b=document.createElement("button");b.slot="ar-button";b.className="arbtn";b.textContent="LIHAT DI RUANGAN SAYA (AR)";v.appendChild(b);
  box.appendChild(v);
+ var ua=navigator.userAgent,android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua),dg=document.getElementById("dg");
+ function info(arOK){
+  var t="Perangkat: "+(android?"Android":ios?"iPhone/iPad":"lainnya")+" · Browser: "+(/Chrome\//.test(ua)&&!/Edg|OPR|SamsungBrowser/.test(ua)?"Chrome":/SamsungBrowser/.test(ua)?"Samsung Internet":/Firefox/.test(ua)?"Firefox":"lainnya")+" · AR terdeteksi: "+(arOK===true?"ya":arOK===false?"belum/tidak":"memeriksa…")+"<br>";
+  if(android){
+   var sv="intent://arvr.google.com/scene-viewer/1.0?file="+encodeURIComponent(m)+"&mode=ar_preferred&title="+encodeURIComponent(n)+"#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url="+encodeURIComponent("https://arvr.google.com/scene-viewer?file="+m)+";end;";
+   t+='<a href="'+sv+'">Coba AR langsung (Android)</a><a href="https://play.google.com/store/apps/details?id=com.google.ar.core" target="_blank">Pasang/perbarui Layanan Google Play untuk AR</a><a href="https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox" target="_blank">Perbarui aplikasi Google</a>';
+  }
+  dg.innerHTML=t}
+ info();
+ v.addEventListener("load",function(){setTimeout(function(){info(!!v.canActivateAR)},400)});
+
  v.addEventListener("error",function(){box.innerHTML='<div class="err">Model 3D gagal dimuat. Periksa link file .glb.</div>'});
  v.addEventListener("ar-status",function(e){if(e.detail.status==="failed")document.getElementById("nt").textContent="AR tidak tersedia di HP/browser ini. Coba pakai Chrome terbaru, atau HP yang mendukung ARCore (Android) / ARKit (iPhone)."});
 })();
