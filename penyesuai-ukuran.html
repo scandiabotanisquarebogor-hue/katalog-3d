@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penyesuai Ukuran Model 3D</title>
+<style>
+:root{--bg:#f2e6d6;--card:#fdf8f0;--ink:#3b2a1e;--mut:#8c7662;--ac2:#7d4e2d;--line:#e3d2bc;color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;padding:20px 16px 40px;max-width:560px;margin:0 auto}
+h1{font-size:18px;font-weight:500;letter-spacing:.06em;margin:6px 0 4px}p.s{color:var(--mut);font-size:13px;line-height:1.55;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:16px;margin-bottom:14px}
+label{display:block;font-size:13px;margin:10px 0 4px;color:var(--mut)}
+input[type=number],input[type=file]{width:100%;padding:11px;border:1px solid var(--line);border-radius:2px;background:#fff;color:var(--ink);font-size:15px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.row label{margin-top:0}
+button{width:100%;margin-top:14px;padding:14px;border:0;border-radius:2px;background:var(--ac2);color:#fff;font-size:14px;letter-spacing:.05em}
+button:disabled{opacity:.4}.cb{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:12px;color:var(--ink)}
+#log{font-size:13px;line-height:1.6;margin-top:12px;white-space:pre-line}.ok{color:#3f6b4a}.er{color:#a8442f}
+</style>
+</head>
+<body>
+<h1>PENYESUAI UKURAN MODEL 3D</h1>
+<p class="s">Pilih file .glb, isi ukuran produk sesuai sheet (dalam cm), lalu unduh model yang sudah berukuran asli. Semua diproses di HP/laptop Anda; file tidak diunggah ke mana pun.</p>
+<div class="card">
+ <label>1. File model (.glb)</label><input type="file" id="f" accept=".glb">
+ <label style="margin-top:16px">2. Ukuran produk (cm), samakan dengan kolom di sheet</label>
+ <div class="row"><div><label>Panjang</label><input type="number" id="w" inputmode="decimal" placeholder="190"></div><div><label>Lebar (dalam)</label><input type="number" id="d" inputmode="decimal" placeholder="99"></div><div><label>Tinggi</label><input type="number" id="h" inputmode="decimal" placeholder="100"></div></div>
+ <div class="cb"><input type="checkbox" id="u"><span>Pertahankan proporsi model (hanya sesuaikan Panjang, abaikan Lebar dan Tinggi)</span></div>
+ <button id="go" disabled>3. Sesuaikan &amp; unduh</button>
+ <div id="log"></div>
+</div>
+<p class="s">Catatan: Panjang = sisi kiri-kanan, Lebar = depan-belakang, Tinggi = atas-bawah. Alat ini juga menaruh alas model tepat di lantai dan memusatkannya. Untuk model dari konverter PLY yang sumbunya miring (tidak tegak), hasil ukuran bisa keliru; kirim ke saya jika begitu.</p>
+<script>
+var $=function(i){return document.getElementById(i)},buf=null,name="model";
+function log(t,c){$("log").className=c||"";$("log").textContent=t}
+function ident(){return[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}
+function mul(a,b){var o=new Array(16);for(var c=0;c<4;c++)for(var r=0;r<4;r++){var s=0;for(var k=0;k<4;k++)s+=a[k*4+r]*b[c*4+k];o[c*4+r]=s}return o}
+function trs(n){if(n.matrix)return n.matrix.slice();var t=n.translation||[0,0,0],q=n.rotation||[0,0,0,1],s=n.scale||[1,1,1],x=q[0],y=q[1],z=q[2],w=q[3];
+ return[(1-2*(y*y+z*z))*s[0],(2*(x*y+z*w))*s[0],(2*(x*z-y*w))*s[0],0,(2*(x*y-z*w))*s[1],(1-2*(x*x+z*z))*s[1],(2*(y*z+x*w))*s[1],0,(2*(x*z+y*w))*s[2],(2*(y*z-x*w))*s[2],(1-2*(x*x+y*y))*s[2],0,t[0],t[1],t[2],1]}
+function parse(b){var dv=new DataView(b);if(dv.getUint32(0,true)!==0x46546C67)throw new Error("Ini bukan file .glb yang valid.");
+ var jl=dv.getUint32(12,true);if(dv.getUint32(16,true)!==0x4E4F534A)throw new Error("Struktur file tidak dikenali.");
+ var json=JSON.parse(new TextDecoder().decode(new Uint8Array(b,20,jl)));var rest=b.slice(20+jl);return{json:json,rest:rest}}
+function bounds(j){var mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9],any=false;
+ function walk(i,pm){var n=j.nodes[i],m=mul(pm,trs(n));
+  if(n.mesh!=null)j.meshes[n.mesh].primitives.forEach(function(p){var a=j.accessors[p.attributes.POSITION];if(!a||!a.min||!a.max)throw new Error("Model tidak memuat batas ukuran (min/max).");
+   for(var c=0;c<8;c++){var v=[c&1?a.max[0]:a.min[0],c&2?a.max[1]:a.min[1],c&4?a.max[2]:a.min[2]];
+    for(var k=0;k<3;k++){var val=m[k]*v[0]+m[4+k]*v[1]+m[8+k]*v[2]+m[12+k];mn[k]=Math.min(mn[k],val);mx[k]=Math.max(mx[k],val)}}any=true});
+  (n.children||[]).forEach(function(c){walk(c,m)})}
+ var sc=j.scenes[j.scene||0];sc.nodes.forEach(function(i){walk(i,ident())});if(!any)throw new Error("Tidak ada bentuk 3D di dalam file.");return{mn:mn,mx:mx}}
+function cm(v){return(v*100).toFixed(1)}
+$("f").onchange=function(){var f=this.files[0];if(!f)return;name=f.name.replace(/\.glb$/i,"");var r=new FileReader();
+ r.onload=function(){try{buf=r.result;var p=parse(buf),b=bounds(p.json),sz=[b.mx[0]-b.mn[0],b.mx[1]-b.mn[1],b.mx[2]-b.mn[2]];
+  log("Ukuran model sekarang: Panjang "+cm(sz[0])+" × Lebar "+cm(sz[2])+" × Tinggi "+cm(sz[1])+" cm (satuan bisa belum benar).");$("go").disabled=false}catch(e){buf=null;$("go").disabled=true;log(e.message,"er")}};r.readAsArrayBuffer(f)};
+$("go").onclick=function(){try{var W=+$("w").value/100,D=+$("d").value/100,H=+$("h").value/100,uni=$("u").checked;
+ if(!(W>0)||(!uni&&(!(D>0)||!(H>0))))throw new Error("Isi Panjang"+(uni?"":", Lebar, dan Tinggi")+" dengan angka lebih dari 0.");
+ var p=parse(buf),j=p.json,b=bounds(j),sz=[b.mx[0]-b.mn[0],b.mx[1]-b.mn[1],b.mx[2]-b.mn[2]];
+ var s=uni?[W/sz[0],W/sz[0],W/sz[0]]:[W/sz[0],H/sz[1],D/sz[2]];
+ var cx=(b.mn[0]+b.mx[0])/2,cz=(b.mn[2]+b.mx[2])/2,t=[-cx*s[0],-b.mn[1]*s[1],-cz*s[2]];
+ var sc=j.scenes[j.scene||0];j.nodes.push({name:"UkuranAsli",translation:t,scale:s,children:sc.nodes.slice()});sc.nodes=[j.nodes.length-1];
+ var js=new TextEncoder().encode(JSON.stringify(j));var jl=Math.ceil(js.length/4)*4,jb=new Uint8Array(jl).fill(32);jb.set(js);
+ var rest=new Uint8Array(p.rest),total=12+8+jl+rest.length,out=new ArrayBuffer(total),dv=new DataView(out);
+ dv.setUint32(0,0x46546C67,true);dv.setUint32(4,2,true);dv.setUint32(8,total,true);dv.setUint32(12,jl,true);dv.setUint32(16,0x4E4F534A,true);
+ new Uint8Array(out,20,jl).set(jb);new Uint8Array(out,20+jl).set(rest);
+ var fname=name+"-ukuran-asli.glb",a=document.createElement("a");a.href=URL.createObjectURL(new Blob([out],{type:"model/gltf-binary"}));a.download=fname;document.body.appendChild(a);a.click();a.remove();
+ var ns=[sz[0]*s[0],sz[1]*s[1],sz[2]*s[2]];
+ log("Selesai. File "+fname+" diunduh.\nUkuran hasil: Panjang "+cm(ns[0])+" × Lebar "+cm(ns[2])+" × Tinggi "+cm(ns[1])+" cm.\nUnggah file ini ke GitHub dengan nama baru, lalu tempel linknya di sheet.","ok")}catch(e){log(e.message,"er")}};
+</script>
+</body>
+</html>
