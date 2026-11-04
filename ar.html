@@ -23,7 +23,7 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
 <body>
 <div class="bar"><small>Scandia Botani</small><b id="n">Lihat di ruangan</b></div>
 <main id="m"></main>
-<div class="nt" id="nt">Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Ukuran sofa dikunci sesuai ukuran asli produk dan tidak bisa diubah dengan cubit. Putar dan cubit hanya berlaku pada tampilan 3D sebelum AR.</div>
+<div class="nt" id="nt">Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Di mode AR, cubit dengan dua jari untuk memperbesar atau memperkecil sofa, dan putar dengan dua jari. Awalnya sofa tampil dengan ukuran aslinya.</div>
 <div class="dg" id="dg">Memeriksa perangkat…</div>
 <div class="dg" id="st2" style="border-top:0;padding-top:0"><span id="st">Status AR: belum dijalankan</span> · <a href="#" id="tes" style="margin:0">Tes dengan model contoh Google</a><br><span id="webxr"></span><br><a href="#" id="mx" style="margin-left:0">Paksa mode A: AR di browser</a><a href="#" id="ms">Paksa mode B: Scene Viewer</a><span id="mnow"></span></div>
 <script>
@@ -34,7 +34,7 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
  if(!/^https:\/\/.+/i.test(m)){document.getElementById("dg").style.display="none";box.innerHTML='<div class="err">Model 3D tidak ditemukan. Kembali ke katalog dan coba lagi.</div>';return}
  var v=document.createElement("model-viewer");
  v.setAttribute("src",m);v.setAttribute("alt",n);v.setAttribute("ar","");var mode=q.get("mode");v.setAttribute("ar-modes",mode==="sv"?"scene-viewer":mode==="webxr"?"webxr":"webxr scene-viewer quick-look");
- v.setAttribute("ar-placement","floor");v.setAttribute("ar-scale","fixed");v.setAttribute("camera-controls","");v.setAttribute("auto-rotate","");
+ v.setAttribute("ar-placement","floor");v.setAttribute("ar-scale","auto");v.setAttribute("camera-controls","");v.setAttribute("auto-rotate","");
  v.setAttribute("shadow-intensity","1");v.setAttribute("environment-image","neutral");v.setAttribute("exposure","1.05");
  var b=document.createElement("button");b.slot="ar-button";b.className="arbtn";b.textContent="LIHAT DI RUANGAN SAYA (AR)";v.appendChild(b);
  box.appendChild(v);
