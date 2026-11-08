@@ -17,13 +17,16 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
 .arbtn{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);border:0;border-radius:2px;background:var(--ac2);color:#fff;padding:15px 24px;font-size:14px;letter-spacing:.05em;white-space:nowrap}
 .nt{padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--mut);line-height:1.55;background:var(--card);text-align:center}
 .dg{padding:12px 16px;background:var(--card);border-top:1px solid var(--line);font-size:12px;color:var(--mut);line-height:1.6}.dg a{display:inline-block;margin:6px 8px 0 0;padding:9px 12px;border:1px solid var(--ac2);color:var(--ac2);text-decoration:none;border-radius:2px;font-size:12px}
+.sc{display:none;align-items:center;gap:6px;padding:10px 12px;background:var(--card);border-top:1px solid var(--line)}.sc.on{display:flex}.sc span{font-size:12px;color:var(--mut);margin-right:4px}
+.sc button{flex:1;padding:9px 0;font-size:12px;font-weight:500;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px}.sc button.on{background:var(--ac2);border-color:var(--ac2);color:#fff}
 .err{padding:40px 24px;text-align:center;color:var(--mut)}
 </style>
 </head>
 <body>
 <div class="bar"><small>Scandia Botani</small><b id="n">Lihat di ruangan</b></div>
 <main id="m"></main>
-<div class="nt" id="nt">Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Di mode AR, cubit dengan dua jari untuk memperbesar atau memperkecil sofa, dan putar dengan dua jari. Awalnya sofa tampil dengan ukuran aslinya.</div>
+<div class="sc" id="sc"><span>Skala</span><button data-s="0.25">0.25x</button><button data-s="0.5">0.5x</button><button data-s="1">1x</button><button data-s="1.5">1.5x</button><button data-s="2">2x</button></div>
+<div class="nt" id="nt">Pilih skala (1x = ukuran asli produk), lalu tekan tombol AR. Pilihan skala berlaku di AR browser; di Scene Viewer Google, ukuran awal tetap ukuran asli dan bisa diubah dengan cubit. Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Di mode AR, cubit dengan dua jari untuk memperbesar atau memperkecil sofa, dan putar dengan dua jari. Awalnya sofa tampil dengan ukuran aslinya.</div>
 <div class="dg" id="dg">Memeriksa perangkat…</div>
 <div class="dg" id="st2" style="border-top:0;padding-top:0"><span id="st">Status AR: belum dijalankan</span> · <a href="#" id="tes" style="margin:0">Tes dengan model contoh Google</a><br><span id="webxr"></span><br><a href="#" id="mx" style="margin-left:0">Paksa mode A: AR di browser</a><a href="#" id="ms">Paksa mode B: Scene Viewer</a><span id="mnow"></span></div>
 <script>
@@ -38,6 +41,10 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
  v.setAttribute("shadow-intensity","1");v.setAttribute("environment-image","neutral");v.setAttribute("exposure","1.05");
  var b=document.createElement("button");b.slot="ar-button";b.className="arbtn";b.textContent="LIHAT DI RUANGAN SAYA (AR)";v.appendChild(b);
  box.appendChild(v);
+ (function(){var sc=document.getElementById("sc"),allowed=[0.25,0.5,1,1.5,2];sc.classList.add("on");
+  function setS(s){v.setAttribute("scale",s+" "+s+" "+s);[].forEach.call(sc.querySelectorAll("button"),function(b){b.className=(+b.dataset.s===s)?"on":""})}
+  sc.onclick=function(e){var s=+e.target.dataset.s;if(s)setS(s)};
+  var s0=parseFloat(q.get("s"));setS(allowed.indexOf(s0)>=0?s0:1)})();
  var ua=navigator.userAgent,android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua),dg=document.getElementById("dg");
  function info(arOK){
   var t="Perangkat: "+(android?"Android":ios?"iPhone/iPad":"lainnya")+" · Browser: "+(/Chrome\//.test(ua)&&!/Edg|OPR|SamsungBrowser/.test(ua)?"Chrome":/SamsungBrowser/.test(ua)?"Samsung Internet":/Firefox/.test(ua)?"Firefox":"lainnya")+" · AR terdeteksi: "+(arOK===true?"ya":arOK===false?"belum/tidak":"memeriksa…")+"<br>";
