@@ -26,7 +26,9 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
 <div class="bar"><small>Scandia Botani</small><b id="n">Lihat di ruangan</b></div>
 <main id="m"></main>
 <div class="sc" id="sc"><span>Skala</span><button data-s="0.25">0.25x</button><button data-s="0.5">0.5x</button><button data-s="1">1x</button><button data-s="1.5">1.5x</button><button data-s="2">2x</button></div>
-<div class="nt" id="nt">Pilih skala (1x = ukuran asli produk), lalu tekan tombol AR. Pilihan skala berlaku di AR browser; di Scene Viewer Google, ukuran awal tetap ukuran asli dan bisa diubah dengan cubit. Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Di mode AR, cubit dengan dua jari untuk memperbesar atau memperkecil sofa, dan putar dengan dua jari. Awalnya sofa tampil dengan ukuran aslinya.</div>
+<div class="sc" id="lk"><span>Ukuran</span><button data-l="1" class="on">Terkunci</button><button data-l="0">Bisa dicubit</button></div>
+<div class="dg" id="fi" style="border-top:0;padding-bottom:0;color:var(--ac2)"></div>
+<div class="nt" id="nt">Pilih skala (1x = ukuran asli produk) dan kunci ukuran, lalu tekan tombol AR. Saat terkunci, ukuran tidak berubah walau dicubit. Pilihan skala berlaku di AR browser; di Scene Viewer Google, ukuran tetap ukuran asli. Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai sofa muncul dengan ukuran aslinya. Di mode AR, cubit dengan dua jari untuk memperbesar atau memperkecil sofa, dan putar dengan dua jari. Awalnya sofa tampil dengan ukuran aslinya.</div>
 <div class="dg" id="dg">Memeriksa perangkat…</div>
 <div class="dg" id="st2" style="border-top:0;padding-top:0"><span id="st">Status AR: belum dijalankan</span> · <a href="#" id="tes" style="margin:0">Tes dengan model contoh Google</a><br><span id="webxr"></span><br><a href="#" id="mx" style="margin-left:0">Paksa mode A: AR di browser</a><a href="#" id="ms">Paksa mode B: Scene Viewer</a><span id="mnow"></span></div>
 <script>
@@ -37,14 +39,26 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
  if(!/^https:\/\/.+/i.test(m)){document.getElementById("dg").style.display="none";box.innerHTML='<div class="err">Model 3D tidak ditemukan. Kembali ke katalog dan coba lagi.</div>';return}
  var v=document.createElement("model-viewer");
  v.setAttribute("src",m);v.setAttribute("alt",n);v.setAttribute("ar","");var mode=q.get("mode");v.setAttribute("ar-modes",mode==="sv"?"scene-viewer":mode==="webxr"?"webxr":"webxr scene-viewer quick-look");
- v.setAttribute("ar-placement","floor");v.setAttribute("ar-scale","auto");v.setAttribute("camera-controls","");v.setAttribute("auto-rotate","");
+ v.setAttribute("ar-placement","floor");v.setAttribute("ar-scale",q.get("lock")==="0"?"auto":"fixed");v.setAttribute("camera-controls","");v.setAttribute("auto-rotate","");
  v.setAttribute("shadow-intensity","1");v.setAttribute("environment-image","neutral");v.setAttribute("exposure","1.05");
  var b=document.createElement("button");b.slot="ar-button";b.className="arbtn";b.textContent="LIHAT DI RUANGAN SAYA (AR)";v.appendChild(b);
  box.appendChild(v);
  (function(){var sc=document.getElementById("sc"),allowed=[0.25,0.5,1,1.5,2];sc.classList.add("on");
-  function setS(s){v.setAttribute("scale",s+" "+s+" "+s);[].forEach.call(sc.querySelectorAll("button"),function(b){b.className=(+b.dataset.s===s)?"on":""})}
+  var S=1,fit=[1,1,1],loaded=false,fitDone=false;
+  function apply(){if(loaded)v.setAttribute("scale",(fit[0]*S)+" "+(fit[1]*S)+" "+(fit[2]*S))}
+  v.addEventListener("load",function(){if(fitDone)return;fitDone=true;var W=parseFloat(q.get("w")),D=parseFloat(q.get("d")),H=parseFloat(q.get("h")),fi=document.getElementById("fi");
+   if(W>0&&D>0&&H>0&&v.getDimensions){var d=v.getDimensions(),f=[W/100/d.x,H/100/d.y,D/100/d.z];
+    if(f.every(function(x){return isFinite(x)&&x>0.2&&x<5})){fit=f;fi.textContent="1x = ukuran data produk: "+W+" × "+D+" × "+H+" cm (P × L × T). Model disesuaikan otomatis."}
+    else{fi.textContent="Ukuran model sangat berbeda dari data produk ("+W+" × "+D+" × "+H+" cm). Periksa ukuran di sheet atau model 3D."}}
+   loaded=true;apply()});
+  document.getElementById("tes").addEventListener("click",function(){fit=[1,1,1];apply()});
+  function setS(s){S=s;apply();[].forEach.call(sc.querySelectorAll("button"),function(b){b.className=(+b.dataset.s===s)?"on":""})}
   sc.onclick=function(e){var s=+e.target.dataset.s;if(s)setS(s)};
   var s0=parseFloat(q.get("s"));setS(allowed.indexOf(s0)>=0?s0:1)})();
+ (function(){var lk=document.getElementById("lk");lk.classList.add("on");
+  function setL(l){v.setAttribute("ar-scale",l?"fixed":"auto");[].forEach.call(lk.querySelectorAll("button"),function(b){b.className=((b.dataset.l==="1")===l)?"on":""})}
+  lk.onclick=function(e){var l=e.target.dataset.l;if(l!==undefined)setL(l==="1")};
+  setL(q.get("lock")!=="0")})();
  var ua=navigator.userAgent,android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua),dg=document.getElementById("dg");
  function info(arOK){
   var t="Perangkat: "+(android?"Android":ios?"iPhone/iPad":"lainnya")+" · Browser: "+(/Chrome\//.test(ua)&&!/Edg|OPR|SamsungBrowser/.test(ua)?"Chrome":/SamsungBrowser/.test(ua)?"Samsung Internet":/Firefox/.test(ua)?"Firefox":"lainnya")+" · AR terdeteksi: "+(arOK===true?"ya":arOK===false?"belum/tidak":"memeriksa…")+"<br>";
