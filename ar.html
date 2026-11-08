@@ -43,10 +43,10 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
  v.setAttribute("shadow-intensity","1");v.setAttribute("environment-image","neutral");v.setAttribute("exposure","1.05");
  var b=document.createElement("button");b.slot="ar-button";b.className="arbtn";b.textContent="LIHAT DI RUANGAN SAYA (AR)";v.appendChild(b);
  box.appendChild(v);
- (function(){var sc=document.getElementById("sc"),allowed=[0.25,0.5,1,1.5,2];sc.classList.add("on");
+ (function(){var sc=document.getElementById("sc"),allowed=[0.25,0.5,1,1.5,2];var noScale=q.get("sk")==="0";if(!noScale)sc.classList.add("on");else document.getElementById("nt").textContent="Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai produk muncul sesuai ukuran aslinya. Ukuran dikunci untuk produk ini.";
   var S=1,fit=[1,1,1],loaded=false,fitDone=false;
   function apply(){if(loaded)v.setAttribute("scale",(fit[0]*S)+" "+(fit[1]*S)+" "+(fit[2]*S))}
-  v.addEventListener("load",function(){if(fitDone)return;fitDone=true;var W=parseFloat(q.get("w")),D=parseFloat(q.get("d")),H=parseFloat(q.get("h")),fi=document.getElementById("fi");
+  v.addEventListener("load",function(){if(fitDone)return;fitDone=true;if(noScale){document.getElementById("fi").textContent="Produk set: ditampilkan sesuai ukuran model, tanpa pilihan skala.";loaded=true;return}var W=parseFloat(q.get("w")),D=parseFloat(q.get("d")),H=parseFloat(q.get("h")),fi=document.getElementById("fi");
    if(W>0&&D>0&&H>0&&v.getDimensions){var d=v.getDimensions(),f=[W/100/d.x,H/100/d.y,D/100/d.z];
     if(f.every(function(x){return isFinite(x)&&x>0.2&&x<5})){fit=f;fi.textContent="1x = ukuran data produk: "+W+" × "+D+" × "+H+" cm (P × L × T). Model disesuaikan otomatis."}
     else{fi.textContent="Ukuran model sangat berbeda dari data produk ("+W+" × "+D+" × "+H+" cm). Periksa ukuran di sheet atau model 3D."}}
@@ -55,10 +55,10 @@ model-viewer{width:100%;height:100%;background:var(--sand);--poster-color:transp
   function setS(s){S=s;apply();[].forEach.call(sc.querySelectorAll("button"),function(b){b.className=(+b.dataset.s===s)?"on":""})}
   sc.onclick=function(e){var s=+e.target.dataset.s;if(s)setS(s)};
   var s0=parseFloat(q.get("s"));setS(allowed.indexOf(s0)>=0?s0:1)})();
- (function(){var lk=document.getElementById("lk");lk.classList.add("on");
+ (function(){var lk=document.getElementById("lk");if(q.get("sk")!=="0")lk.classList.add("on");
   function setL(l){v.setAttribute("ar-scale",l?"fixed":"auto");[].forEach.call(lk.querySelectorAll("button"),function(b){b.className=((b.dataset.l==="1")===l)?"on":""})}
   lk.onclick=function(e){var l=e.target.dataset.l;if(l!==undefined)setL(l==="1")};
-  setL(q.get("lock")!=="0")})();
+  setL(q.get("sk")==="0"||q.get("lock")!=="0")})();
  var ua=navigator.userAgent,android=/Android/i.test(ua),ios=/iPhone|iPad|iPod/i.test(ua),dg=document.getElementById("dg");
  function info(arOK){
   var t="Perangkat: "+(android?"Android":ios?"iPhone/iPad":"lainnya")+" · Browser: "+(/Chrome\//.test(ua)&&!/Edg|OPR|SamsungBrowser/.test(ua)?"Chrome":/SamsungBrowser/.test(ua)?"Samsung Internet":/Firefox/.test(ua)?"Firefox":"lainnya")+" · AR terdeteksi: "+(arOK===true?"ya":arOK===false?"belum/tidak":"memeriksa…")+"<br>";
