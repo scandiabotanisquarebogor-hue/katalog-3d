@@ -1,0 +1,17 @@
+{
+  "name": "SCANDIA BOTANI · Katalog Produk",
+  "short_name": "Katalog",
+  "description": "Katalog produk SCANDIA BOTANI: ukuran, cek muat ruangan, coba di ruangan, dan chat sales.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "id",
+  "background_color": "#f5f7f2",
+  "theme_color": "#eef3ee",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

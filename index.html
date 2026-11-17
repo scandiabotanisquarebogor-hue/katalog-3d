@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eef3ee">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Katalog">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script src="config.js"></script>
+<title>SCANDIA BOTANI · Katalog Produk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f7f2;--card:#ffffff;--ink:#2e3a33;--mut:#7d8a82;
+  --ac:#6f9c84;--ac2:#4d7a63;--sage:#e6eee7;--blush:#f7e4da;--peach:#e9b9a0;
+  --line:#e3e9e2;--wa:#4f9a7a;--sand:#e9efe8;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:28px;-webkit-font-smoothing:antialiased}
+button,input{font-family:inherit}
+
+/* ---------- HEADER (ringkas) ---------- */
+header{padding:18px 20px 14px;text-align:center;background:linear-gradient(180deg,var(--sage) 0%,var(--bg) 100%)}
+.logo{display:block;width:130px;max-width:44%;height:auto;margin:0 auto 8px}
+header h1{margin:0;font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:clamp(24px,7vw,30px);line-height:1.1;letter-spacing:.16em;padding-left:.16em;color:var(--ink)}
+.tag{display:block;color:var(--mut);font-size:12px;margin-top:6px}
+header small{display:block;margin-top:8px;color:var(--mut);font-size:11px;letter-spacing:.04em}
+header small span{color:var(--ac2);font-weight:600}
+
+.wrap{padding:0 16px;max-width:960px;margin:0 auto}
+
+/* ---------- KATEGORI & PENCARIAN ---------- */
+.cats{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 14px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats button{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:8px 16px;background:var(--card);color:var(--mut);font-family:Poppins,sans-serif;font-weight:500;font-size:12.5px;cursor:pointer;transition:all .25s ease}
+.cats button:hover{color:var(--ink);border-color:var(--peach)}
+.cats button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+input.s{width:100%;padding:13px 20px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:14px;margin-bottom:18px;outline:none;transition:border-color .25s,box-shadow .25s}
+input.s:focus{border-color:var(--ac);box-shadow:0 0 0 4px rgba(111,156,132,.15)}
+
+/* ---------- GRID PRODUK ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr);gap:18px}}
+.p{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;animation:in .5s ease both}
+.p:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(46,58,51,.08)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.img{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(160deg,var(--sage),var(--blush));overflow:hidden;position:relative}
+.img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.img img.cut{object-fit:contain;padding:9%;filter:drop-shadow(0 10px 10px rgba(46,58,51,.18))}
+.img svg{width:72%;height:72%}
+.p .b{padding:12px 14px 15px}
+.p h3{margin:0 0 3px;font:600 14px/1.35 Poppins,sans-serif;color:var(--ink)}
+.p .u{font-size:12px;color:var(--mut)}
+.pr{font-family:Poppins,sans-serif;font-weight:600;color:var(--ac2);margin-top:6px;font-size:14px}
+
+/* ---------- SHEET DETAIL PRODUK ---------- */
+.sheet{position:fixed;inset:0;background:rgba(46,58,51,.4);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;z-index:9}
+.sheet.on{display:flex;animation:fade .3s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.box{background:var(--bg);width:100%;max-width:560px;max-height:90vh;max-height:90dvh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:24px 24px 0 0;padding:0 0 calc(20px + env(safe-area-inset-bottom,0px));animation:up .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+.in{padding:18px 20px 6px}
+.in h2{margin:0 0 4px;font:600 21px/1.25 Poppins,sans-serif;color:var(--ink)}
+.kode{font-size:12px;color:var(--mut);letter-spacing:.03em}
+.big{font:700 22px Poppins,sans-serif;color:var(--ac2);margin:12px 0 4px}
+.badge{display:inline-block;font-size:11px;padding:2px 10px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.ok{background:#dcebe1;color:#2f6b52}.low{background:#f7ecd2;color:#8a6a1f}.no{background:#f6dcd3;color:#9a3d2c}
+table{width:100%;border-collapse:collapse;margin:10px 0}
+td{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+td:first-child{color:var(--mut);width:36%;font-size:13px}
+.fit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:16px 0}
+.fit b{display:block;margin-bottom:10px;font:600 14px Poppins,sans-serif}
+.fit .r{display:flex;gap:8px}
+.fit input{width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px;outline:none}
+.fit input:focus{border-color:var(--ac)}
+.res{margin-top:10px;font-size:13px;color:var(--mut)}
+h4{margin:22px 0 10px;font:600 15px Poppins,sans-serif;color:var(--ink)}
+.sales{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 18px;border:1px solid var(--line);background:var(--card);border-radius:999px;margin-bottom:8px;text-decoration:none;color:var(--ink);font-size:14px;transition:border-color .25s,transform .2s}
+.sales:hover{border-color:var(--wa)}.sales:active{transform:scale(.98)}
+.sales span{background:var(--wa);color:#fff;font-family:Poppins,sans-serif;font-weight:500;font-size:12px;border-radius:999px;padding:7px 14px}
+.close{width:calc(100% - 40px);margin:10px 20px 0;border:1px solid var(--line);border-radius:999px;padding:12px;background:var(--card);color:var(--ink);font-family:Poppins,sans-serif;font-weight:500;font-size:14px;cursor:pointer}
+.try{width:100%;margin:10px 0 2px;padding:14px;border:0;border-radius:999px;background:var(--ac);color:#fff;font-family:Poppins,sans-serif;font-size:13.5px;font-weight:600;letter-spacing:.03em;cursor:pointer;transition:background .25s,transform .2s}
+.try:hover{background:var(--ac2)}.try:active{transform:scale(.98)}
+.try.ar{background:transparent;color:var(--ac2);border:1.5px solid var(--ac);margin-top:8px}
+
+/* ---------- GALERI (diperbaiki: tidak terpotong, scroll vertikal lancar) ---------- */
+.galw{position:relative}
+.gal{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior:contain;touch-action:pan-x pan-y;background:var(--sage)}
+.gal::-webkit-scrollbar{display:none}
+.sl{flex:0 0 100%;width:100%;scroll-snap-align:center;height:min(300px,40vh);background:linear-gradient(160deg,var(--sage),var(--blush));position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sl svg{width:60%;height:60%}
+.sl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sl img.cut{object-fit:contain;padding:8%;filter:drop-shadow(0 8px 8px rgba(46,58,51,.2))}
+.hero{height:min(300px,40vh)}
+.hero img{position:absolute;inset:0;width:100%;height:100%}
+.dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(46,58,51,.25)}
+.dots i.on{background:var(--ac2)}
+.cnt{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.92);color:var(--ink);font-family:Poppins,sans-serif;font-size:11px;padding:3px 10px;border-radius:10px}
+
+/* ---------- STUDIO FOTO ---------- */
+#st{position:fixed;inset:0;z-index:20;background:var(--bg);display:none;flex-direction:column;color:var(--ink)}
+#st.on{display:flex}
+.sbar{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;font-size:13px}
+.sbar b{font:600 15px Poppins,sans-serif}
+.sbar button,.sctl button,.lb{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 15px;font-family:Poppins,sans-serif;font-size:12.5px;cursor:pointer}
+#stage{flex:1;position:relative;overflow:hidden;touch-action:none;background:linear-gradient(160deg,var(--sage),var(--blush))}
+#sbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;pointer-events:none}
+#ov{position:absolute;left:50%;top:62%;width:46%;display:none;cursor:grab;filter:drop-shadow(0 8px 10px rgba(46,58,51,.25))}
+#ov svg,#ov img{width:100%;height:auto;display:block;pointer-events:none;-webkit-user-drag:none}
+#sph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center}
+#sph p{margin:0 0 6px;color:var(--mut);font-size:14px;line-height:1.5}
+.lb{display:inline-block;min-width:220px;text-align:center;background:var(--ac)!important;border-color:var(--ac)!important;color:#fff!important}
+.sctl{padding:14px 18px calc(16px + env(safe-area-inset-bottom,0px));background:var(--card);border-radius:22px 22px 0 0}
+.sctl .g{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--mut);margin-bottom:8px}
+.sctl .g span{width:50px;font-family:Poppins,sans-serif;font-weight:500}
+.sctl input[type=range]{flex:1;accent-color:var(--ac)}
+.sctl .bt{display:flex;gap:8px}
+.sctl .bt button{flex:1}
+.hint{font-size:11px;color:var(--mut);margin:10px 0 0;line-height:1.5}
+
+/* ---------- AR ---------- */
+#arv{position:fixed;inset:0;z-index:30;background:var(--bg);display:none;flex-direction:column}
+#arv.on{display:flex}
+#arv .bar{display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;font-size:14px}
+#arv .bar b{font:600 15px Poppins,sans-serif}
+#arv .bar button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 15px;font-family:Poppins,sans-serif;font-size:12.5px;cursor:pointer}
+#arvb{flex:1;position:relative}
+#arvb model-viewer{width:100%;height:100%;--poster-color:transparent;background:linear-gradient(160deg,var(--sage),var(--blush))}
+#arvb .arbtn{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);border:0;border-radius:999px;background:var(--ac);color:#fff;padding:13px 22px;font-family:Poppins,sans-serif;font-size:13.5px;font-weight:600;white-space:nowrap;cursor:pointer;box-shadow:0 8px 20px rgba(77,122,99,.3)}
+#arv .nt{padding:12px 18px calc(14px + env(safe-area-inset-bottom,0px));font-size:11.5px;color:var(--mut);line-height:1.5;background:var(--card)}
+
+/* ---------- LAIN-LAIN ---------- */
+.ld{grid-column:1/-1;text-align:center;color:var(--mut);padding:34px 0;font-size:14px}
+footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
+body.lock{overflow:hidden}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <img class="logo" id="logo" alt="Scandia Lifestyle &amp; Home" src="logo.png">
+  <h1 id="sn">BOTANI</h1>
+  <span class="tag">Lihat ukuran · Cek muat ruangan · Tanya sales</span>
+  <small>Katalog produk · <span id="upd">memuat…</span></small>
+</header>
+<div class="wrap">
+  <div id="roomsvg" hidden><svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="130" fill="#e9efe8"/><rect y="98" width="320" height="32" fill="#d8dfd3"/><rect x="38" y="20" width="44" height="34" fill="#fff" stroke="#b9c2b6" stroke-width="3"/><rect x="104" y="48" width="112" height="26" rx="9" fill="#c9ccd0"/><rect x="96" y="58" width="22" height="40" rx="9" fill="#b6bac0"/><rect x="202" y="58" width="22" height="40" rx="9" fill="#b6bac0"/><rect x="110" y="66" width="100" height="32" rx="8" fill="#d6d9dd"/><rect x="118" y="98" width="5" height="12" fill="#7d6a58"/><rect x="198" y="98" width="5" height="12" fill="#7d6a58"/><rect x="126" y="70" width="30" height="18" rx="5" fill="#8fa0ad"/><rect x="164" y="70" width="30" height="18" rx="5" fill="#f7e4da"/><rect x="246" y="30" width="3" height="80" fill="#7d6a58"/><polygon points="232,30 263,30 258,52 237,52" fill="#f6f2ea" stroke="#b9c2b6" stroke-width="2"/><ellipse cx="247" cy="111" rx="12" ry="3" fill="#7d6a58"/></svg></div>
+  <div class="cats" id="cats"></div>
+  <input class="s" id="q" placeholder="Cari produk atau kode…">
+  <div class="grid" id="grid"><p class="ld">Memuat produk…</p></div>
+  <footer>Scan QR di produk untuk membuka halaman produknya langsung.<br><a href="#" id="pwa" hidden style="color:var(--ac2);font-weight:600;display:inline-block;margin-top:8px">Pasang aplikasi di layar utama</a></footer>
+</div>
+<div class="sheet" id="sh"><div class="box" id="bx"></div></div>
+
+<div id="arv"><div class="bar"><button id="arx">Tutup</button><b id="art"></b><span style="width:60px"></span></div><div id="arvb"></div><div class="nt"><div id="arfit" style="color:var(--ac2);font-weight:500;margin-bottom:4px"></div>Putar dengan satu jari, cubit untuk memperbesar. Tekan tombol AR, arahkan kamera ke lantai, lalu geser pelan sampai produk muncul sesuai ukuran data produk. Cubit dengan dua jari untuk mengubah ukuran (perlu HP yang mendukung AR).</div></div>
+<div id="st"><div class="sbar"><button id="sx">Tutup</button><b id="stt"></b><span style="width:60px"></span></div>
+<div id="stage"><img id="sbg" alt=""><div id="ov"></div>
+<div id="sph"><p>Foto ruangan di rumah Anda (misalnya sudut ruang tamu), lalu geser produk ke posisi yang diinginkan.</p>
+<label class="lb" for="f1">Ambil foto ruangan</label><label class="lb" for="f2" style="background:var(--card)!important;color:var(--ink)!important;border-color:var(--line)!important">Pilih dari galeri</label>
+<button id="demo" style="border:0;background:none;color:var(--mut);text-decoration:underline;font-size:13px;cursor:pointer">Coba dengan ruangan contoh</button></div></div>
+<div class="sctl"><div class="g"><span>Ukuran</span><input type="range" id="rs" min="0.25" max="3" step="0.01" value="1"></div>
+<div class="g"><span>Putar</span><input type="range" id="rr" min="-45" max="45" step="1" value="0"></div>
+<div class="bt"><button id="mir">Cermin</button><button id="rst">Reset</button><button id="chg">Ganti foto</button></div>
+<p class="hint">Geser dengan satu jari. Cubit dua jari untuk memperbesar dan memutar. Tampilan ini perkiraan visual; cek ukuran sebenarnya di tabel produk. Untuk menyimpan, ambil screenshot.</p></div>
+<input type="file" id="f1" accept="image/*" capture="environment" hidden><input type="file" id="f2" accept="image/*" hidden></div>
+<script>
+var KODE=(new URLSearchParams(location.search).get("kode")||"").replace(/[^\w.-]/g,"");
+if(!KODE)KODE=(location.hash||"").slice(1).replace(/[^\w.-]/g,"");
+var DEMO_ON=/[?&]demo=1(&|$)/.test(location.search);
+var LOGO="https://lh3.googleusercontent.com/d/1r5mYywiJYfpZAb8KKw6Vg2hsJJ4FYs0u=w600"; // tempel link logo di sini
+var STORE="SCANDIA BOTANI",SALES=[],PRODUCTS=[],cat="Semua",cur=null,lastSig="";
+var $=function(i){return document.getElementById(i)};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var rp=function(n){return"Rp"+n.toLocaleString("id-ID")};
+var DEMO={store:"SCANDIA BOTANI",updated:"demo",
+ sales:[{n:"Sales 1",wa:"6281234567890"},{n:"Sales 2",wa:"6281234567891"}],
+ items:[
+ {k:"SF-007",n:"Sofa Brun 2 Dudukan",c:"Sofa",p:6499900,s:4,pj:160,l:92,t:100,m:"Kain suede, rangka kayu, busa high density",d:"Sandaran tinggi dengan bantal kepala.",e:"sofa"},
+ {k:"KM-001",n:"Kursi Makan Kayu",c:"Kursi",p:450000,s:12,pj:45,l:50,t:85,m:"Kayu jati solid",d:"Gaya Skandinavia.",e:"kursi"},
+ {k:"MM-003",n:"Meja Makan 4 Orang",c:"Meja",p:1850000,s:5,pj:140,l:80,t:75,m:"MDF veneer, kaki besi",d:"Untuk ruang makan sedang.",e:"meja"},
+ {k:"LP-005",n:"Lemari Pakaian 2 Pintu",c:"Lemari",p:2300000,s:2,pj:100,l:55,t:200,m:"Plywood HPL",d:"Rak dalam dan gantungan.",e:"lemari"}]};
+function init(r){STORE=r.store;SALES=r.sales;PRODUCTS=r.items;$("sn").textContent=String(STORE).replace(/^SCANDIA\s*/i,"")||STORE;$("upd").textContent="update "+r.updated;cats();grid();
+ if(KODE&&!cur){var f=PRODUCTS.filter(function(x){return String(x.k).toLowerCase()==KODE.toLowerCase()})[0];if(f)show(PRODUCTS.indexOf(f))}}
+function getJSON(url,ok,fail){
+ var sep=url.indexOf("?")<0?"?":"&",done=false;
+ function viaJsonp(){var n="__kat"+Date.now(),s=document.createElement("script"),t=setTimeout(bad,15000);
+  function clean(){clearTimeout(t);try{delete window[n]}catch(e){window[n]=undefined}if(s.parentNode)s.parentNode.removeChild(s)}
+  function bad(){clean();if(!done){done=true;fail()}}
+  window[n]=function(d){clean();if(done)return;done=true;if(d&&d.items)ok(d);else fail()};
+  s.onerror=bad;s.src=url+sep+"api=1&callback="+n+"&_="+Date.now();document.head.appendChild(s)}
+ if(window.fetch){
+  var ctl=window.AbortController?new AbortController():null,t=setTimeout(function(){if(ctl)ctl.abort()},12000);
+  fetch(url+sep+"api=1&_="+Date.now(),{cache:"no-store",signal:ctl?ctl.signal:undefined}).then(function(r){clearTimeout(t);if(!r.ok)throw 0;return r.json()})
+   .then(function(d){if(!d||!d.items)throw 0;done=true;ok(d)}).catch(function(){clearTimeout(t);viaJsonp()})
+ }else viaJsonp()}
+function applyData(r){var sig=JSON.stringify([r.store,r.sales,r.items]);if(sig!==lastSig){lastSig=sig;init(r)}else $("upd").textContent="update "+r.updated}
+function load(silent){
+ if(DEMO_ON){init(DEMO);return}
+ var API=(window.KATALOG_CONFIG||{}).API_URL;
+ if(!API){$("upd").textContent="belum diatur";$("grid").innerHTML='<p class="ld">URL Apps Script belum diisi.<br>Buka file <b>config.js</b> lalu isi <b>API_URL</b>.</p>';return}
+ if(!silent&&!lastSig)$("upd").textContent="memuat…";
+ getJSON(API,function(r){try{localStorage.setItem("katalog_cache",JSON.stringify(r))}catch(e){}applyData(r)},function(){
+  var c=null;try{c=JSON.parse(localStorage.getItem("katalog_cache")||"null")}catch(e){}
+  if(!lastSig&&c&&c.items){applyData(c);$("upd").textContent="offline · data tersimpan "+(c.updated||"")}
+  else if(!lastSig){$("upd").textContent="gagal memuat";$("grid").innerHTML='<p class="ld">Gagal memuat data.<br><button class="try" style="max-width:240px;margin-top:14px" onclick="load()">Coba lagi</button></p>'}
+  else $("upd").textContent="gagal diperbarui"})}
+function cats(){var l=["Semua"];PRODUCTS.forEach(function(x){if(l.indexOf(x.c)<0)l.push(x.c)});
+ $("cats").innerHTML=l.map(function(c){return'<button class="'+(c==cat?"on":"")+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join("")}
+$("cats").onclick=function(e){if(e.target.dataset.c){cat=e.target.dataset.c;cats();grid()}};
+var _qt;$("q").oninput=function(){clearTimeout(_qt);_qt=setTimeout(grid,150)};
+function pic(x,cls){var s=x.f||x.g,b=x.f?x.fb:x.gb,cut=!x.f&&x.g;return'<div class="img '+(cls||"")+'">'+art(x)+(s?'<img loading="lazy"'+(cut?' class="cut"':'')+' src="'+esc(s)+'" '+(b?'data-b="'+esc(b)+'" ':'')+'alt="'+esc(x.n)+'" onerror="if(this.dataset.b){this.src=this.dataset.b;this.removeAttribute(\'data-b\')}else this.remove()">':'')+'</div>'}
+var W="#c9a77f",D="#7d6a58",F="#c9ccd0",S="#8fa0ad";
+function sv(b){return'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="32" ry="3.5" fill="#000" opacity=".08"/>'+b+'</svg>'}
+var ICONS={
+kursi:sv('<rect x="33" y="14" width="34" height="36" rx="3" fill="'+W+'"/><rect x="29" y="49" width="42" height="7" rx="2" fill="'+D+'"/><rect x="31" y="56" width="5" height="30" fill="'+D+'"/><rect x="64" y="56" width="5" height="30" fill="'+D+'"/>'),
+kerja:sv('<rect x="35" y="12" width="30" height="32" rx="9" fill="'+F+'"/><rect x="30" y="46" width="40" height="9" rx="4.5" fill="'+S+'"/><rect x="47.5" y="55" width="5" height="16" fill="'+D+'"/><path d="M50 71L28 82M50 71l22 11M50 71v13" stroke="'+D+'" stroke-width="4" stroke-linecap="round"/>'),
+meja:sv('<rect x="12" y="40" width="76" height="8" rx="2" fill="'+W+'"/><rect x="20" y="48" width="5" height="38" fill="'+D+'"/><rect x="75" y="48" width="5" height="38" fill="'+D+'"/>'),
+mejakerja:sv('<rect x="10" y="38" width="80" height="7" rx="2" fill="'+W+'"/><rect x="15" y="45" width="4" height="41" fill="'+D+'"/><rect x="60" y="45" width="26" height="28" fill="'+F+'" stroke="'+D+'" stroke-width="1.5"/><rect x="68" y="55" width="10" height="3" rx="1.5" fill="'+D+'"/><rect x="82" y="73" width="4" height="13" fill="'+D+'"/><rect x="62" y="22" width="22" height="15" rx="1.5" fill="'+D+'"/>'),
+sofa:sv('<rect x="18" y="32" width="64" height="26" rx="9" fill="'+F+'"/><rect x="8" y="46" width="16" height="30" rx="7" fill="#b6bac0"/><rect x="76" y="46" width="16" height="30" rx="7" fill="#b6bac0"/><rect x="16" y="56" width="68" height="20" rx="7" fill="#d6d9dd"/><rect x="24" y="40" width="22" height="14" rx="5" fill="'+S+'"/><rect x="21" y="76" width="4" height="9" fill="'+D+'"/><rect x="75" y="76" width="4" height="9" fill="'+D+'"/>'),
+lemari:sv('<rect x="22" y="12" width="56" height="70" rx="2" fill="'+W+'"/><rect x="25" y="16" width="24" height="62" fill="#d9bb97"/><rect x="51" y="16" width="24" height="62" fill="#d9bb97"/><rect x="43" y="44" width="3" height="10" rx="1.5" fill="'+D+'"/><rect x="54" y="44" width="3" height="10" rx="1.5" fill="'+D+'"/><rect x="27" y="82" width="5" height="6" fill="'+D+'"/><rect x="68" y="82" width="5" height="6" fill="'+D+'"/>'),
+rak:sv('<rect x="26" y="10" width="48" height="76" fill="none" stroke="'+W+'" stroke-width="5"/><rect x="26" y="34" width="48" height="4" fill="'+W+'"/><rect x="26" y="58" width="48" height="4" fill="'+W+'"/><rect x="32" y="20" width="8" height="14" fill="'+S+'"/><rect x="42" y="16" width="7" height="18" fill="#d9c9b0"/><rect x="56" y="43" width="12" height="15" fill="'+F+'"/><rect x="33" y="44" width="16" height="14" fill="#c9a77f"/><rect x="34" y="66" width="14" height="20" fill="'+F+'"/>'),
+lampu:sv('<polygon points="36,28 64,28 70,52 30,52" fill="#f6f2ea" stroke="'+W+'" stroke-width="3"/><rect x="48" y="52" width="4" height="28" fill="'+D+'"/><ellipse cx="50" cy="82" rx="14" ry="4" fill="'+D+'"/>')
+};
+function art(x){var k=String(x.e||"").toLowerCase();return ICONS[k]||ICONS[String(x.c||"").toLowerCase()]||esc(x.e||"📦")}
+function gallery(x){var L=(x.fl&&x.fl.length)?x.fl:(x.f?[{u:x.f,b:x.fb}]:(x.g?[{u:x.g,b:x.gb}]:[]));
+ if(L.length<2)return'<div class="img hero">'+art(x)+(L[0]?'<img loading="lazy"'+(/\.png(\?|$)|^data:image\/png/i.test(L[0].u)?' class="cut"':'')+' src="'+esc(L[0].u)+'" '+(L[0].b?'data-b="'+esc(L[0].b)+'" ':'')+'alt="'+esc(x.n)+'" onerror="if(this.dataset.b){this.src=this.dataset.b;this.removeAttribute(\'data-b\')}else this.remove()">':'')+'</div>';
+ var sl=L.map(function(o){var cut=/\.png(\?|$)|^data:image\/png/i.test(o.u);return'<div class="sl">'+art(x)+'<img loading="lazy"'+(cut?' class="cut"':'')+' src="'+esc(o.u)+'" '+(o.b?'data-b="'+esc(o.b)+'" ':'')+'alt="'+esc(x.n)+'" onerror="if(this.dataset.b){this.src=this.dataset.b;this.removeAttribute(\'data-b\')}else this.remove()"></div>'}).join("");
+ return'<div class="galw"><div class="gal" id="gal">'+sl+'</div><div class="cnt" id="cnt">1 / '+L.length+'</div><div class="dots" id="dots">'+L.map(function(_,i){return'<i'+(i?'':' class="on"')+'></i>'}).join("")+'</div></div>'}
+$("bx").addEventListener("scroll",function(e){var g=e.target;if(!g.classList||!g.classList.contains("gal"))return;var i=Math.round(g.scrollLeft/g.clientWidth),d=$("dots").children;for(var k=0;k<d.length;k++)d[k].className=k==i?"on":"";$("cnt").textContent=(i+1)+" / "+d.length},true);
+function dim(x){return x.pj?x.pj+" × "+x.l+" × "+x.t+" cm":"-"}
+function grid(){var t=$("q").value.toLowerCase();
+ $("grid").innerHTML=PRODUCTS.map(function(x,i){return{x:x,i:i}}).filter(function(o){return(cat=="Semua"||o.x.c==cat)&&(o.x.n+" "+o.x.k).toLowerCase().indexOf(t)>=0})
+ .map(function(o,j){var x=o.x;return'<div class="p" style="animation-delay:'+Math.min(j,12)*35+'ms" data-i="'+o.i+'">'+pic(x)+'<div class="b"><h3>'+esc(x.n)+'</h3><div class="u">'+esc(dim(x))+'</div><div class="pr">'+rp(x.p)+'</div></div></div>'}).join("")||"<p>Produk tidak ditemukan.</p>"}
+$("grid").onclick=function(e){var c=e.target.closest(".p");if(c)show(+c.dataset.i)};
+function stok(s){return s<=0?'<span class="badge no">Stok habis</span>':s<=3?'<span class="badge low">Stok terbatas</span>':'<span class="badge ok">Tersedia</span>'}
+function wa(s,x){var m="Halo "+s.n+", saya tertarik dengan produk berikut:\n• "+x.n+" (Kode "+x.k+")\n• Ukuran: "+dim(x)+"\n• Material: "+(x.m||"-")+"\n\nApakah masih tersedia? Mohon info lebih lanjut.";
+ return"https://wa.me/"+s.wa+"?text="+encodeURIComponent(m)}
+function show(i){var x=PRODUCTS[i];cur=x;
+ $("bx").innerHTML=gallery(x)+'<div class="in"><h2>'+esc(x.n)+'</h2><div class="kode">Kode: '+esc(x.k)+stok(x.s)+'</div><div class="big">'+rp(x.p)+'</div>'
+ +(x.glb?'<button class="try" id="ar">LIHAT 3D &amp; AR (UKURAN ASLI)</button>':'')+'<button class="try'+(x.glb?' ar':'')+'" id="try">COBA DI RUANGAN SAYA (FOTO)</button><table><tr><td>Ukuran (P×L×T)</td><td><b>'+esc(dim(x))+'</b></td></tr><tr><td>Material</td><td>'+esc(x.m||"-")+'</td></tr><tr><td>Kategori</td><td>'+esc(x.c)+'</td></tr>'+(x.d?'<tr><td>Keterangan</td><td>'+esc(x.d)+'</td></tr>':'')+'</table>'
+ +(x.pj?'<div class="fit"><b>Cek muat di ruangan rumah</b><div class="r"><input id="rw" type="number" inputmode="numeric" placeholder="Lebar area (cm)"><input id="rl" type="number" inputmode="numeric" placeholder="Panjang area (cm)"></div><div class="res" id="res">Isi ukuran area tempat produk akan diletakkan.</div></div>':'')
+ +'<h4>Tanya langsung ke sales kami</h4>'+SALES.map(function(s){return'<a class="sales" target="_blank" rel="noopener" href="'+esc(wa(s,x))+'">'+esc(s.n)+'<span>Chat WhatsApp</span></a>'}).join("")+'</div>'
+ +'<button class="close" id="cl">Tutup</button>';
+ document.body.classList.add("lock");$("sh").classList.add("on");$("bx").scrollTop=0}
+$("bx").oninput=function(){var w=+$("rw").value,l=+$("rl").value,x=cur,r=$("res");
+ if(!w||!l){r.textContent="Isi ukuran area tempat produk akan diletakkan.";r.style.color="";return}
+ var a=x.pj<=w&&x.l<=l,b=x.pj<=l&&x.l<=w;
+ if(a||b){var s=Math.max(a?Math.min(w-x.pj,l-x.l):-1,b?Math.min(l-x.pj,w-x.l):-1);r.style.color="#2f6b52";r.textContent="Muat. Sisa ruang di sisi tersempit sekitar "+s+" cm."}
+ else{r.style.color="#9a3d2c";r.textContent="Belum muat. Area minimal "+Math.min(x.pj,x.l)+" × "+Math.max(x.pj,x.l)+" cm."}};
+$("bx").onclick=function(e){if(e.target.id=="try")studio();if(e.target.id=="ar")openAR();if(e.target.id=="cl")tutup()};
+function tutup(){$("sh").classList.remove("on");if(!$("st").classList.contains("on")&&!$("arv").classList.contains("on"))document.body.classList.remove("lock")}
+$("sh").onclick=function(e){if(e.target==$("sh"))tutup()};
+
+var mvLoaded=false;
+function loadMV(){if(mvLoaded)return;mvLoaded=true;var s=document.createElement("script");s.type="module";s.src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js";document.head.appendChild(s)}
+// Model 3D hanya boleh dimuat dari github.io (milik Anda) atau googleusercontent.com
+function okModel(u){try{var x=new URL(u);return x.protocol==="https:"&&/(\.github\.io|\.googleusercontent\.com)$/i.test(x.hostname)}catch(e){return false}}
+function openAR(){var x=cur;$("art").textContent=x.n;document.body.classList.add("lock");$("arv").classList.add("on");$("arfit").textContent="";
+ if(!okModel(x.glb)){$("arvb").innerHTML='<p class="ld">Model 3D tidak ditemukan atau sumbernya tidak diizinkan.<br>Gunakan link file .glb dari github.io.</p>';return}
+ loadMV();
+ var am=(location.search.match(/[?&]armode=(sv|webxr)(&|$)/)||[])[1],modes=am=="sv"?"scene-viewer":am=="webxr"?"webxr":"webxr scene-viewer quick-look";
+ $("arvb").innerHTML='<model-viewer id="mv" src="'+esc(x.glb)+'" alt="'+esc(x.n)+'" ar ar-modes="'+modes+'" ar-placement="floor" ar-scale="auto" camera-controls auto-rotate shadow-intensity="1" environment-image="neutral" exposure="1.05"><button slot="ar-button" class="arbtn">LIHAT DI RUANGAN SAYA (AR)</button></model-viewer>';
+ var v=$("mv");
+ v.addEventListener("load",function(){
+  if(x.sk===0){$("arfit").textContent="Produk set: ditampilkan sesuai ukuran model."}
+  else if(x.pj>0&&x.l>0&&x.t>0&&v.getDimensions){var d=v.getDimensions(),f=[x.pj/100/d.x,x.t/100/d.y,x.l/100/d.z];
+   if(f.every(function(n){return isFinite(n)&&n>0.2&&n<5})){v.setAttribute("scale",f.join(" "));$("arfit").textContent="Ukuran awal sesuai data produk: "+dim(x)+" (P × L × T)."}
+   else{$("arfit").textContent="Ukuran model sangat berbeda dari data produk ("+dim(x)+"). Periksa ukuran di sheet atau model 3D."}}
+  setTimeout(function(){if(v.canActivateAR===false)$("arfit").textContent=($("arfit").textContent+" HP atau browser ini belum mendukung AR; gunakan Coba di Ruangan (foto).").trim()},800)});
+ v.addEventListener("error",function(){$("arfit").textContent="Model 3D gagal dimuat. Periksa link file .glb di sheet."});
+ v.addEventListener("ar-status",function(e){if(e.detail.status==="failed")$("arfit").textContent="AR tidak dapat dijalankan di HP/browser ini. Gunakan Coba di Ruangan (foto)."})}
+$("arx").onclick=function(){$("arv").classList.remove("on");$("arvb").innerHTML="";if(!$("sh").classList.contains("on")&&!$("st").classList.contains("on"))document.body.classList.remove("lock")};
+var T={x:0,y:0,s:1,r:0,m:1},ptr={},g0=null;
+function ovApply(){$("ov").style.transform="translate(-50%,-50%) translate("+T.x+"px,"+T.y+"px) rotate("+T.r+"deg) scale("+(T.s*T.m)+","+T.s+")";$("rs").value=T.s;$("rr").value=Math.max(-45,Math.min(45,T.r))}
+function studio(){var x=cur;$("stt").textContent=x.n;var a=art(x);
+ $("ov").innerHTML=x.g?'<img src="'+esc(x.g)+'" alt="">':(a.indexOf("<svg")==0?a:'<div style="font-size:90px;text-align:center">'+a+'</div>');
+ T={x:0,y:0,s:1,r:0,m:1};ovApply();document.body.classList.add("lock");$("st").classList.add("on");if($("sbg").src&&$("sbg").style.display=="block"){$("ov").style.display="block";$("sph").style.display="none"}else{$("ov").style.display="none";$("sph").style.display="flex"}}
+function setBg(u){$("sbg").src=u;$("sbg").style.display="block";$("sph").style.display="none";$("ov").style.display="block";T={x:0,y:0,s:1,r:0,m:1};ovApply()}
+function loadPhoto(f){var r=new FileReader();r.onerror=function(){alert("Foto tidak bisa dibaca. Coba foto lain.")};r.onload=function(){var im=new Image();im.onerror=function(){alert("Format foto tidak didukung. Gunakan JPG atau PNG.")};im.onload=function(){var m=1400,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);setBg(c.toDataURL("image/jpeg",.85))};im.src=r.result};r.readAsDataURL(f)}
+["f1","f2"].forEach(function(id){$(id).onchange=function(){var f=this.files[0];if(f)loadPhoto(f);this.value=""}});
+$("demo").onclick=function(){setBg("data:image/svg+xml;utf8,"+encodeURIComponent(document.querySelector("#roomsvg svg").outerHTML))};
+$("sx").onclick=function(){$("st").classList.remove("on");if(!$("sh").classList.contains("on")&&!$("arv").classList.contains("on"))document.body.classList.remove("lock")};
+$("chg").onclick=function(){$("sph").style.display="flex"};
+$("mir").onclick=function(){T.m*=-1;ovApply()};
+$("rst").onclick=function(){T={x:0,y:0,s:1,r:0,m:T.m};ovApply()};
+$("rs").oninput=function(){T.s=+this.value;ovApply()};
+$("rr").oninput=function(){T.r=+this.value;ovApply()};
+function pd(){return Object.keys(ptr).map(function(k){return ptr[k]})}
+$("stage").addEventListener("pointerdown",function(e){if($("sph").style.display=="flex")return;this.setPointerCapture(e.pointerId);ptr[e.pointerId]={x:e.clientX,y:e.clientY};g0=null});
+$("stage").addEventListener("pointermove",function(e){var p=ptr[e.pointerId];if(!p)return;var all=pd();
+ if(all.length==1){T.x+=e.clientX-p.x;T.y+=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;ovApply()}
+ else if(all.length>=2){p.x=e.clientX;p.y=e.clientY;var a=all[0],b=all[1],d=Math.hypot(a.x-b.x,a.y-b.y),an=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;
+  if(g0){T.s=Math.max(.25,Math.min(3,T.s*d/g0.d));T.r+=an-g0.a;ovApply()}g0={d:d,a:an}}});
+function pu(e){delete ptr[e.pointerId];g0=null}
+$("stage").addEventListener("pointerup",pu);$("stage").addEventListener("pointercancel",pu);
+if(LOGO){var _pl=new Image();_pl.onload=function(){$("logo").src=LOGO};_pl.src=LOGO}
+
+// ===== Tombol Back: menutup lapisan yang terbuka dulu, bukan keluar dari halaman =====
+(function(){
+ var IDS=["sh","st","arv"]; // urutan dari bawah ke atas: detail produk, studio foto, AR
+ var open={sh:false,st:false,arv:false};
+ var ignore=0, fromPop=false;
+ var CLOSE={
+  sh:function(){tutup()},
+  st:function(){$("sx").click()},
+  arv:function(){$("arx").click()}
+ };
+ IDS.forEach(function(id){
+  new MutationObserver(function(){
+   var now=$(id).classList.contains("on");
+   if(now===open[id])return;
+   open[id]=now;
+   if(now){history.pushState({ov:id},"");return}
+   if(fromPop)return;
+   if(history.state&&history.state.ov){ignore++;history.back()}
+  }).observe($(id),{attributes:true,attributeFilter:["class"]});
+ });
+ window.addEventListener("popstate",function(){
+  if(ignore>0){ignore--;return}
+  var top=null;
+  IDS.forEach(function(id){if(open[id])top=id});
+  if(!top)return;
+  fromPop=true;
+  CLOSE[top]();
+  setTimeout(function(){fromPop=false},0);
+ });
+})();
+
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+var _dp=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();_dp=e;$("pwa").hidden=false});
+window.addEventListener("appinstalled",function(){$("pwa").hidden=true});
+$("pwa").onclick=function(ev){ev.preventDefault();if(_dp){_dp.prompt();_dp=null;$("pwa").hidden=true}else alert("Di iPhone: ketuk tombol Bagikan, lalu pilih Tambahkan ke Layar Utama.")};
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone)$("pwa").hidden=false;
+
+load();
+setInterval(function(){if(!document.hidden&&!$("sh").classList.contains("on")&&!$("st").classList.contains("on")&&!$("arv").classList.contains("on"))load(true)},60000);
+</script>
+</body>
+</html>
