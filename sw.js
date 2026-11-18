@@ -1,6 +1,6 @@
 // Service worker Katalog SCANDIA BOTANI
 // Ganti nomor versi di bawah setiap kali index.html berubah besar, supaya cache lama dibersihkan.
-const V = "katalog-v1";
+const V = "katalog-v2";
 const SHELL = ["./", "index.html", "config.js", "manifest.webmanifest", "logo.png", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
@@ -19,11 +19,13 @@ self.addEventListener("fetch", e => {
 
   // Halaman & config: ambil dari jaringan dulu (supaya perubahan langsung terlihat), cadangan dari cache.
   if (r.mode === "navigate" || u.pathname.endsWith("/config.js")) {
+    // Halaman katalog disimpan sebagai "index.html", halaman admin sebagai "admin.html"
+    const key = r.mode === "navigate" ? (u.pathname.endsWith("/admin.html") ? "admin.html" : "index.html") : r;
     e.respondWith(
       fetch(r).then(res => {
-        if (res && res.status === 200) { const cp = res.clone(); caches.open(V).then(c => c.put(r.mode === "navigate" ? "index.html" : r, cp)); }
+        if (res && res.status === 200) { const cp = res.clone(); caches.open(V).then(c => c.put(key, cp)); }
         return res;
-      }).catch(() => caches.match(r.mode === "navigate" ? "index.html" : r))
+      }).catch(() => caches.match(key))
     );
     return;
   }
