@@ -36,6 +36,8 @@ input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius
 .th button{position:absolute;top:3px;right:3px;width:22px;height:22px;border:0;border-radius:50%;background:rgba(46,58,51,.75);color:#fff;font-size:13px;line-height:22px;padding:0;cursor:pointer}
 .mini{font-size:12.5px;color:var(--mut);word-break:break-all}.mini a{color:var(--ac2)}
 #log{font-size:13px;line-height:1.6;white-space:pre-wrap}.ok{color:var(--ac2)}.er{color:var(--bad)}
+.seg{display:flex;gap:6px;margin:8px 0 2px}.seg button{flex:1;padding:10px 6px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:500 13px Figtree,sans-serif;cursor:pointer}.seg button.on{background:var(--ac2);border-color:var(--ac2);color:#fff}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;background:var(--sage);color:var(--ac2);margin-left:6px}
 .tag.off{background:#f3dfda;color:var(--bad)}
 </style>
@@ -54,7 +56,7 @@ input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius
 </div>
 
 <div id="app" hidden>
-  <div class="card">
+  <div class="card" id="cPilih">
     <h2>Pilih produk</h2>
     <select id="produk"></select>
     <div id="info" class="hint" style="margin-top:10px"></div>
@@ -62,6 +64,23 @@ input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius
     <button class="btn ghost" id="btnMuat">Muat ulang data dari sheet</button>
   </div>
 
+  <div class="card" id="cData">
+    <h2>Data produk</h2>
+    <p class="hint">Edit produk yang dipilih, atau tambah produk baru. Baris di sheet dan QR dibuat otomatis.</p>
+    <div class="seg"><button type="button" id="segEdit" class="on">Edit produk terpilih</button><button type="button" id="segBaru">+ Produk baru</button></div>
+    <label>Kode produk</label><input type="text" id="dKode" placeholder="contoh: SF-007" autocapitalize="characters" autocomplete="off" readonly>
+    <label>Nama produk</label><input type="text" id="dNama" placeholder="contoh: Sofa Brun 2 Dudukan">
+    <div class="g2"><div><label>Kategori</label><input type="text" id="dKat" list="katList" placeholder="Sofa"></div><div><label>Tampil di katalog</label><select id="dAktif"><option value="YA">Ya</option><option value="TIDAK">Tidak</option></select></div></div>
+    <div class="g2"><div><label>Harga (Rp)</label><input type="text" id="dHarga" inputmode="numeric" placeholder="6499900"></div><div><label>Stok</label><input type="text" id="dStok" inputmode="numeric" placeholder="0"></div></div>
+    <div class="g3"><div><label>Panjang (cm)</label><input type="text" id="dPj" inputmode="decimal"></div><div><label>Lebar (cm)</label><input type="text" id="dL" inputmode="decimal"></div><div><label>Tinggi (cm)</label><input type="text" id="dT" inputmode="decimal"></div></div>
+    <label>Material</label><input type="text" id="dMat" placeholder="contoh: Kain suede, rangka kayu">
+    <label>Keterangan</label><input type="text" id="dKet">
+    <div class="g2"><div><label>Gambar bawaan (bila belum ada foto)</label><select id="dIlus"><option value="">Otomatis dari kategori</option><option value="kursi">Kursi</option><option value="kerja">Kursi kerja</option><option value="meja">Meja</option><option value="mejakerja">Meja kerja</option><option value="sofa">Sofa</option><option value="lemari">Lemari</option><option value="rak">Rak</option><option value="lampu">Lampu</option></select></div><div><label>Ukuran AR otomatis</label><select id="dSk"><option value="">Aktif</option><option value="TIDAK">Nonaktif (produk set)</option></select></div></div>
+    <button class="btn" id="btnSimpan">Simpan perubahan</button>
+    <datalist id="katList"></datalist>
+  </div>
+
+  <div id="uploads">
   <div class="card">
     <h2>1. Foto produk</h2>
     <p class="hint">Boleh pilih beberapa foto sekaligus. Foto dikecilkan otomatis (maks 1600 px) lalu disimpan di Google Drive dan tautannya masuk ke kolom <b>Foto</b>.</p>
@@ -89,6 +108,8 @@ input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius
     </select>
     <div id="glbInfo" class="hint" style="margin-top:8px"></div>
     <button class="btn" id="btnGlb" disabled>Unggah model 3D</button>
+  </div>
+
   </div>
 
   <div class="card"><h2>Hasil</h2><div id="log" class="hint">Belum ada aktivitas.</div></div>
@@ -121,7 +142,7 @@ function masuk(auto){
   post("list").then(function(j){
     ITEMS=j.items;INFO=j.info||INFO;
     try{if($("ingat").checked||auto)localStorage.setItem("admin_pw",PW);else localStorage.removeItem("admin_pw")}catch(e){}
-    $("cLogin").hidden=true;$("app").hidden=false;isiProduk();defFit();
+    $("cLogin").hidden=true;$("app").hidden=false;isiProduk();defFit();isiForm();
   }).catch(function(e){
     if(auto){try{localStorage.removeItem("admin_pw")}catch(x){}PW=""}
     $("loginMsg").textContent=e.message
@@ -139,7 +160,7 @@ function isiProduk(keep){
   if(v&&ITEMS.some(function(x){return x.k===v}))$("produk").value=v;
   tampil()}
 $("produk").onchange=tampil;
-$("btnMuat").onclick=function(){var k=$("produk").value;post("list").then(function(j){ITEMS=j.items;INFO=j.info||INFO;isiProduk(k);log("Data dimuat ulang.","ok")}).catch(function(e){log(e.message,"er")})};
+$("btnMuat").onclick=function(){var k=$("produk").value;post("list").then(function(j){ITEMS=j.items;INFO=j.info||INFO;isiProduk(k);if(MODE==="edit")isiForm();log("Data dimuat ulang.","ok")}).catch(function(e){log(e.message,"er")})};
 function tampil(){
   var x=cur();if(!x){$("info").textContent="Belum ada produk di sheet.";$("aset").innerHTML="";return}
   $("info").innerHTML="Ukuran di sheet: <b>"+(x.pj?x.pj+" × "+x.l+" × "+x.t+" cm":"belum diisi")+"</b>"+(x.aktif?'<span class="tag">aktif</span>':'<span class="tag off">tidak aktif</span>')+(x.sk===0?'<span class="tag off">skala AR dimatikan</span>':"");
@@ -151,8 +172,28 @@ $("aset").onclick=function(e){var k=e.target.dataset&&e.target.dataset.lepas;if(
   if(!confirm("Lepas tautan ini dari sheet? File di Drive/GitHub tidak dihapus."))return;
   var x=cur();post("lepas",{kode:x.k,kolom:k,index:e.target.dataset.i}).then(function(){log("Tautan dilepas dari sheet.","ok");return post("list")}).then(function(j){ITEMS=j.items;isiProduk(x.k)}).catch(function(er){log(er.message,"er")})};
 
+// ---------- data produk: edit & tambah ----------
+var MODE="edit",ILUS=["","kursi","kerja","meja","mejakerja","sofa","lemari","rak","lampu"];
+function nz(v){return v?String(v):""}
+function isiForm(){var x=MODE==="edit"?cur():null;
+ $("dKode").value=x?x.k:"";$("dNama").value=x?x.n:"";$("dKat").value=x?x.c:"";$("dAktif").value=x&&!x.aktif?"TIDAK":"YA";
+ $("dHarga").value=x?nz(x.p):"";$("dStok").value=x?String(x.s):"";$("dPj").value=x?nz(x.pj):"";$("dL").value=x?nz(x.l):"";$("dT").value=x?nz(x.t):"";
+ $("dMat").value=x?x.m:"";$("dKet").value=x?x.d:"";$("dIlus").value=(x&&ILUS.indexOf(x.e)>=0)?x.e:"";$("dSk").value=(x&&x.sk===0)?"TIDAK":"";
+ var dl=[];ITEMS.forEach(function(i){if(i.c&&dl.indexOf(i.c)<0)dl.push(i.c)});$("katList").innerHTML=dl.map(function(c){return'<option value="'+esc(c)+'">'}).join("")}
+function setMode(m){MODE=m;$("segEdit").className=m==="edit"?"on":"";$("segBaru").className=m==="baru"?"on":"";$("dKode").readOnly=(m==="edit");
+ $("cPilih").hidden=(m==="baru");$("uploads").hidden=(m==="baru");$("btnSimpan").textContent=m==="edit"?"Simpan perubahan":"Tambah produk";isiForm();if(m==="baru")$("dKode").focus()}
+$("segEdit").onclick=function(){setMode("edit")};$("segBaru").onclick=function(){setMode("baru")};
+$("btnSimpan").onclick=function(){
+ var kode=$("dKode").value.trim(),act=MODE==="edit"?"ubah":"tambah";
+ var data={nama:$("dNama").value,kategori:$("dKat").value,harga:$("dHarga").value,stok:$("dStok").value,pj:$("dPj").value,l:$("dL").value,t:$("dT").value,material:$("dMat").value,ket:$("dKet").value,ilustrasi:$("dIlus").value,aktif:$("dAktif").value,skala:$("dSk").value};
+ if(!kode){log("Isi kode produk dulu.","er");return}
+ if(!data.nama.trim()){log("Isi nama produk dulu.","er");return}
+ busy(true);
+ post(act,{kode:kode,data:data}).then(function(){log(act==="ubah"?"Data "+kode+" disimpan di sheet.":"Produk "+kode+" ditambahkan ke sheet (baris dan QR dibuat otomatis). Sekarang unggah foto dan model 3D di bawah.","ok");return post("list")})
+  .then(function(j){ITEMS=j.items;setMode("edit");isiProduk(kode);defFit();isiForm()}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
+
 // ---------- aktifkan tombol ----------
-function ready(){$("btnFoto").disabled=BUSY||!$("fFoto").files.length;$("btnPng").disabled=BUSY||!$("fPng").files.length;$("btnGlb").disabled=BUSY||!$("fGlb").files.length||!INFO.github}
+function ready(){$("btnSimpan").disabled=BUSY;$("btnFoto").disabled=BUSY||!$("fFoto").files.length;$("btnPng").disabled=BUSY||!$("fPng").files.length;$("btnGlb").disabled=BUSY||!$("fGlb").files.length||!INFO.github}
 ["fFoto","fPng","fGlb"].forEach(function(id){$(id).onchange=function(){ready();if(id==="fGlb")glbInfo()}});
 function busy(b){BUSY=b;ready()}
 
@@ -214,7 +255,7 @@ function glbInfo(){var x=cur(),f=$("fGlb").files[0],el=$("glbInfo");
   if(!f){el.textContent=x&&!x.pj?"Ukuran produk belum diisi di sheet, jadi penyesuaian ukuran tidak bisa dipakai.":"";return}
   bacaBuffer(f).then(function(b){var bb=boundsGlb(parseGlb(b).json);el.textContent="Ukuran model sekarang: "+cm(bb.mx[0]-bb.mn[0])+" × "+cm(bb.mx[2]-bb.mn[2])+" × "+cm(bb.mx[1]-bb.mn[1])+" cm (P × L × T), ukuran produk di sheet: "+(x&&x.pj?x.pj+" × "+x.l+" × "+x.t+" cm":"belum diisi")+"."}).catch(function(e){el.className="hint er";el.textContent=e.message})}
 function defFit(){var x=cur();$("fit").value=(x&&x.sk===0)?"0":"3"}
-$("produk").addEventListener("change",function(){defFit();glbInfo()});
+$("produk").addEventListener("change",function(){defFit();glbInfo();if(MODE==="edit")isiForm()});
 
 $("btnGlb").onclick=function(){var x=cur(),f=$("fGlb").files[0],mode=$("fit").value;if(!x||!f)return;
   if(mode!=="0"&&!(x.pj>0&&x.l>0&&x.t>0)){log("Ukuran produk belum diisi di sheet. Pilih 'Jangan ubah ukuran' atau isi ukuran dulu.","er");return}
