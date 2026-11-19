@@ -24,7 +24,7 @@ header a{font-size:12px;color:var(--ac2)}
 .card h2{margin:0 0 4px;font:600 15px Poppins,sans-serif}
 .hint{font-size:12.5px;color:var(--mut);margin:0 0 10px;line-height:1.5}
 label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
-input[type=password],input[type=text],select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input[type=password],input[type=text],input[type=search],select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
 input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius:12px;background:var(--bg)}
 .btn{width:100%;margin-top:12px;padding:14px;border:0;border-radius:999px;background:var(--ac);color:#fff;font:600 13.5px Poppins,sans-serif;letter-spacing:.03em;cursor:pointer}
 .btn:disabled{opacity:.45;cursor:default}.btn.ghost{background:transparent;color:var(--ac2);border:1px solid var(--ac)}
@@ -38,6 +38,8 @@ input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius
 #log{font-size:13px;line-height:1.6;white-space:pre-wrap}.ok{color:var(--ac2)}.er{color:var(--bad)}
 .seg{display:flex;gap:6px;margin:8px 0 2px}.seg button{flex:1;padding:10px 6px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:500 13px Figtree,sans-serif;cursor:pointer}.seg button.on{background:var(--ac2);border-color:var(--ac2);color:#fff}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.hasil{max-height:250px;overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:8px;background:#fff;-webkit-overflow-scrolling:touch}
+.it{padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px;line-height:1.35}.it:last-child{border-bottom:0}.it b{font-weight:600}.it small{display:block;color:var(--mut);font-size:12px;margin-top:2px}.it.on{background:var(--sage);box-shadow:inset 3px 0 0 var(--ac2)}.it.kosong{cursor:default;color:var(--mut)}
 .tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;background:var(--sage);color:var(--ac2);margin-left:6px}
 .tag.off{background:#f3dfda;color:var(--bad)}
 </style>
@@ -57,8 +59,11 @@ input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius
 
 <div id="app" hidden>
   <div class="card" id="cPilih">
-    <h2>Pilih produk</h2>
-    <select id="produk"></select>
+    <h2>Cari &amp; pilih produk</h2>
+    <input type="search" id="cari" placeholder="Ketik kode, nama, atau kategori…" autocomplete="off" autocapitalize="off" enterkeyhint="search">
+    <div id="hasil" class="hasil" role="listbox"></div>
+    <div id="jml" class="hint" style="margin:6px 0 0"></div>
+    <select id="produk" hidden></select>
     <div id="info" class="hint" style="margin-top:10px"></div>
     <div id="aset"></div>
     <button class="btn ghost" id="btnMuat">Muat ulang data dari sheet</button>
@@ -158,8 +163,22 @@ function isiProduk(keep){
   var v=keep||$("produk").value;
   $("produk").innerHTML=ITEMS.map(function(x){return'<option value="'+esc(x.k)+'">'+esc(x.k)+" — "+esc(x.n)+'</option>'}).join("");
   if(v&&ITEMS.some(function(x){return x.k===v}))$("produk").value=v;
-  tampil()}
+  renderHasil();tampil()}
 $("produk").onchange=tampil;
+// ---------- pencarian produk ----------
+function cocok(x,q){var s=(x.k+" "+x.n+" "+(x.c||"")).toLowerCase();return q.every(function(w){return s.indexOf(w)>=0})}
+function renderHasil(){
+ var q=$("cari").value.toLowerCase().trim().split(/\s+/).filter(Boolean),sel=$("produk").value,BATAS=60;
+ var m=ITEMS.filter(function(x){return cocok(x,q)});
+ $("hasil").innerHTML=m.slice(0,BATAS).map(function(x){
+  return'<div class="it'+(x.k===sel?" on":"")+'" role="option" data-k="'+esc(x.k)+'"><b>'+esc(x.k)+'</b> — '+esc(x.n)+'<small>'+esc(x.c||"tanpa kategori")+(x.aktif?"":" · tidak aktif")+" · foto "+x.foto.length+(x.png?" · PNG":"")+(x.glb?" · 3D":"")+'</small></div>'}).join("")
+  ||'<div class="it kosong">Tidak ada produk yang cocok.</div>';
+ $("jml").textContent=m.length>BATAS?"Menampilkan "+BATAS+" dari "+m.length+" hasil. Persempit pencarian.":(q.length?m.length+" dari "+ITEMS.length+" produk cocok":ITEMS.length+" produk");
+ var on=$("hasil").querySelector(".it.on");if(on&&on.scrollIntoView)on.scrollIntoView({block:"nearest"})}
+function pilihProduk(k){$("produk").value=k;$("produk").dispatchEvent(new Event("change"));renderHasil()}
+$("hasil").onclick=function(e){var it=e.target.closest&&e.target.closest(".it");if(it&&it.dataset.k)pilihProduk(it.dataset.k)};
+$("cari").oninput=renderHasil;
+$("cari").onkeydown=function(e){if(e.key==="Enter"){var f=$("hasil").querySelector(".it[data-k]");if(f){e.preventDefault();pilihProduk(f.dataset.k);$("cari").blur()}}};
 $("btnMuat").onclick=function(){var k=$("produk").value;post("list").then(function(j){ITEMS=j.items;INFO=j.info||INFO;isiProduk(k);if(MODE==="edit")isiForm();log("Data dimuat ulang.","ok")}).catch(function(e){log(e.message,"er")})};
 function tampil(){
   var x=cur();if(!x){$("info").textContent="Belum ada produk di sheet.";$("aset").innerHTML="";return}
@@ -190,7 +209,7 @@ $("btnSimpan").onclick=function(){
  if(!data.nama.trim()){log("Isi nama produk dulu.","er");return}
  busy(true);
  post(act,{kode:kode,data:data}).then(function(){log(act==="ubah"?"Data "+kode+" disimpan di sheet.":"Produk "+kode+" ditambahkan ke sheet (baris dan QR dibuat otomatis). Sekarang unggah foto dan model 3D di bawah.","ok");return post("list")})
-  .then(function(j){ITEMS=j.items;setMode("edit");isiProduk(kode);defFit();isiForm()}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
+  .then(function(j){ITEMS=j.items;$("cari").value="";setMode("edit");isiProduk(kode);defFit();isiForm()}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
 
 // ---------- aktifkan tombol ----------
 function ready(){$("btnSimpan").disabled=BUSY;$("btnFoto").disabled=BUSY||!$("fFoto").files.length;$("btnPng").disabled=BUSY||!$("fPng").files.length;$("btnGlb").disabled=BUSY||!$("fGlb").files.length||!INFO.github}
