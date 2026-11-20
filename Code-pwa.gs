@@ -197,8 +197,6 @@ function getData() {
     updated: Utilities.formatDate(new Date(), 'Asia/Jakarta', 'dd MMM HH:mm')
   };
 
-  // CacheService menolak nilai lebih dari ~100 KB; jika terlalu besar,
-  // data tetap dikembalikan tanpa cache agar katalog tidak gagal total.
   try {
     cache_().put(CACHE_KEY, JSON.stringify(data), CACHE_TTL);
   } catch (err) {
@@ -207,7 +205,6 @@ function getData() {
   return data;
 }
 
-// Panggil fungsi ini setelah edit data penting agar perubahan langsung tampil.
 function resetCacheKatalog() {
   cache_().remove(CACHE_KEY);
 }
@@ -220,7 +217,7 @@ function resetCacheKatalog() {
 //   GITHUB_TOKEN    : fine-grained token GitHub (izin Contents: Read and write, hanya repo katalog)
 //   GITHUB_REPO     : pemilik/nama-repo   (contoh: scandiabotanisquarebogor-hue/katalog-3d)
 //   GITHUB_BRANCH   : opsional, bawaan "main"
-// Setelah mengisi, jalankan cekAdmin() dari editor untuk memeriksa semuanya.
+//   AI_API_KEY      : API key Gemini dari Google AI Studio
 // ============================================================
 const COL = { FOTO: 11, PNG: 15, GLB: 16 };
 const MAX_FOTO = 12 * 1024 * 1024;  // 12 MB (hasil decode)
@@ -236,12 +233,13 @@ function doPost(e) {
     lock = LockService.getScriptLock();
     lock.waitLock(25000);
     switch (req.action) {
-      case 'foto':  return out_(upFoto_(req));
-      case 'png':   return out_(upPng_(req));
-      case 'glb':   return out_(upGlb_(req));
-      case 'lepas': return out_(lepas_(req));
-      case 'tambah': return out_(tambah_(req));
-      case 'ubah':   return out_(ubah_(req));
+      case 'foto':     return out_(upFoto_(req));
+      case 'png':      return out_(upPng_(req));
+      case 'glb':      return out_(upGlb_(req));
+      case 'lepas':    return out_(lepas_(req));
+      case 'tambah':   return out_(tambah_(req));
+      case 'ubah':     return out_(ubah_(req));
+      case 'editFoto': return out_(editFotoAi_(req));
       default: throw new Error('Aksi tidak dikenal.');
     }
   } catch (err) {
@@ -256,7 +254,6 @@ function out_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
 }
 
-// Cek sandi + batasi percobaan salah (8 kali per 10 menit)
 function auth_(pw) {
   var c = cache_(), key = 'admin_gagal', n = Number(c.get(key) || 0);
   if (n >= 8) throw new Error('Terlalu banyak percobaan salah. Coba lagi dalam 10 menit.');
@@ -300,7 +297,6 @@ function row_(kode) {
 function aman_(s) { return String(s || '').replace(/[^\w.-]/g, '_').slice(0, 40); }
 function stempel_() { return Utilities.formatDate(new Date(), 'Asia/Jakarta', 'yyyyMMdd-HHmmss'); }
 
-// Folder induk di Drive (dibuat otomatis sekali) + subfolder "foto" dan "png"
 function folder_(nama) {
   var p = props_(), root = null, id = p.getProperty('DRIVE_FOLDER_ID');
   if (id) { try { root = DriveApp.getFolderById(id); } catch (e) { root = null; } }
@@ -351,7 +347,6 @@ function upGlb_(req) {
   return { ok: true, url: url, note: 'GitHub Pages butuh sekitar 1-2 menit sebelum model bisa dibuka.' };
 }
 
-// Lepas tautan dari sheet (file di Drive/GitHub tidak dihapus)
 function lepas_(req) {
   var rowIdx = row_(req.kode), sh = sh_(SHEET_PRODUK);
   if (req.kolom === 'foto') {
@@ -372,7 +367,6 @@ function lepas_(req) {
   return { ok: true };
 }
 
-// Kirim file ke GitHub (REST API). Token dibaca dari Script properties.
 function githubPut_(path, bytes, pesan) {
   var p = props_(), token = p.getProperty('GITHUB_TOKEN'), repo = p.getProperty('GITHUB_REPO'), branch = p.getProperty('GITHUB_BRANCH') || 'main';
   if (!token || !repo) throw new Error('GITHUB_TOKEN / GITHUB_REPO belum diatur di Script properties.');
@@ -396,10 +390,64 @@ function pagesUrl_(path) {
   return base + path;
 }
 
-// Jalankan sekali dari editor setelah mengisi Script properties: cek semua pengaturan.
+function editFotoAi_(req) {
+  var apiKey = props_().getProperty('AI_API_KEY');
+  if (!apiKey) throw new Error('AI_API_KEY belum diatur di Script properties.');
+  var promptUser = String(req.prompt || '').trim();
+  if (!promptUser) throw new Error('Prompt instruksi AI wajib diisi.');
+  var base64In = String(req.data || '').trim();
+  if (!base64In) throw new Error('Data gambar sumber kosong.');
+  var mimeIn = String(req.mime || 'image/png');
+
+  var instruction =
+    'Edit gambar produk furnitur ini sesuai instruksi pengguna: "' + promptUser + '". ' +
+    'Aturan ketat: pertahankan bentuk, proporsi, detail, dan warna asli produk; jangan menambah atau menghapus bagian produk.';
+
+  var endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=' + encodeURIComponent(apiKey);
+  var payload = {
+    contents: [{
+      parts: [
+        { text: instruction },
+        { inlineData: { mimeType: mimeIn, data: base64In } }
+      ]
+    }],
+    generationConfig: {
+      responseModalities: ['IMAGE']
+    }
+  };
+
+  var res = UrlFetchApp.fetch(endpoint, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+
+  if (res.getResponseCode() !== 200) {
+    throw new Error('Layanan AI gagal (' + res.getResponseCode() + '): ' + res.getContentText());
+  }
+
+  var json = JSON.parse(res.getContentText());
+  var parts = (((json.candidates || [])[0] || {}).content || {}).parts || [];
+  var imgPart = null;
+  for (var i = 0; i < parts.length; i++) {
+    if (parts[i].inlineData && parts[i].inlineData.data) {
+      imgPart = parts[i].inlineData;
+      break;
+    }
+  }
+  if (!imgPart) throw new Error('AI tidak mengembalikan gambar hasil.');
+
+  return {
+    ok: true,
+    mime: imgPart.mimeType || 'image/png',
+    data: imgPart.data
+  };
+}
+
 function cekAdmin() {
   var p = props_(), log = [];
-  ['ADMIN_PASSWORD', 'GITHUB_TOKEN', 'GITHUB_REPO'].forEach(function (k) { log.push(k + ': ' + (p.getProperty(k) ? 'OK' : 'BELUM DIISI')); });
+  ['ADMIN_PASSWORD', 'GITHUB_TOKEN', 'GITHUB_REPO', 'AI_API_KEY'].forEach(function (k) { log.push(k + ': ' + (p.getProperty(k) ? 'OK' : 'BELUM DIISI')); });
   folder_('foto'); folder_('png');
   log.push('Folder Drive: ' + DriveApp.getFolderById(p.getProperty('DRIVE_FOLDER_ID')).getUrl());
   var repo = p.getProperty('GITHUB_REPO'), token = p.getProperty('GITHUB_TOKEN');
@@ -413,10 +461,9 @@ function cekAdmin() {
   return log.join('\n');
 }
 
-// ---------- TAMBAH / EDIT PRODUK (dipakai admin.html) ----------
+// ---------- TAMBAH / EDIT PRODUK ----------
 var ILUSTRASI_OK = ['kursi', 'kerja', 'meja', 'mejakerja', 'sofa', 'lemari', 'rak', 'lampu'];
 
-// Teks yang diawali = + - @ bisa dibaca Sheets sebagai rumus; beri tanda petik di depannya.
 function teks_(s) {
   s = String(s || '');
   return /^[=+\-@]/.test(s) ? "'" + s : s;
