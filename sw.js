@@ -1,7 +1,7 @@
 // Service worker Katalog SCANDIA BOTANI
-// Ganti nomor versi di bawah setiap kali index.html berubah besar, supaya cache lama dibersihkan.
+// Ganti nomor versi di bawah setiap kali index.html / admin.html berubah besar, supaya cache lama dibersihkan.
 const V = "katalog-v3";
-const SHELL = ["./", "index.html", "config.js", "manifest.webmanifest", "logo.png", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
+const SHELL = ["./", "index.html", "admin.html", "config.js", "manifest.webmanifest", "logo.png", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
