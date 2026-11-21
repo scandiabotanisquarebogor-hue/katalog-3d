@@ -3,491 +3,617 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#eef3ee">
-<title>Admin · Katalog SCANDIA BOTANI</title>
-<link rel="icon" href="icon-192.png" type="image/png">
+<title>Admin Katalog · SCANDIA BOTANI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="config.js"></script>
 <style>
-:root{--bg:#f5f7f2;--card:#fff;--ink:#2e3a33;--mut:#7d8a82;--ac:#6f9c84;--ac2:#4d7a63;--sage:#e6eee7;--blush:#f7e4da;--line:#e3e9e2;--sand:#e9efe8;--bad:#9a3d2c;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:400 15px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:40px;-webkit-font-smoothing:antialiased}
-button,input,select{font-family:inherit;font-size:15px}
-header{padding:16px 20px 12px;text-align:center;background:linear-gradient(180deg,var(--sage),var(--bg))}
-header img{height:44px;display:block;margin:0 auto 4px}
-header h1{margin:0;font:600 14px Poppins,sans-serif;letter-spacing:.14em;padding-left:.14em}
-header a{font-size:12px;color:var(--ac2)}
-.wrap{max-width:560px;margin:0 auto;padding:0 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
-.card h2{margin:0 0 4px;font:600 15px Poppins,sans-serif}
-.hint{font-size:12.5px;color:var(--mut);margin:0 0 10px;line-height:1.5}
-label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
-input[type=password],input[type=text],input[type=search],select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
-input[type=file]{width:100%;padding:10px;border:1px dashed #c9d4cb;border-radius:12px;background:var(--bg)}
-.btn{width:100%;margin-top:12px;padding:13px 14px;border:0;border-radius:999px;background:var(--ac);color:#fff;font:600 13.5px Poppins,sans-serif;letter-spacing:.03em;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.btn:disabled{opacity:.45;cursor:default}.btn.ghost{background:transparent;color:var(--ac2);border:1px solid var(--ac)}
-.row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px}.row label{display:flex;gap:6px;align-items:center;margin:0;color:var(--ink)}
-.chk{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:13px;color:var(--ink)}
-.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-.th{position:relative;width:74px;height:74px;border-radius:12px;background:var(--sand);overflow:hidden;border:1px solid var(--line)}
-.th img{width:100%;height:100%;object-fit:cover}.th.cut img{object-fit:contain;padding:6px}
-.th button{position:absolute;top:3px;right:3px;width:22px;height:22px;border:0;border-radius:50%;background:rgba(46,58,51,.75);color:#fff;font-size:13px;line-height:22px;padding:0;cursor:pointer}
-.mini{font-size:12.5px;color:var(--mut);word-break:break-all}.mini a{color:var(--ac2)}
-#log{font-size:13px;line-height:1.6;white-space:pre-wrap}.ok{color:var(--ac2)}.er{color:var(--bad)}
-.seg{display:flex;gap:6px;margin:8px 0 2px}.seg button{flex:1;padding:10px 6px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:500 13px Figtree,sans-serif;cursor:pointer}.seg button.on{background:var(--ac2);border-color:var(--ac2);color:#fff}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;background:var(--sage);color:var(--ac2);margin-left:6px}
-.tag.off{background:#f3dfda;color:var(--bad)}
-
-/* Mode 2 Tab Utama */
-.mode-tabs{display:flex;gap:8px;margin:14px 0 8px}
-.mode-tabs button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--mut);font:600 13px Poppins,sans-serif;cursor:pointer}
-.mode-tabs button.on{background:var(--ac2);border-color:var(--ac2);color:#fff}
-
-/* Pencarian Keyword Saja */
-.kw-box{position:relative}
-.kw-pop{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:15;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 28px rgba(46,58,51,.12);overflow:hidden}
-.kw-it{padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13.5px}
-.kw-it:last-child{border-bottom:0}
-.kw-it:hover{background:var(--sage)}
-.kw-it small{display:block;color:var(--mut);font-size:11.5px;margin-top:2px}
-.picked-pill{margin-top:8px;padding:9px 12px;border-radius:12px;background:var(--sage);color:var(--ink);font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-
-/* Frame Dropdown (Accordion) */
-details.acc{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:12px 0;overflow:hidden}
-details.acc>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font:600 14.5px Poppins,sans-serif;color:var(--ink);user-select:none}
-details.acc>summary::-webkit-details-marker{display:none}
-.sum-l{display:flex;align-items:center;gap:10px}
-.chev{width:18px;height:18px;color:var(--mut);transition:transform .2s;flex:0 0 auto}
-details.acc[open]>summary .chev{transform:rotate(180deg)}
-.acc-body{padding:0 16px 16px;border-top:1px solid var(--line)}
-
-/* Ikon Minimalis */
-.ico{width:18px;height:18px;flex:0 0 auto;stroke:currentColor;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round}
+:root{
+  --bg:#f5f7f2;--card:#ffffff;--ink:#2e3a33;--mut:#7d8a82;
+  --ac:#6f9c84;--ac2:#4d7a63;--sage:#e6eee7;--blush:#f7e4da;--peach:#e9b9a0;
+  --line:#e3e9e2;--err:#9a3d2c;--ok:#2f6b52;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:44px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit}
+header{padding:18px 20px 14px;text-align:center;background:linear-gradient(180deg,var(--sage) 0%,var(--bg) 100%)}
+header h1{margin:0;font:700 clamp(20px,6vw,26px)/1.2 Poppins,sans-serif;letter-spacing:.08em}
+header small{display:block;color:var(--mut);font-size:12px;margin-top:4px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}
+.box h2{margin:0 0 12px;font:600 15px Poppins,sans-serif;display:flex;align-items:center;gap:8px}
+.ico{width:18px;height:18px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;color:var(--ac2)}
+.ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+label.f{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px}
+input[type=password],input[type=text],input[type=number],select,textarea{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px;outline:none}
+textarea{min-height:66px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--ac);background:#fff}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1;min-width:140px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:999px;padding:11px 18px;background:var(--ac);color:#fff;font:600 13px Poppins,sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--ac2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sec{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.sec:hover{border-color:var(--ac)}
+.btn.sm{padding:7px 13px;font-size:12px}
+.btn.dan{background:#fff;color:var(--err);border:1px solid #e6b8af}
+.msg{margin-top:10px;padding:11px 14px;border-radius:12px;font-size:13px;display:none;white-space:pre-line}
+.msg.on{display:block}.msg.ok{background:#dcebe1;color:var(--ok)}.msg.err{background:#f6dcd3;color:var(--err)}
+.note{font-size:12px;color:var(--mut);margin:8px 0 0}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.th{position:relative;width:82px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--sage);text-align:center;font-size:10px;color:var(--mut)}
+.th img{width:82px;height:82px;object-fit:cover;display:block}
+.th img.cut{object-fit:contain;padding:6%}
+.th span{display:block;padding:3px 2px}
+.th button{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(46,58,51,.78);color:#fff;font-size:13px;line-height:1;cursor:pointer}
+.cur{font-size:12.5px;color:var(--mut);margin:6px 0 10px;word-break:break-all}
+.cur a{color:var(--ac2)}
+.headbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.pill{font-size:12px;padding:5px 12px;border-radius:999px;background:var(--sage);color:var(--ac2);font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:12px;cursor:pointer}
+.check input{width:17px;height:17px;accent-color:var(--ac)}
+.search-res{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.search-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;text-align:left;width:100%}
+.search-item:hover,.search-item.on{border-color:var(--ac);background:var(--sage)}
+.search-item b{font-size:13px}
+.search-item small{color:var(--mut);font-size:11.5px}
+.selected-badge{margin-top:10px;padding:9px 12px;border-radius:12px;background:var(--sage);color:var(--ink);font-size:13px;display:none;align-items:center;justify-content:space-between;gap:8px}
+.selected-badge.on{display:flex}
+details.dd{border:1px solid var(--line);border-radius:14px;background:var(--bg);margin-top:10px;overflow:hidden}
+details.dd>summary{list-style:none;cursor:pointer;padding:12px 14px;font:600 13.5px Poppins,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd[open]>summary{border-bottom:1px solid var(--line);background:var(--card)}
+.dd-body{padding:12px 14px 14px;background:var(--card)}
+.poof-box{margin-top:12px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:var(--bg)}
+.poof-preview{display:none;margin-top:10px;align-items:center;gap:12px;flex-wrap:wrap}
+.poof-preview.on{display:flex}
+.poof-preview img{width:92px;height:92px;object-fit:contain;border-radius:10px;border:1px solid var(--line);background:repeating-conic-gradient(#e7ece7 0% 25%, #ffffff 0% 50%) 50% / 14px 14px}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 </style>
 </head>
 <body>
-<header><img src="logo.png" alt="Scandia"><h1>ADMIN KATALOG</h1><a href="./">Lihat katalog</a></header>
+<header>
+  <h1>ADMIN KATALOG</h1>
+  <small id="sub">SCANDIA BOTANI · Kelola foto, PNG &amp; model 3D (.glb)</small>
+</header>
 <div class="wrap">
-
-<div class="card" id="cLogin">
-  <h2>Masuk</h2>
-  <p class="hint">Sandi dibuat di Apps Script (Script properties &gt; ADMIN_PASSWORD).</p>
-  <input type="password" id="pw" placeholder="Sandi admin" autocomplete="current-password">
-  <label class="chk"><input type="checkbox" id="ingat"> Ingat sandi di perangkat ini</label>
-  <button type="button" class="btn" id="btnMasuk">Masuk</button>
-  <div id="loginMsg" class="hint er" style="margin-top:10px"></div>
-</div>
-
-<div id="app" hidden>
-  <!-- Pemilih Mode Utama -->
-  <div class="mode-tabs" role="tablist">
-    <button type="button" id="tabAi" class="on" role="tab" aria-selected="true"></button>
-    <button type="button" id="tabManual" role="tab" aria-selected="false"></button>
-  </div>
-
-  <!-- Pencarian Produk Berbasis Keyword Saja -->
-  <details class="acc" id="secCari" open>
-    <summary><span class="sum-l"><span id="icoCari"></span><span>Cari produk (keyword)</span></span><span id="chevCari"></span></summary>
-    <div class="acc-body">
-      <p class="hint">Ketik minimal 2 huruf kode, nama, atau kategori produk.</p>
-      <div class="kw-box">
-        <input type="search" id="kwInput" placeholder="Ketik keyword produk…" autocomplete="off" autocapitalize="off" enterkeyhint="search">
-        <div id="kwPop" class="kw-pop" hidden></div>
-      </div>
-      <div id="pickedBox" class="picked-pill" hidden></div>
-      <select id="produk" hidden></select>
-      <div id="info" class="hint" style="margin-top:10px"></div>
-      <div id="aset"></div>
-      <button type="button" class="btn ghost" id="btnMuat">Muat ulang data dari sheet</button>
+  <div class="box" id="login">
+    <h2><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>Masuk Admin</h2>
+    <label class="f" for="pw">Sandi admin</label>
+    <input type="password" id="pw" autocomplete="current-password" placeholder="Masukkan sandi admin">
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="go">Masuk</button>
+      <a class="btn sec" href="./">Kembali ke katalog</a>
     </div>
-  </details>
-
-  <!-- TAB 1: UPDATE DENGAN AI (Tanpa Upload .GLB) -->
-  <div id="panelAi">
-    <details class="acc" id="secAi" open>
-      <summary><span class="sum-l"><span id="icoAi"></span><span>AI Studio Foto &amp; Background</span></span><span id="chevAi"></span></summary>
-      <div class="acc-body">
-        <p class="hint">Ambil foto dari kamera atau galeri, rapikan background berantakan atau perbaiki kualitas foto dengan prompt, lalu unggah langsung ke sheet.</p>
-
-        <div class="g2" style="margin-top:8px">
-          <label class="btn ghost" style="margin:0;padding:11px 12px;font-size:12.5px">
-            <span id="icoCam"></span><span>Kamera</span>
-            <input type="file" id="fAiCam" accept="image/*" capture="environment" hidden>
-          </label>
-          <label class="btn ghost" style="margin:0;padding:11px 12px;font-size:12.5px">
-            <span id="icoGal"></span><span>Galeri</span>
-            <input type="file" id="fAiGal" accept="image/*" hidden>
-          </label>
-        </div>
-        <div id="aiSrcName" class="hint" style="margin-top:6px">Belum ada foto sumber dipilih.</div>
-
-        <label>Preset prompt cepat</label>
-        <select id="aiPreset">
-          <option value="">-- Pilih preset atau tulis prompt sendiri --</option>
-          <option value="Rapikan background berantakan menjadi latar studio katalog bersih dan estetik, pertahankan bentuk, proporsi, serta warna asli produk">Rapikan background berantakan (studio estetik)</option>
-          <option value="Hapus seluruh background menjadi transparan (PNG), pertahankan tepi, bentuk, dan warna asli produk">Hapus background jadi PNG transparan</option>
-          <option value="Perbaiki pencahayaan agar lebih terang merata dan pertajam detail bahan produk tanpa mengubah bentuk atau warna aslinya">Perbaiki kualitas &amp; pencahayaan foto</option>
-        </select>
-
-        <label>Prompt instruksi AI</label>
-        <input type="text" id="aiPrompt" placeholder="Contoh: Rapikan background jadi ruang minimalis bersih…">
-
-        <div class="row">
-          <label><input type="radio" name="aiTarget" value="png" checked> Simpan ke PNG Transparan</label>
-          <label><input type="radio" name="aiTarget" value="foto"> Simpan ke Foto Produk</label>
-        </div>
-
-        <button type="button" class="btn" id="btnAiProses" disabled>Proses dengan AI</button>
-
-        <div id="aiPreviewWrap" style="display:none;margin-top:12px">
-          <div class="hint" style="margin-bottom:6px">Pratinjau hasil AI:</div>
-          <div class="th" style="width:124px;height:124px"><img id="aiPreviewImg" alt="Hasil AI"></div>
-          <button type="button" class="btn" id="btnAiSimpan">Unggah hasil ke Sheet</button>
-        </div>
-      </div>
-    </details>
+    <div class="msg" id="lmsg"></div>
   </div>
 
-  <!-- TAB 2: UPDATE MANUAL (Termasuk Upload .GLB) -->
-  <div id="panelManual" hidden>
-    <details class="acc" id="secData" open>
-      <summary><span class="sum-l"><span id="icoEdit"></span><span>Data produk (edit / tambah)</span></span><span id="chevData"></span></summary>
-      <div class="acc-body">
-        <div class="seg"><button type="button" id="segEdit" class="on">Edit produk terpilih</button><button type="button" id="segBaru">+ Produk baru</button></div>
-        <label>Kode produk</label><input type="text" id="dKode" placeholder="contoh: SF-007" autocapitalize="characters" autocomplete="off" readonly>
-        <label>Nama produk</label><input type="text" id="dNama" placeholder="contoh: Sofa Brun 2 Dudukan">
-        <div class="g2"><div><label>Kategori</label><input type="text" id="dKat" list="katList" placeholder="Sofa"></div><div><label>Tampil di katalog</label><select id="dAktif"><option value="YA">Ya</option><option value="TIDAK">Tidak</option></select></div></div>
-        <div class="g2"><div><label>Harga (Rp)</label><input type="text" id="dHarga" inputmode="numeric" placeholder="6499900"></div><div><label>Stok</label><input type="text" id="dStok" inputmode="numeric" placeholder="0"></div></div>
-        <div class="g3"><div><label>Panjang (cm)</label><input type="text" id="dPj" inputmode="decimal"></div><div><label>Lebar (cm)</label><input type="text" id="dL" inputmode="decimal"></div><div><label>Tinggi (cm)</label><input type="text" id="dT" inputmode="decimal"></div></div>
-        <label>Material</label><input type="text" id="dMat" placeholder="contoh: Kain suede, rangka kayu">
-        <label>Keterangan</label><input type="text" id="dKet">
-        <div class="g2"><div><label>Gambar bawaan (bila belum ada foto)</label><select id="dIlus"><option value="">Otomatis dari kategori</option><option value="kursi">Kursi</option><option value="kerja">Kursi kerja</option><option value="meja">Meja</option><option value="mejakerja">Meja kerja</option><option value="sofa">Sofa</option><option value="lemari">Lemari</option><option value="rak">Rak</option><option value="lampu">Lampu</option></select></div><div><label>Ukuran AR otomatis</label><select id="dSk"><option value="">Aktif</option><option value="TIDAK">Nonaktif (produk set)</option></select></div></div>
-        <button type="button" class="btn" id="btnSimpan">Simpan perubahan</button>
-        <datalist id="katList"></datalist>
+  <div id="panel" style="display:none">
+    <div class="headbar">
+      <div><span class="pill" id="gh">GitHub: …</span> <span class="pill" id="pf">Poof: …</span></div>
+      <div class="row" style="flex:0 0 auto">
+        <button class="btn sec sm" id="ref">Muat ulang</button>
+        <button class="btn sec sm" id="out">Keluar</button>
       </div>
-    </details>
-
-    <details class="acc" id="secFoto">
-      <summary><span class="sum-l"><span id="icoFoto"></span><span>Foto produk &amp; PNG (manual)</span></span><span id="chevFoto"></span></summary>
-      <div class="acc-body">
-        <label>Foto produk (boleh pilih beberapa sekaligus)</label>
-        <input type="file" id="fFoto" accept="image/*" multiple>
-        <div class="row"><label><input type="radio" name="mf" value="tambah" checked> Tambahkan ke foto yang ada</label><label><input type="radio" name="mf" value="ganti"> Ganti semua foto</label></div>
-        <button type="button" class="btn" id="btnFoto" disabled>Unggah foto</button>
-
-        <label style="margin-top:16px">Foto tanpa background (PNG)</label>
-        <input type="file" id="fPng" accept="image/png">
-        <button type="button" class="btn" id="btnPng" disabled>Unggah PNG</button>
-      </div>
-    </details>
-
-    <details class="acc" id="secGlb">
-      <summary><span class="sum-l"><span id="icoGlb"></span><span>Model 3D (.glb)</span></span><span id="chevGlb"></span></summary>
-      <div class="acc-body">
-        <p class="hint">Dikirim ke GitHub Pages dengan nama otomatis, lalu tautannya masuk ke kolom <b>Model 3D</b>.</p>
-        <input type="file" id="fGlb" accept=".glb">
-        <label>Penyesuaian ukuran sebelum diunggah</label>
-        <select id="fit">
-          <option value="3">Paskan ke ukuran produk (Panjang × Lebar × Tinggi)</option>
-          <option value="1">Hanya sesuaikan Panjang (proporsi model tetap)</option>
-          <option value="0">Jangan ubah ukuran</option>
-        </select>
-        <div id="glbInfo" class="hint" style="margin-top:8px"></div>
-        <button type="button" class="btn" id="btnGlb" disabled>Unggah model 3D</button>
-      </div>
-    </details>
-  </div>
-
-  <details class="acc" id="secLog" open>
-    <summary><span class="sum-l"><span id="icoLog"></span><span>Hasil aktivitas</span></span><span id="chevLog"></span></summary>
-    <div class="acc-body">
-      <div id="log" class="hint" style="margin-top:10px">Belum ada aktivitas.</div>
     </div>
-  </details>
 
-  <button type="button" class="btn ghost" id="btnKeluar">Keluar</button>
-</div>
+    <div class="box">
+      <h2><span class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg></span>Cari &amp; Pilih Produk</h2>
+      <label class="f" for="qProduk">Ketik minimal 2 huruf nama atau kode produk</label>
+      <input type="text" id="qProduk" placeholder="Contoh: kursi, meja, KM-001…">
+      <div class="search-res" id="hasilCari"></div>
+      <div class="selected-badge" id="produkTerpilih"></div>
+    </div>
+
+    <div class="box" id="boxManual">
+      <h2><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg></span>Update Manual</h2>
+      <p class="note" style="margin-top:0">Pilih bagian yang ingin diperbarui. Fitur Poof tersedia langsung di bagian foto/PNG.</p>
+
+      <details class="dd" id="ddFoto" open>
+        <summary>
+          <span><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/></svg></span> Foto produk &amp; PNG (manual + Poof)</span>
+          <span class="pill">Foto / PNG</span>
+        </summary>
+        <div class="dd-body">
+          <div class="thumbs" id="fthumbs"></div>
+          <label class="f" for="fmode">Mode unggah foto biasa</label>
+          <select id="fmode">
+            <option value="tambah">Tambah foto baru (tetap simpan foto lama)</option>
+            <option value="ganti">Ganti semua foto dengan foto ini</option>
+          </select>
+          <label class="f" for="ffoto">Pilih foto produk (JPG / PNG)</label>
+          <input type="file" id="ffoto" accept="image/jpeg,image/png">
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="bfoto" disabled>Unggah Foto</button>
+          </div>
+          <div class="msg" id="fmsg"></div>
+
+          <div class="poof-box">
+            <b style="font-size:13px;display:flex;align-items:center;gap:6px"><span class="ico"><svg viewBox="0 0 24 24"><path d="m12 3 1.9 4.1L18 9l-4.1 1.9L12 15l-1.9-4.1L6 9l4.1-1.9Z"/><path d="M19 15v4M17 17h4"/></svg></span>Hapus / Rapikan Background dengan Poof</b>
+            <p class="note" style="margin:4px 0 8px">Pilih foto sumber, pilih mode latar, proses lewat Poof, lalu simpan ke PNG transparan atau foto produk.</p>
+            <label class="f" for="fpoofsrc">Foto sumber untuk Poof</label>
+            <input type="file" id="fpoofsrc" accept="image/jpeg,image/png">
+            <label class="f" for="poofMode">Mode latar Poof</label>
+            <select id="poofMode">
+              <option value="transparent">Hapus background (PNG transparan)</option>
+              <option value="white">Latar putih bersih (#FFFFFF)</option>
+              <option value="cream">Latar krem katalog (#F5F7F2)</option>
+            </select>
+            <div class="row" style="margin-top:10px">
+              <button class="btn sec" id="bpoof" disabled>Proses Poof</button>
+            </div>
+            <div class="poof-preview" id="poofPreview">
+              <img id="poofImg" alt="Hasil Poof">
+              <div style="flex:1;min-width:160px">
+                <div class="note" style="margin:0 0 8px">Simpan hasil Poof ke:</div>
+                <div class="row">
+                  <button class="btn sm" id="bsavePng">Simpan ke PNG</button>
+                  <button class="btn sec sm" id="bsaveFoto">Simpan ke Foto</button>
+                </div>
+              </div>
+            </div>
+            <div class="msg" id="poofMsg"></div>
+          </div>
+
+          <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
+          <div class="cur" id="pcur"></div>
+          <label class="f" for="fpng">Unggah PNG transparan manual (opsional, untuk Coba di Ruangan)</label>
+          <input type="file" id="fpng" accept="image/png">
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="bpng" disabled>Unggah PNG</button>
+            <button class="btn dan" id="lpng" style="display:none">Lepas PNG</button>
+          </div>
+          <div class="msg" id="pmsg"></div>
+        </div>
+      </details>
+
+      <details class="dd" id="ddGlb">
+        <summary>
+          <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></span> Model 3D (.glb)</span>
+          <span class="pill">3D / AR</span>
+        </summary>
+        <div class="dd-body">
+          <div class="cur" id="gcur"></div>
+          <label class="f" for="fglb">Pilih file model (.glb, maks 25 MB)</label>
+          <input type="file" id="fglb" accept=".glb,model/gltf-binary">
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="bglb" disabled>Unggah .glb ke GitHub</button>
+            <button class="btn dan" id="lglb" style="display:none">Lepas .glb</button>
+          </div>
+          <p class="note">File diunggah ke folder <code>models/</code> di repo GitHub lalu tautannya disimpan ke kolom Model 3D .glb.</p>
+          <div class="msg" id="gmsg"></div>
+        </div>
+      </details>
+
+      <details class="dd" id="ddInfo">
+        <summary>
+          <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> Tambah / Edit data produk</span>
+          <span class="pill">Data</span>
+        </summary>
+        <div class="dd-body">
+          <div class="row" style="margin-bottom:10px">
+            <button class="btn sec sm" id="bmodeEdit">Ubah produk terpilih</button>
+            <button class="btn sec sm" id="bmodeNew">+ Tambah produk baru</button>
+          </div>
+          <label class="f" for="dkode">Kode produk</label>
+          <input type="text" id="dkode" maxlength="30" placeholder="Contoh: KM-005">
+          <label class="f" for="dnama">Nama produk *</label>
+          <input type="text" id="dnama" maxlength="120" placeholder="Contoh: Kursi Santai Rotan">
+          <div class="grid2">
+            <div><label class="f" for="dkat">Kategori</label><input type="text" id="dkat" maxlength="40" placeholder="Kursi"></div>
+            <div><label class="f" for="dilus">Ilustrasi cadangan</label>
+              <select id="dilus">
+                <option value="">(otomatis / emoji)</option>
+                <option value="kursi">kursi</option><option value="kerja">kerja</option>
+                <option value="meja">meja</option><option value="mejakerja">mejakerja</option>
+                <option value="sofa">sofa</option><option value="lemari">lemari</option>
+                <option value="rak">rak</option><option value="lampu">lampu</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid2">
+            <div><label class="f" for="dharga">Harga (Rp)</label><input type="number" id="dharga" min="0" step="1" placeholder="450000"></div>
+            <div><label class="f" for="dstok">Stok</label><input type="number" id="dstok" min="0" step="1" placeholder="10"></div>
+          </div>
+          <div class="row">
+            <div><label class="f" for="dpj">Panjang (cm)</label><input type="number" id="dpj" min="0" step="0.1" placeholder="45"></div>
+            <div><label class="f" for="dlb">Lebar (cm)</label><input type="number" id="dlb" min="0" step="0.1" placeholder="50"></div>
+            <div><label class="f" for="dtg">Tinggi (cm)</label><input type="number" id="dtg" min="0" step="0.1" placeholder="85"></div>
+          </div>
+          <label class="f" for="dmat">Material</label>
+          <input type="text" id="dmat" maxlength="200" placeholder="Kayu jati solid">
+          <label class="f" for="dket">Keterangan</label>
+          <textarea id="dket" maxlength="500" placeholder="Catatan singkat produk"></textarea>
+          <div class="grid2">
+            <label class="check"><input type="checkbox" id="daktif" checked> Tampilkan di katalog (Aktif)</label>
+            <label class="check"><input type="checkbox" id="dskala" checked> Sesuaikan ukuran AR otomatis</label>
+          </div>
+          <div class="row" style="margin-top:14px">
+            <button class="btn" id="bsimpan">Simpan Produk</button>
+          </div>
+          <div class="msg" id="dmsg"></div>
+        </div>
+      </details>
+    </div>
+  </div>
 </div>
 
 <script>
-var $=function(i){return document.getElementById(i)};
-var API=(window.KATALOG_CONFIG||{}).API_URL||"";
-var PW="",ITEMS=[],INFO={github:false},BUSY=false,MODE="edit";
-var AI_SRC_FILE=null,AI_RESULT=null;
-try{PW=localStorage.getItem("admin_pw")||""}catch(e){}
+const API = (window.KATALOG_CONFIG && window.KATALOG_CONFIG.API_URL) || "";
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let PW = "", ITEMS = [], SELECTED_KODE = "", MODE_BARU = false, POOF_RESULT = null;
 
-var SVG_ICO={
-  ai:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></svg>',
-  edit:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>',
-  search:'<svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>',
-  camera:'<svg class="ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
-  image:'<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>',
-  box:'<svg class="ico" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>',
-  list:'<svg class="ico" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>',
-  chev:'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'
-};
-
-$("tabAi").innerHTML=SVG_ICO.ai+"<span>Update dengan AI</span>";
-$("tabManual").innerHTML=SVG_ICO.edit+"<span>Update Manual</span>";
-$("icoCari").innerHTML=SVG_ICO.search;
-$("icoAi").innerHTML=SVG_ICO.ai;
-$("icoCam").innerHTML=SVG_ICO.camera;
-$("icoGal").innerHTML=SVG_ICO.image;
-$("icoEdit").innerHTML=SVG_ICO.edit;
-$("icoFoto").innerHTML=SVG_ICO.image;
-$("icoGlb").innerHTML=SVG_ICO.box;
-$("icoLog").innerHTML=SVG_ICO.list;
-["chevCari","chevAi","chevData","chevFoto","chevGlb","chevLog"].forEach(function(id){$(id).innerHTML=SVG_ICO.chev});
-
-function setTab(mode){
-  var isAi=mode==="ai";
-  $("tabAi").classList.toggle("on",isAi);
-  $("tabAi").setAttribute("aria-selected",String(isAi));
-  $("tabManual").classList.toggle("on",!isAi);
-  $("tabManual").setAttribute("aria-selected",String(!isAi));
-  $("panelAi").hidden=!isAi;
-  $("panelManual").hidden=isAi;
+function showMsg(el, text, isErr){
+  el.textContent = text;
+  el.className = "msg on " + (isErr ? "err" : "ok");
 }
-$("tabAi").onclick=function(){setTab("ai")};
-$("tabManual").onclick=function(){setTab("manual")};
+function clearMsg(el){ el.className = "msg"; el.textContent = ""; }
 
-function log(t,c){var d=document.createElement("div");d.className=c||"";d.textContent=t;var L=$("log");if(L.textContent==="Belum ada aktivitas.")L.textContent="";L.appendChild(d)}
-function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-
-// ---------- komunikasi dengan Apps Script ----------
-function post(action,data){
-  if(!API)return Promise.reject(new Error("API_URL belum diisi di config.js."));
-  var body=JSON.stringify(Object.assign({action:action,pw:PW},data||{}));
-  return fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:body,redirect:"follow"})
-   .then(function(r){return r.text()})
-   .then(function(t){var j;try{j=JSON.parse(t)}catch(e){throw new Error("Balasan server tidak dikenali.")}if(!j.ok)throw new Error(j.error||"Gagal.");return j})
-   .catch(function(e){if(e instanceof TypeError)throw new Error("Tidak ada balasan dari server (jaringan/URL salah). Periksa data di sheet lalu tekan Muat ulang.");throw e})}
-
-// ---------- login ----------
-function masuk(auto){
-  if(!auto){PW=$("pw").value;if(!PW){$("loginMsg").textContent="Isi sandi dulu.";return}}
-  $("btnMasuk").disabled=true;$("loginMsg").textContent="";
-  post("list").then(function(j){
-    ITEMS=j.items;INFO=j.info||INFO;
-    try{if($("ingat").checked||auto)localStorage.setItem("admin_pw",PW);else localStorage.removeItem("admin_pw")}catch(e){}
-    $("cLogin").hidden=true;$("app").hidden=false;isiProduk();defFit();isiForm();syncAiBtn();
-  }).catch(function(e){
-    if(auto){try{localStorage.removeItem("admin_pw")}catch(x){}PW=""}
-    $("loginMsg").textContent=e.message
-  }).then(function(){$("btnMasuk").disabled=false})}
-$("btnMasuk").onclick=function(){masuk(false)};
-$("pw").onkeydown=function(e){if(e.key==="Enter")masuk(false)};
-$("btnKeluar").onclick=function(){try{localStorage.removeItem("admin_pw")}catch(e){}PW="";location.reload()};
-if(PW){$("ingat").checked=true;masuk(true)}
-
-// ---------- produk & pencarian keyword saja ----------
-function cur(){return ITEMS.filter(function(x){return x.k===$("produk").value})[0]}
-function updatePickedBadge(){
-  var x=cur();
-  if(!x){$("pickedBox").hidden=true;return}
-  $("pickedBox").hidden=false;
-  $("pickedBox").innerHTML='<span>Terpilih: <b>'+esc(x.k)+'</b> · '+esc(x.n)+'</span><span style="color:var(--mut);font-size:12px">'+esc(x.c||"-")+'</span>';
+async function post(payload){
+  if (!API) throw new Error("API_URL belum diatur di config.js");
+  const res = await fetch(API, {
+    method: "POST",
+    body: JSON.stringify(Object.assign({ pw: PW }, payload))
+  });
+  const txt = await res.text();
+  let data;
+  try { data = JSON.parse(txt); } catch (e) { throw new Error("Respons server tidak valid."); }
+  if (!data.ok) throw new Error(data.error || "Permintaan gagal.");
+  return data;
 }
-function isiProduk(keep){
-  var v=keep||$("produk").value;
-  $("produk").innerHTML=ITEMS.map(function(x){return'<option value="'+esc(x.k)+'">'+esc(x.k)+" — "+esc(x.n)+'</option>'}).join("");
-  if(v&&ITEMS.some(function(x){return x.k===v}))$("produk").value=v;
-  else if(ITEMS[0])$("produk").value=ITEMS[0].k;
-  updatePickedBadge();tampil()}
-$("produk").onchange=function(){updatePickedBadge();tampil()};
 
-function renderHasil(){
-  var raw=($("kwInput").value||"").trim().toLowerCase();
-  var words=raw.split(/\s+/).filter(Boolean);
-  if(raw.length<2||!words.length){$("kwPop").hidden=true;$("kwPop").innerHTML="";return}
-  var matches=ITEMS.filter(function(x){
-    var hay=(x.k+" "+x.n+" "+(x.c||"")).toLowerCase();
-    return words.every(function(w){return hay.indexOf(w)>=0});
-  }).slice(0,8);
-  if(!matches.length){
-    $("kwPop").innerHTML='<div class="kw-it"><small>Tidak ada produk untuk keyword "'+esc(raw)+'". </small></div>';
-    $("kwPop").hidden=false;return;
+function readFileB64(file){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onerror = () => reject(new Error("Gagal membaca file."));
+    r.onload = () => {
+      const s = String(r.result || "");
+      const idx = s.indexOf(",");
+      resolve(idx >= 0 ? s.slice(idx + 1) : s);
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+function currentItem(){
+  return ITEMS.find(x => x.k === SELECTED_KODE) || null;
+}
+
+function renderSelectedBadge(){
+  const it = currentItem();
+  const el = $("produkTerpilih");
+  if (!it){ el.className = "selected-badge"; el.innerHTML = ""; return; }
+  el.className = "selected-badge on";
+  el.innerHTML = '<div><b>' + esc(it.k) + '</b> · ' + esc(it.n) + '</div><span class="pill">' + (it.aktif ? "Aktif" : "Nonaktif") + '</span>';
+}
+
+function renderSearch(){
+  const kw = $("qProduk").value.trim().toLowerCase();
+  const box = $("hasilCari");
+  if (kw.length < 2){ box.innerHTML = ""; return; }
+  const matches = ITEMS.filter(x => (x.k + " " + x.n + " " + x.c).toLowerCase().includes(kw)).slice(0, 12);
+  if (!matches.length){
+    box.innerHTML = '<div class="note">Tidak ada produk yang cocok dengan "' + esc(kw) + '".</div>';
+    return;
   }
-  $("kwPop").innerHTML=matches.map(function(x){
-    return'<div class="kw-it" data-k="'+esc(x.k)+'"><b>'+esc(x.k)+'</b> — '+esc(x.n)+'<small>'+esc(x.c||"tanpa kategori")+'</small></div>';
-  }).join("");
-  $("kwPop").hidden=false;
+  box.innerHTML = matches.map(x =>
+    '<button type="button" class="search-item' + (x.k === SELECTED_KODE ? " on" : "") + '" data-k="' + esc(x.k) + '">' +
+    '<div><b>' + esc(x.n) + '</b><br><small>' + esc(x.k) + ' · ' + esc(x.c || "-") + '</small></div>' +
+    '<span class="pill">Pilih</span></button>'
+  ).join("");
 }
-$("kwInput").addEventListener("input",renderHasil);
-$("kwInput").addEventListener("focus",renderHasil);
-$("kwPop").addEventListener("click",function(e){
-  var el=e.target.closest(".kw-it[data-k]");if(!el)return;
-  $("produk").value=el.dataset.k;
-  $("produk").dispatchEvent(new Event("change"));
-  $("kwInput").value=el.dataset.k;
-  $("kwPop").hidden=true;
-  if(MODE==="edit")isiForm();
-});
-document.addEventListener("click",function(e){if(!e.target.closest(".kw-box"))$("kwPop").hidden=true});
 
-$("btnMuat").onclick=function(){var k=$("produk").value;post("list").then(function(j){ITEMS=j.items;INFO=j.info||INFO;isiProduk(k);if(MODE==="edit")isiForm();log("Data dimuat ulang.","ok")}).catch(function(e){log(e.message,"er")})};
-function tampil(){
-  var x=cur();if(!x){$("info").textContent="Belum ada produk di sheet.";$("aset").innerHTML="";return}
-  $("info").innerHTML="Ukuran di sheet: <b>"+(x.pj?x.pj+" × "+x.l+" × "+x.t+" cm":"belum diisi")+"</b>"+(x.aktif?'<span class="tag">aktif</span>':'<span class="tag off">tidak aktif</span>')+(x.sk===0?'<span class="tag off">skala AR dimatikan</span>':"");
-  var h='<div class="hint" style="margin:10px 0 0">Foto ('+x.foto.length+')</div><div class="thumbs">'+(x.foto.length?x.foto.map(function(u,i){return'<div class="th"><img src="'+esc(u.replace(/=w\d+$/,"=w200"))+'" alt=""><button data-lepas="foto" data-i="'+i+'" title="Lepas dari sheet">×</button></div>'}).join(""):'<span class="mini">belum ada</span>')+'</div>';
-  h+='<div class="hint" style="margin:10px 0 0">Foto tanpa background</div><div class="thumbs">'+(x.png?'<div class="th cut"><img src="'+esc(x.png.replace(/=w\d+$/,"=w200"))+'" alt=""><button data-lepas="png" title="Lepas dari sheet">×</button></div>':'<span class="mini">belum ada</span>')+'</div>';
-  h+='<div class="hint" style="margin:10px 0 0">Model 3D</div>'+(x.glb?'<div class="mini"><a href="'+esc(x.glb)+'" target="_blank" rel="noopener">'+esc(x.glb.split("/").pop())+'</a> <button class="btn ghost" data-lepas="glb" style="width:auto;margin:0 0 0 8px;padding:5px 12px;font-size:12px">Lepas</button></div>':'<span class="mini">belum ada</span>');
-  $("aset").innerHTML=h;glbInfo()}
-$("aset").onclick=function(e){var k=e.target.dataset&&e.target.dataset.lepas;if(!k)return;
-  if(!confirm("Lepas tautan ini dari sheet? File di Drive/GitHub tidak dihapus."))return;
-  var x=cur();post("lepas",{kode:x.k,kolom:k,index:e.target.dataset.i}).then(function(){log("Tautan dilepas dari sheet.","ok");return post("list")}).then(function(j){ITEMS=j.items;isiProduk(x.k)}).catch(function(er){log(er.message,"er")})};
-
-// ---------- data produk: edit & tambah ----------
-var ILUS=["","kursi","kerja","meja","mejakerja","sofa","lemari","rak","lampu"];
-function nz(v){return v?String(v):""}
-function isiForm(){var x=MODE==="edit"?cur():null;
- $("dKode").value=x?x.k:"";$("dNama").value=x?x.n:"";$("dKat").value=x?x.c:"";$("dAktif").value=x&&!x.aktif?"TIDAK":"YA";
- $("dHarga").value=x?nz(x.p):"";$("dStok").value=x?String(x.s):"";$("dPj").value=x?nz(x.pj):"";$("dL").value=x?nz(x.l):"";$("dT").value=x?nz(x.t):"";
- $("dMat").value=x?x.m:"";$("dKet").value=x?x.d:"";$("dIlus").value=(x&&ILUS.indexOf(x.e)>=0)?x.e:"";$("dSk").value=(x&&x.sk===0)?"TIDAK":"";
- var dl=[];ITEMS.forEach(function(i){if(i.c&&dl.indexOf(i.c)<0)dl.push(i.c)});$("katList").innerHTML=dl.map(function(c){return'<option value="'+esc(c)+'">'}).join("")}
-function setMode(m){MODE=m;$("segEdit").className=m==="edit"?"on":"";$("segBaru").className=m==="baru"?"on":"";$("dKode").readOnly=(m==="edit");
- $("secCari").hidden=(m==="baru");$("secFoto").hidden=(m==="baru");$("secGlb").hidden=(m==="baru");$("btnSimpan").textContent=m==="edit"?"Simpan perubahan":"Tambah produk";isiForm();if(m==="baru")$("dKode").focus()}
-$("segEdit").onclick=function(){setMode("edit")};$("segBaru").onclick=function(){setMode("baru")};
-$("btnSimpan").onclick=function(){
- var kode=$("dKode").value.trim(),act=MODE==="edit"?"ubah":"tambah";
- var data={nama:$("dNama").value,kategori:$("dKat").value,harga:$("dHarga").value,stok:$("dStok").value,pj:$("dPj").value,l:$("dL").value,t:$("dT").value,material:$("dMat").value,ket:$("dKet").value,ilustrasi:$("dIlus").value,aktif:$("dAktif").value,skala:$("dSk").value};
- if(!kode){log("Isi kode produk dulu.","er");return}
- if(!data.nama.trim()){log("Isi nama produk dulu.","er");return}
- busy(true);
- post(act,{kode:kode,data:data}).then(function(){log(act==="ubah"?"Data "+kode+" disimpan di sheet.":"Produk "+kode+" ditambahkan ke sheet (baris dan QR dibuat otomatis).","ok");return post("list")})
-  .then(function(j){ITEMS=j.items;$("kwInput").value="";$("kwPop").hidden=true;setMode("edit");isiProduk(kode);defFit();isiForm()}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
-
-// ---------- aktifkan tombol ----------
-function syncAiBtn(){
-  var adaPrompt=$("aiPrompt")&&$("aiPrompt").value.trim().length>0;
-  $("btnAiProses").disabled=BUSY||!AI_SRC_FILE||!adaPrompt;
-  if($("btnAiSimpan"))$("btnAiSimpan").disabled=BUSY||!AI_RESULT;
+function fillForm(it){
+  MODE_BARU = !it;
+  $("dkode").value = it ? it.k : "";
+  $("dkode").disabled = !!it;
+  $("dnama").value = it ? it.n : "";
+  $("dkat").value = it ? it.c : "";
+  $("dilus").value = it ? it.e : "";
+  $("dharga").value = it && it.p ? it.p : "";
+  $("dstok").value = it && it.s ? it.s : "";
+  $("dpj").value = it && it.pj ? it.pj : "";
+  $("dlb").value = it && it.l ? it.l : "";
+  $("dtg").value = it && it.t ? it.t : "";
+  $("dmat").value = it ? it.m : "";
+  $("dket").value = it ? it.d : "";
+  $("daktif").checked = it ? !!it.aktif : true;
+  $("dskala").checked = it ? it.sk !== 0 : true;
+  clearMsg($("dmsg"));
 }
-function ready(){
-  $("btnSimpan").disabled=BUSY;
-  $("btnFoto").disabled=BUSY||!$("fFoto").files.length;
-  $("btnPng").disabled=BUSY||!$("fPng").files.length;
-  $("btnGlb").disabled=BUSY||!$("fGlb").files.length||!INFO.github;
-  syncAiBtn();
+
+function renderManualDetails(){
+  const it = currentItem();
+  renderSelectedBadge();
+  $("fthumbs").innerHTML = "";
+  $("pcur").innerHTML = "";
+  $("gcur").innerHTML = "";
+  $("lpng").style.display = "none";
+  $("lglb").style.display = "none";
+  POOF_RESULT = null;
+  $("poofPreview").className = "poof-preview";
+  clearMsg($("fmsg"));
+  clearMsg($("poofMsg"));
+  clearMsg($("pmsg"));
+  clearMsg($("gmsg"));
+
+  if (!it){
+    $("fthumbs").innerHTML = '<div class="note">Pilih produk lewat pencarian di atas untuk mengelola foto, PNG, atau .glb.</div>';
+    $("pcur").textContent = "Belum ada produk dipilih.";
+    $("gcur").textContent = "Belum ada produk dipilih.";
+    $("bfoto").disabled = true;
+    $("bpoof").disabled = true;
+    $("bpng").disabled = true;
+    $("bglb").disabled = true;
+    return;
+  }
+
+  $("fthumbs").innerHTML = (it.foto || []).length
+    ? it.foto.map((u, idx) =>
+        '<div class="th"><img src="' + esc(u) + '" alt="Foto ' + (idx + 1) + '"><button type="button" title="Lepas foto" data-idx="' + idx + '">×</button><span>Foto ' + (idx + 1) + '</span></div>'
+      ).join("")
+    : '<div class="note">Belum ada foto produk.</div>';
+
+  $("pcur").innerHTML = it.png
+    ? 'PNG aktif: <a href="' + esc(it.png) + '" target="_blank" rel="noopener">Lihat PNG</a>'
+    : 'PNG transparan: belum ada.';
+  $("lpng").style.display = it.png ? "inline-flex" : "none";
+
+  $("gcur").innerHTML = it.glb
+    ? 'Model 3D aktif: <a href="' + esc(it.glb) + '" target="_blank" rel="noopener">' + esc(it.glb) + '</a>'
+    : 'Model 3D (.glb): belum ada.';
+  $("lglb").style.display = it.glb ? "inline-flex" : "none";
+
+  $("bfoto").disabled = !$("ffoto").files[0];
+  $("bpoof").disabled = !$("fpoofsrc").files[0];
+  $("bpng").disabled = !$("fpng").files[0];
+  $("bglb").disabled = !$("fglb").files[0];
+  fillForm(it);
 }
-["fFoto","fPng","fGlb"].forEach(function(id){$(id).onchange=function(){ready();if(id==="fGlb")glbInfo()}});
-function busy(b){BUSY=b;ready()}
 
-// ---------- gambar: kecilkan lalu ubah ke base64 ----------
-function bacaGambar(file,maxSide,type){
-  return new Promise(function(res,rej){
-    var fr=new FileReader();fr.onerror=function(){rej(new Error("Tidak bisa membaca "+file.name))};
-    fr.onload=function(){var im=new Image();im.onerror=function(){rej(new Error(file.name+": format tidak didukung (gunakan JPG atau PNG)."))};
-      im.onload=function(){var s=Math.min(1,maxSide/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));
-        var g=c.getContext("2d");if(type==="image/jpeg"){g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height)}g.drawImage(im,0,0,c.width,c.height);
-        res(c.toDataURL(type,.86).split(",")[1])};im.src=fr.result};
-    fr.readAsDataURL(file)})}
-function bacaBuffer(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onerror=function(){rej(new Error("Tidak bisa membaca file."))};fr.onload=function(){res(fr.result)};fr.readAsArrayBuffer(file)})}
-function b64(buf){var u=new Uint8Array(buf),s="",CH=0x8000;for(var i=0;i<u.length;i+=CH)s+=String.fromCharCode.apply(null,u.subarray(i,i+CH));return btoa(s)}
-
-// ---------- AI Studio Foto & Background ----------
-function pickAiFile(f){
-  if(!f)return;
-  AI_SRC_FILE=f;AI_RESULT=null;
-  $("aiPreviewWrap").style.display="none";
-  $("aiSrcName").textContent="Sumber: "+f.name;
-  syncAiBtn();
+async function loadList(keepKode){
+  const r = await post({ action: "list" });
+  ITEMS = r.items || [];
+  $("gh").textContent = "GitHub: " + (r.info && r.info.github ? "Siap" : "Belum");
+  $("pf").textContent = "Poof: " + (r.info && r.info.poof ? "Siap" : "Belum");
+  if (keepKode && ITEMS.some(x => x.k === keepKode)){
+    SELECTED_KODE = keepKode;
+  } else if (!ITEMS.some(x => x.k === SELECTED_KODE)){
+    SELECTED_KODE = "";
+  }
+  renderSearch();
+  renderManualDetails();
 }
-$("fAiCam").addEventListener("change",function(){pickAiFile(this.files[0]);this.value=""});
-$("fAiGal").addEventListener("change",function(){pickAiFile(this.files[0]);this.value=""});
-$("aiPreset").addEventListener("change",function(){if(this.value){$("aiPrompt").value=this.value;syncAiBtn()}});
-$("aiPrompt").addEventListener("input",syncAiBtn);
 
-$("btnAiProses").onclick=function(){
-  var x=cur(),promptTxt=$("aiPrompt").value.trim();
-  var target=document.querySelector('input[name="aiTarget"]:checked').value;
-  if(!x||!AI_SRC_FILE||!promptTxt)return;
-  busy(true);
-  bacaGambar(AI_SRC_FILE,1400,"image/png").then(function(b64Img){
-    return post("editFoto",{kode:x.k,mime:"image/png",data:b64Img,prompt:promptTxt,target:target});
-  }).then(function(res){
-    AI_RESULT={mime:res.mime||"image/png",base64:res.data,target:target};
-    $("aiPreviewImg").src="data:"+AI_RESULT.mime+";base64,"+AI_RESULT.base64;
-    $("aiPreviewWrap").style.display="block";
-    log("Foto berhasil diproses AI. Periksa pratinjau lalu klik 'Unggah hasil ke Sheet'.","ok");
-  }).catch(function(e){log(e.message,"er")})
-   .then(function(){busy(false)});
+$("go").onclick = async () => {
+  clearMsg($("lmsg"));
+  PW = $("pw").value;
+  if (!PW){ showMsg($("lmsg"), "Masukkan sandi admin terlebih dahulu.", true); return; }
+  $("go").disabled = true;
+  try {
+    await loadList("");
+    $("login").style.display = "none";
+    $("panel").style.display = "block";
+  } catch (e) {
+    showMsg($("lmsg"), e.message, true);
+  } finally {
+    $("go").disabled = false;
+  }
 };
 
-$("btnAiSimpan").onclick=function(){
-  var x=cur();
-  if(!x||!AI_RESULT)return;
-  busy(true);
-  var act=AI_RESULT.target==="foto"?"foto":"png";
-  var payload={kode:x.k,mime:AI_RESULT.mime,data:AI_RESULT.base64};
-  if(act==="foto")payload.mode="tambah";
-  post(act,payload).then(function(){
-    log("Hasil AI berhasil diunggah ke sheet produk "+x.k+".","ok");
-    AI_RESULT=null;$("aiPreviewWrap").style.display="none";
-    return post("list");
-  }).then(function(j){ITEMS=j.items;isiProduk(x.k)}).catch(function(e){log(e.message,"er")})
-   .then(function(){busy(false)});
+$("out").onclick = () => {
+  PW = "";
+  SELECTED_KODE = "";
+  $("pw").value = "";
+  $("panel").style.display = "none";
+  $("login").style.display = "block";
 };
 
-// ---------- 1. foto manual ----------
-$("btnFoto").onclick=function(){var x=cur(),files=[].slice.call($("fFoto").files),mode=document.querySelector('input[name=mf]:checked').value;
-  if(!x||!files.length)return;busy(true);var n=0;
-  files.reduce(function(p,f,i){return p.then(function(){
-    return bacaGambar(f,1600,"image/jpeg").then(function(d){return post("foto",{kode:x.k,mime:"image/jpeg",data:d,mode:(mode==="ganti"&&i===0)?"ganti":"tambah"})})
-     .then(function(){n++;log("Foto "+(i+1)+"/"+files.length+" terunggah: "+f.name,"ok")}).catch(function(e){log(f.name+": "+e.message,"er")})})},Promise.resolve())
-   .then(function(){$("fFoto").value="";return post("list")}).then(function(j){ITEMS=j.items;isiProduk(x.k);if(n)log(n+" foto masuk ke sheet (kolom Foto).","ok")}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
+$("ref").onclick = async () => {
+  $("ref").disabled = true;
+  try { await loadList(SELECTED_KODE); } finally { $("ref").disabled = false; }
+};
 
-// ---------- 2. PNG manual ----------
-$("btnPng").onclick=function(){var x=cur(),f=$("fPng").files[0];if(!x||!f)return;busy(true);
-  bacaGambar(f,1400,"image/png").then(function(d){return post("png",{kode:x.k,mime:"image/png",data:d})})
-   .then(function(){log("PNG terunggah dan masuk ke sheet (kolom Foto transparan PNG).","ok");$("fPng").value="";return post("list")})
-   .then(function(j){ITEMS=j.items;isiProduk(x.k)}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
+$("qProduk").oninput = renderSearch;
+$("hasilCari").onclick = e => {
+  const btn = e.target.closest(".search-item");
+  if (!btn) return;
+  SELECTED_KODE = btn.dataset.k;
+  renderSearch();
+  renderManualDetails();
+};
 
-// ---------- 3. GLB: ukur & sesuaikan ukuran ----------
-function ident(){return[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}
-function mul(a,b){var o=new Array(16);for(var c=0;c<4;c++)for(var r=0;r<4;r++){var s=0;for(var k=0;k<4;k++)s+=a[k*4+r]*b[c*4+k];o[c*4+r]=s}return o}
-function trs(n){if(n.matrix)return n.matrix.slice();var t=n.translation||[0,0,0],q=n.rotation||[0,0,0,1],s=n.scale||[1,1,1],x=q[0],y=q[1],z=q[2],w=q[3];
- return[(1-2*(y*y+z*z))*s[0],(2*(x*y+z*w))*s[0],(2*(x*z-y*w))*s[0],0,(2*(x*y-z*w))*s[1],(1-2*(x*x+z*z))*s[1],(2*(y*z+x*w))*s[1],0,(2*(x*z+y*w))*s[2],(2*(y*z-x*w))*s[2],(1-2*(x*x+y*y))*s[2],0,t[0],t[1],t[2],1]}
-function parseGlb(b){var dv=new DataView(b);if(b.byteLength<20||dv.getUint32(0,true)!==0x46546C67)throw new Error("Ini bukan file .glb yang valid.");
- var jl=dv.getUint32(12,true);if(dv.getUint32(16,true)!==0x4E4F534A)throw new Error("Struktur file tidak dikenali.");
- return{json:JSON.parse(new TextDecoder().decode(new Uint8Array(b,20,jl))),rest:b.slice(20+jl)}}
-function boundsGlb(j){var mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9],any=false;
- function walk(i,pm){var n=j.nodes[i],m=mul(pm,trs(n));
-  if(n.mesh!=null)j.meshes[n.mesh].primitives.forEach(function(p){var a=j.accessors[p.attributes.POSITION];if(!a||!a.min||!a.max)throw new Error("Model tidak memuat batas ukuran.");
-   for(var c=0;c<8;c++){var v=[c&1?a.max[0]:a.min[0],c&2?a.max[1]:a.min[1],c&4?a.max[2]:a.min[2]];for(var k=0;k<3;k++){var val=m[k]*v[0]+m[4+k]*v[1]+m[8+k]*v[2]+m[12+k];mn[k]=Math.min(mn[k],val);mx[k]=Math.max(mx[k],val)}}any=true});
-  (n.children||[]).forEach(function(c){walk(c,m)})}
- j.scenes[j.scene||0].nodes.forEach(function(i){walk(i,ident())});if(!any)throw new Error("Tidak ada bentuk 3D di dalam file.");return{mn:mn,mx:mx}}
-function sesuaikanGlb(buf,x,mode){
-  var p=parseGlb(buf),j=p.json,b=boundsGlb(j),sz=[b.mx[0]-b.mn[0],b.mx[1]-b.mn[1],b.mx[2]-b.mn[2]];
-  var W=x.pj/100,D=x.l/100,H=x.t/100,s;
-  if(mode==="1")s=[W/sz[0],W/sz[0],W/sz[0]];else s=[W/sz[0],H/sz[1],D/sz[2]];
-  var cx=(b.mn[0]+b.mx[0])/2,cz=(b.mn[2]+b.mx[2])/2,t=[-cx*s[0],-b.mn[1]*s[1],-cz*s[2]],sc=j.scenes[j.scene||0];
-  j.nodes.push({name:"UkuranAsli",translation:t,scale:s,children:sc.nodes.slice()});sc.nodes=[j.nodes.length-1];
-  var js=new TextEncoder().encode(JSON.stringify(j)),jl=Math.ceil(js.length/4)*4,jb=new Uint8Array(jl).fill(32);jb.set(js);
-  var rest=new Uint8Array(p.rest),total=20+jl+rest.length,out=new ArrayBuffer(total),dv=new DataView(out);
-  dv.setUint32(0,0x46546C67,true);dv.setUint32(4,2,true);dv.setUint32(8,total,true);dv.setUint32(12,jl,true);dv.setUint32(16,0x4E4F534A,true);
-  new Uint8Array(out,20,jl).set(jb);new Uint8Array(out,20+jl).set(rest);
-  return{buf:out,from:sz,to:[sz[0]*s[0],sz[1]*s[1],sz[2]*s[2]]}}
-function cm(v){return(v*100).toFixed(1)}
-function glbInfo(){var x=cur(),f=$("fGlb").files[0],el=$("glbInfo");
-  if(!INFO.github){el.className="hint er";el.textContent="GitHub belum diatur di Apps Script (GITHUB_TOKEN dan GITHUB_REPO). Unggah model belum bisa dipakai.";return}
-  el.className="hint";
-  if(!f){el.textContent=x&&!x.pj?"Ukuran produk belum diisi di sheet, jadi penyesuaian ukuran tidak bisa dipakai.":"";return}
-  bacaBuffer(f).then(function(b){var bb=boundsGlb(parseGlb(b).json);el.textContent="Ukuran model sekarang: "+cm(bb.mx[0]-bb.mn[0])+" × "+cm(bb.mx[2]-bb.mn[2])+" × "+cm(bb.mx[1]-bb.mn[1])+" cm (P × L × T), ukuran produk di sheet: "+(x&&x.pj?x.pj+" × "+x.l+" × "+x.t+" cm":"belum diisi")+"."}).catch(function(e){el.className="hint er";el.textContent=e.message})}
-function defFit(){var x=cur();$("fit").value=(x&&x.sk===0)?"0":"3"}
-$("produk").addEventListener("change",function(){defFit();glbInfo();if(MODE==="edit")isiForm()});
+$("ffoto").onchange = () => { $("bfoto").disabled = !SELECTED_KODE || !$("ffoto").files[0]; };
+$("fpoofsrc").onchange = () => {
+  $("bpoof").disabled = !SELECTED_KODE || !$("fpoofsrc").files[0];
+  POOF_RESULT = null;
+  $("poofPreview").className = "poof-preview";
+};
+$("fpng").onchange = () => { $("bpng").disabled = !SELECTED_KODE || !$("fpng").files[0]; };
+$("fglb").onchange = () => { $("bglb").disabled = !SELECTED_KODE || !$("fglb").files[0]; };
 
-$("btnGlb").onclick=function(){var x=cur(),f=$("fGlb").files[0],mode=$("fit").value;if(!x||!f)return;
-  if(mode!=="0"&&!(x.pj>0&&x.l>0&&x.t>0)){log("Ukuran produk belum diisi di sheet. Pilih 'Jangan ubah ukuran' atau isi ukuran dulu.","er");return}
-  busy(true);
-  bacaBuffer(f).then(function(buf){var out=buf;
-    if(mode!=="0"){var r=sesuaikanGlb(buf,x,mode);out=r.buf;log("Ukuran disesuaikan: "+cm(r.from[0])+" × "+cm(r.from[2])+" × "+cm(r.from[1])+" cm  →  "+cm(r.to[0])+" × "+cm(r.to[2])+" × "+cm(r.to[1])+" cm (P × L × T).","ok")}
-    return post("glb",{kode:x.k,data:b64(out)})})
-   .then(function(j){log("Model 3D terunggah"+(j.url?": "+j.url:"."),"ok");if(j.note)log(j.note);$("fGlb").value="";$("glbInfo").textContent="";return post("list")})
-   .then(function(j){ITEMS=j.items;isiProduk(x.k)}).catch(function(e){log(e.message,"er")}).then(function(){busy(false)})};
+$("bfoto").onclick = async () => {
+  const f = $("ffoto").files[0];
+  if (!SELECTED_KODE || !f) return;
+  clearMsg($("fmsg"));
+  $("bfoto").disabled = true;
+  try {
+    const b64 = await readFileB64(f);
+    await post({ action: "foto", kode: SELECTED_KODE, mime: f.type, data: b64, mode: $("fmode").value });
+    $("ffoto").value = "";
+    await loadList(SELECTED_KODE);
+    showMsg($("fmsg"), "Foto produk berhasil disimpan.", false);
+  } catch (e) {
+    showMsg($("fmsg"), e.message, true);
+    $("bfoto").disabled = false;
+  }
+};
+
+$("fthumbs").onclick = async e => {
+  const btn = e.target.closest("button[data-idx]");
+  if (!btn || !SELECTED_KODE) return;
+  clearMsg($("fmsg"));
+  try {
+    await post({ action: "lepas", kode: SELECTED_KODE, kolom: "foto", index: Number(btn.dataset.idx) });
+    await loadList(SELECTED_KODE);
+    showMsg($("fmsg"), "Foto dilepas.", false);
+  } catch (err) {
+    showMsg($("fmsg"), err.message, true);
+  }
+};
+
+$("bpoof").onclick = async () => {
+  const f = $("fpoofsrc").files[0];
+  if (!SELECTED_KODE || !f) return;
+  clearMsg($("poofMsg"));
+  $("bpoof").disabled = true;
+  try {
+    const b64 = await readFileB64(f);
+    const r = await post({ action: "editFoto", kode: SELECTED_KODE, mime: f.type, data: b64, mode: $("poofMode").value });
+    POOF_RESULT = { mime: r.mime || "image/png", data: r.data };
+    $("poofImg").src = "data:" + POOF_RESULT.mime + ";base64," + POOF_RESULT.data;
+    $("poofPreview").className = "poof-preview on";
+    showMsg($("poofMsg"), "Hasil Poof siap. Pilih tempat menyimpan hasilnya.", false);
+  } catch (err) {
+    showMsg($("poofMsg"), err.message, true);
+  } finally {
+    $("bpoof").disabled = !$("fpoofsrc").files[0];
+  }
+};
+
+$("bsavePng").onclick = async () => {
+  if (!SELECTED_KODE || !POOF_RESULT) return;
+  clearMsg($("poofMsg"));
+  $("bsavePng").disabled = true;
+  try {
+    await post({ action: "png", kode: SELECTED_KODE, mime: "image/png", data: POOF_RESULT.data });
+    await loadList(SELECTED_KODE);
+    showMsg($("poofMsg"), "Disimpan ke kolom Foto transparan PNG.", false);
+  } catch (err) {
+    showMsg($("poofMsg"), err.message, true);
+  } finally {
+    $("bsavePng").disabled = false;
+  }
+};
+
+$("bsaveFoto").onclick = async () => {
+  if (!SELECTED_KODE || !POOF_RESULT) return;
+  clearMsg($("poofMsg"));
+  $("bsaveFoto").disabled = true;
+  try {
+    await post({ action: "foto", kode: SELECTED_KODE, mime: "image/png", data: POOF_RESULT.data, mode: $("fmode").value });
+    await loadList(SELECTED_KODE);
+    showMsg($("poofMsg"), "Disimpan ke Foto produk.", false);
+  } catch (err) {
+    showMsg($("poofMsg"), err.message, true);
+  } finally {
+    $("bsaveFoto").disabled = false;
+  }
+};
+
+$("bpng").onclick = async () => {
+  const f = $("fpng").files[0];
+  if (!SELECTED_KODE || !f) return;
+  clearMsg($("pmsg"));
+  $("bpng").disabled = true;
+  try {
+    const b64 = await readFileB64(f);
+    await post({ action: "png", kode: SELECTED_KODE, mime: f.type, data: b64 });
+    $("fpng").value = "";
+    await loadList(SELECTED_KODE);
+    showMsg($("pmsg"), "PNG transparan berhasil disimpan.", false);
+  } catch (e) {
+    showMsg($("pmsg"), e.message, true);
+    $("bpng").disabled = false;
+  }
+};
+
+$("lpng").onclick = async () => {
+  if (!SELECTED_KODE) return;
+  clearMsg($("pmsg"));
+  try {
+    await post({ action: "lepas", kode: SELECTED_KODE, kolom: "png" });
+    await loadList(SELECTED_KODE);
+    showMsg($("pmsg"), "PNG transparan dilepas.", false);
+  } catch (e) {
+    showMsg($("pmsg"), e.message, true);
+  }
+};
+
+$("bglb").onclick = async () => {
+  const f = $("fglb").files[0];
+  if (!SELECTED_KODE || !f) return;
+  clearMsg($("gmsg"));
+  $("bglb").disabled = true;
+  try {
+    const b64 = await readFileB64(f);
+    const r = await post({ action: "glb", kode: SELECTED_KODE, data: b64 });
+    $("fglb").value = "";
+    await loadList(SELECTED_KODE);
+    showMsg($("gmsg"), "Model .glb terunggah. " + (r.note || ""), false);
+  } catch (e) {
+    showMsg($("gmsg"), e.message, true);
+    $("bglb").disabled = false;
+  }
+};
+
+$("lglb").onclick = async () => {
+  if (!SELECTED_KODE) return;
+  clearMsg($("gmsg"));
+  try {
+    await post({ action: "lepas", kode: SELECTED_KODE, kolom: "glb" });
+    await loadList(SELECTED_KODE);
+    showMsg($("gmsg"), "Model .glb dilepas.", false);
+  } catch (e) {
+    showMsg($("gmsg"), e.message, true);
+  }
+};
+
+$("bmodeEdit").onclick = () => {
+  const it = currentItem();
+  if (!it){ showMsg($("dmsg"), "Pilih produk terlebih dahulu lewat pencarian.", true); return; }
+  fillForm(it);
+};
+$("bmodeNew").onclick = () => fillForm(null);
+
+$("bsimpan").onclick = async () => {
+  clearMsg($("dmsg"));
+  $("bsimpan").disabled = true;
+  try {
+    const kode = $("dkode").value.trim();
+    const payload = {
+      action: MODE_BARU ? "tambah" : "ubah",
+      kode: kode,
+      data: {
+        nama: $("dnama").value,
+        kategori: $("dkat").value,
+        ilustrasi: $("dilus").value,
+        harga: $("dharga").value,
+        stok: $("dstok").value,
+        pj: $("dpj").value,
+        l: $("dlb").value,
+        t: $("dtg").value,
+        material: $("dmat").value,
+        ket: $("dket").value,
+        aktif: $("daktif").checked ? "YA" : "TIDAK",
+        skala: $("dskala").checked ? "" : "TIDAK"
+      }
+    };
+    await post(payload);
+    await loadList(kode);
+    showMsg($("dmsg"), MODE_BARU ? "Produk baru berhasil ditambahkan." : "Perubahan produk berhasil disimpan.", false);
+  } catch (e) {
+    showMsg($("dmsg"), e.message, true);
+  } finally {
+    $("bsimpan").disabled = false;
+  }
+};
 </script>
 </body>
 </html>
