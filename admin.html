@@ -31,15 +31,15 @@ button,input,select,textarea{font-family:inherit}
 header{padding:18px 20px 14px;text-align:center;background:var(--header-bg);position:relative}
 header h1{margin:0;font:700 clamp(20px,6vw,26px)/1.2 Poppins,sans-serif;letter-spacing:.08em}
 header small{display:block;color:var(--mut);font-size:12px;margin-top:4px}
-.theme-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
+.theme-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;padding:0}
 .theme-btn:hover{border-color:var(--ac);background:var(--sage)}
-.theme-btn svg{display:block;width:20px;height:20px}
-html.dark .theme-btn .icon-sun{display:none}
-html.dark .theme-btn .icon-moon{display:block}
-html:not(.dark) .theme-btn .icon-moon{display:none}
-html:not(.dark) .theme-btn .icon-sun{display:block}
+.theme-btn svg{width:20px;height:20px;display:block}
+html.dark .theme-btn .icon-sun{display:none !important}
+html.dark .theme-btn .icon-moon{display:block !important}
+html:not(.dark) .theme-btn .icon-moon{display:none !important}
+html:not(.dark) .theme-btn .icon-sun{display:block !important}
 .wrap{max-width:780px;margin:0 auto;padding:0 16px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;transition:background .2s,border-color .2s}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}
 .box h2{margin:0 0 12px;font:600 15px Poppins,sans-serif;display:flex;align-items:center;gap:8px}
 .ico{width:18px;height:18px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;color:var(--ac2)}
 .ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -69,7 +69,6 @@ html.dark .msg.err{background:#3d2520;color:#f0a090}
 .th span{display:block;padding:3px 2px}
 .th .th-act{position:absolute;top:3px;right:3px;display:flex;flex-direction:column;gap:2px}
 .th button{width:22px;height:22px;border-radius:50%;border:0;background:var(--th-btn);color:#fff;font-size:12px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.th button:hover{opacity:.9}
 .cur{font-size:12.5px;color:var(--mut);margin:6px 0 10px;word-break:break-all}
 .cur a{color:var(--ac2)}
 .headbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
@@ -103,7 +102,6 @@ html.dark .poof-preview img{background:repeating-conic-gradient(#2a332e 0% 25%, 
 .stat b{display:block;font:700 18px Poppins,sans-serif;color:var(--ac2)}
 .stat span{font-size:11px;color:var(--mut)}
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.filter-row select,.filter-row button{flex:0 0 auto}
 .loading{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
 .btn.sec .loading{border-color:rgba(46,58,51,.2);border-top-color:var(--ac2)}
 html.dark .btn.sec .loading{border-color:rgba(255,255,255,.15);border-top-color:var(--ac2)}
@@ -124,25 +122,26 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
 </head>
 <body>
 <header>
-  <button type="button" class="theme-btn" id="themeBtn" title="Ganti tema" aria-label="Ganti tema gelap/terang">
+  <button type="button" class="theme-btn" id="themeBtn" title="Ganti tema" aria-label="Ganti tema">
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="4"/>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
     </svg>
     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/>
+      <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"></path>
     </svg>
   </button>
   <h1>ADMIN KATALOG</h1>
-  <small id="sub">SCANDIA BOTANI · Kelola foto, PNG &amp; model 3D (.glb)</small>
+  <small>SCANDIA BOTANI · Kelola foto, PNG &amp; model 3D (.glb)</small>
 </header>
+
 <div class="wrap">
   <div class="box" id="login">
-    <h2><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>Masuk Admin</h2>
+    <h2><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>Masuk Admin</h2>
     <label class="f" for="pw">Sandi admin</label>
     <input type="password" id="pw" autocomplete="current-password" placeholder="Masukkan sandi admin">
     <div class="row" style="margin-top:14px">
-      <button class="btn" id="go">Masuk</button>
+      <button class="btn" id="go" type="button">Masuk</button>
       <a class="btn sec" href="./">Kembali ke katalog</a>
     </div>
     <div class="msg" id="lmsg"></div>
@@ -152,15 +151,15 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
     <div class="headbar">
       <div><span class="pill" id="gh">GitHub: …</span> <span class="pill" id="pf">Poof: …</span></div>
       <div class="row" style="flex:0 0 auto">
-        <button class="btn sec sm" id="ref">Muat ulang</button>
-        <button class="btn sec sm" id="out">Keluar</button>
+        <button class="btn sec sm" id="ref" type="button">Muat ulang</button>
+        <button class="btn sec sm" id="out" type="button">Keluar</button>
       </div>
     </div>
 
     <div class="stats" id="stats"></div>
 
     <div class="box">
-      <h2><span class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg></span>Cari &amp; Pilih Produk</h2>
+      <h2><span class="ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.35-4.35"></path></svg></span>Cari &amp; Pilih Produk</h2>
       <label class="f" for="qProduk">Ketik minimal 2 huruf nama atau kode produk</label>
       <input type="text" id="qProduk" placeholder="Contoh: kursi, meja, KM-001…">
       <div class="filter-row">
@@ -172,25 +171,25 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
           <option value="glb">Punya GLB</option>
           <option value="nofoto">Belum ada foto</option>
         </select>
-        <button class="btn sec sm" id="bExport">Export CSV</button>
+        <button class="btn sec sm" id="bExport" type="button">Export CSV</button>
       </div>
       <div class="search-res" id="hasilCari"></div>
       <div class="bulk-bar" id="bulkBar">
         <span id="bulkCount">0 dipilih</span>
-        <button class="btn sm" id="bBulkAktif">Aktifkan</button>
-        <button class="btn sec sm" id="bBulkNonaktif">Nonaktifkan</button>
-        <button class="btn sec sm" id="bBulkClear">Batal</button>
+        <button class="btn sm" id="bBulkAktif" type="button">Aktifkan</button>
+        <button class="btn sec sm" id="bBulkNonaktif" type="button">Nonaktifkan</button>
+        <button class="btn sec sm" id="bBulkClear" type="button">Batal</button>
       </div>
       <div class="selected-badge" id="produkTerpilih"></div>
     </div>
 
     <div class="box" id="boxManual">
-      <h2><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg></span>Update Manual</h2>
-      <p class="note" style="margin-top:0">Pilih bagian yang ingin diperbarui. Fitur Poof tersedia langsung di bagian foto/PNG.</p>
+      <h2><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"></path></svg></span>Update Manual</h2>
+      <p class="note" style="margin-top:0">Pilih bagian yang ingin diperbarui. Fitur Poof tersedia di bagian foto/PNG.</p>
 
       **Summary:**
 
-          <span><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/></svg></span> Foto produk &amp; PNG (manual + Poof)</span>
+          <span><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="m21 15-5-5L5 20"></path></svg></span> Foto produk &amp; PNG (manual + Poof)</span>
           <span class="pill">Foto / PNG</span>
         
         <div class="dd-body">
@@ -204,13 +203,13 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
           <input type="file" id="ffoto" accept="image/jpeg,image/png" multiple>
           <div class="preview-box" id="fotoPreview"></div>
           <div class="row" style="margin-top:10px">
-            <button class="btn" id="bfoto" disabled>Unggah Foto</button>
+            <button class="btn" id="bfoto" type="button" disabled>Unggah Foto</button>
           </div>
           <div class="msg" id="fmsg"></div>
 
           <div class="poof-box">
-            <b style="font-size:13px;display:flex;align-items:center;gap:6px"><span class="ico"><svg viewBox="0 0 24 24"><path d="m12 3 1.9 4.1L18 9l-4.1 1.9L12 15l-1.9-4.1L6 9l4.1-1.9Z"/><path d="M19 15v4M17 17h4"/></svg></span>Hapus / Rapikan Background dengan Poof</b>
-            <p class="note" style="margin:4px 0 8px">Pilih foto sumber, pilih mode latar, proses lewat Poof, lalu simpan ke PNG transparan atau foto produk.</p>
+            <b style="font-size:13px;display:flex;align-items:center;gap:6px"><span class="ico"><svg viewBox="0 0 24 24"><path d="m12 3 1.9 4.1L18 9l-4.1 1.9L12 15l-1.9-4.1L6 9l4.1-1.9Z"></path><path d="M19 15v4M17 17h4"></path></svg></span>Hapus / Rapikan Background dengan Poof</b>
+            <p class="note" style="margin:4px 0 8px">Pilih foto sumber, pilih mode latar, proses lewat Poof, lalu simpan.</p>
             <label class="f" for="fpoofsrc">Foto sumber untuk Poof</label>
             <input type="file" id="fpoofsrc" accept="image/jpeg,image/png">
             <label class="f" for="poofMode">Mode latar Poof</label>
@@ -220,16 +219,16 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
               <option value="cream">Latar krem katalog (#F5F7F2)</option>
             </select>
             <div class="row" style="margin-top:10px">
-              <button class="btn sec" id="bpoof" disabled>Proses Poof</button>
+              <button class="btn sec" id="bpoof" type="button" disabled>Proses Poof</button>
             </div>
             <div class="poof-preview" id="poofPreview">
               <img id="poofImg" alt="Hasil Poof">
               <div style="flex:1;min-width:160px">
                 <div class="note" style="margin:0 0 8px">Simpan hasil Poof ke:</div>
                 <div class="row">
-                  <button class="btn sm" id="bsavePng">Simpan ke PNG</button>
-                  <button class="btn sec sm" id="bsaveFoto">Simpan ke Foto</button>
-                  <button class="btn sec sm" id="bdlPoof">Unduh</button>
+                  <button class="btn sm" id="bsavePng" type="button">Simpan ke PNG</button>
+                  <button class="btn sec sm" id="bsaveFoto" type="button">Simpan ke Foto</button>
+                  <button class="btn sec sm" id="bdlPoof" type="button">Unduh</button>
                 </div>
               </div>
             </div>
@@ -238,19 +237,19 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
 
           <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
           <div class="cur" id="pcur"></div>
-          <label class="f" for="fpng">Unggah PNG transparan manual (opsional, untuk Coba di Ruangan)</label>
+          <label class="f" for="fpng">Unggah PNG transparan manual</label>
           <input type="file" id="fpng" accept="image/png">
           <div class="preview-box" id="pngPreview"></div>
           <div class="row" style="margin-top:10px">
-            <button class="btn" id="bpng" disabled>Unggah PNG</button>
-            <button class="btn dan" id="lpng" style="display:none">Lepas PNG</button>
+            <button class="btn" id="bpng" type="button" disabled>Unggah PNG</button>
+            <button class="btn dan" id="lpng" type="button" style="display:none">Lepas PNG</button>
           </div>
           <div class="msg" id="pmsg"></div>
         </div>
 
       **Summary:**
 
-          <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></span> Model 3D (.glb)</span>
+          <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5M12 22V12"></path></svg></span> Model 3D (.glb)</span>
           <span class="pill">3D / AR</span>
         
         <div class="dd-body">
@@ -258,24 +257,24 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
           <label class="f" for="fglb">Pilih file model (.glb, maks 25 MB)</label>
           <input type="file" id="fglb" accept=".glb,model/gltf-binary">
           <div class="row" style="margin-top:10px">
-            <button class="btn" id="bglb" disabled>Unggah .glb ke GitHub</button>
-            <button class="btn dan" id="lglb" style="display:none">Lepas .glb</button>
+            <button class="btn" id="bglb" type="button" disabled>Unggah .glb ke GitHub</button>
+            <button class="btn dan" id="lglb" type="button" style="display:none">Lepas .glb</button>
           </div>
-          <p class="note">File diunggah ke folder <code>models/</code> di repo GitHub lalu tautannya disimpan ke kolom Model 3D .glb. Untuk AI Image→3D gratis, generate di situs eksternal lalu unggah di sini.</p>
+          <p class="note">File diunggah ke folder <code>models/</code> di repo GitHub.</p>
           <div class="msg" id="gmsg"></div>
         </div>
 
       **Summary:**
 
-          <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> Tambah / Edit data produk</span>
+          <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span> Tambah / Edit data produk</span>
           <span class="pill">Data</span>
         
         <div class="dd-body">
           <div class="row" style="margin-bottom:10px">
-            <button class="btn sec sm" id="bmodeEdit">Ubah produk terpilih</button>
-            <button class="btn sec sm" id="bmodeNew">+ Tambah produk baru</button>
-            <button class="btn sec sm" id="bDuplikat">Duplikat</button>
-            <button class="btn dan sm" id="bHapus">Hapus produk</button>
+            <button class="btn sec sm" id="bmodeEdit" type="button">Ubah produk terpilih</button>
+            <button class="btn sec sm" id="bmodeNew" type="button">+ Tambah produk baru</button>
+            <button class="btn sec sm" id="bDuplikat" type="button">Duplikat</button>
+            <button class="btn dan sm" id="bHapus" type="button">Hapus produk</button>
           </div>
           <label class="f" for="dkode">Kode produk</label>
           <input type="text" id="dkode" maxlength="30" placeholder="Contoh: KM-005">
@@ -312,7 +311,7 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
             <label class="check"><input type="checkbox" id="dskala" checked> Sesuaikan ukuran AR otomatis</label>
           </div>
           <div class="row" style="margin-top:14px">
-            <button class="btn" id="bsimpan">Simpan Produk</button>
+            <button class="btn" id="bsimpan" type="button">Simpan Produk</button>
           </div>
           <div class="msg" id="dmsg"></div>
         </div>
@@ -325,668 +324,779 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
     <h3 id="modalTitle">Konfirmasi</h3>
     <p id="modalText">Apakah Anda yakin?</p>
     <div class="row">
-      <button class="btn sec sm" id="modalCancel">Batal</button>
-      <button class="btn dan sm" id="modalOk">Ya, lanjutkan</button>
+      <button class="btn sec sm" id="modalCancel" type="button">Batal</button>
+      <button class="btn dan sm" id="modalOk" type="button">Ya, lanjutkan</button>
     </div>
   </div>
 </div>
 
 <script>
-const API = (window.KATALOG_CONFIG && window.KATALOG_CONFIG.API_URL) || "";
-const MAX_FOTO = 12 * 1024 * 1024;
-const MAX_GLB  = 25 * 1024 * 1024;
-const $ = id => document.getElementById(id);
-const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let PW = "", ITEMS = [], SELECTED_KODE = "", MODE_BARU = false, POOF_RESULT = null, SELECTED_BULK = new Set();
-let modalResolve = null;
+(function () {
+  "use strict";
 
-/* ===== Dark Mode (line art icons) ===== */
-function applyTheme(dark) {
-  document.documentElement.classList.toggle("dark", dark);
-  $("themeBtn").title = dark ? "Mode terang" : "Mode gelap";
-  document.querySelector('meta[name="theme-color"]').content = dark ? "#1a1f1c" : "#eef3ee";
-  try { localStorage.setItem("admin_theme", dark ? "dark" : "light"); } catch (e) {}
-}
-(function initTheme() {
-  let dark = false;
-  try {
-    const saved = localStorage.getItem("admin_theme");
-    if (saved === "dark") dark = true;
-    else if (saved === "light") dark = false;
-    else dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  } catch (e) {}
-  applyTheme(dark);
-})();
-$("themeBtn").onclick = () => applyTheme(!document.documentElement.classList.contains("dark"));
+  var API = (window.KATALOG_CONFIG && window.KATALOG_CONFIG.API_URL) || "";
+  var MAX_FOTO = 12 * 1024 * 1024;
+  var MAX_GLB = 25 * 1024 * 1024;
 
-function showMsg(el, text, isErr){
-  el.textContent = text;
-  el.className = "msg on " + (isErr ? "err" : "ok");
-}
-function clearMsg(el){ el.className = "msg"; el.textContent = ""; }
-
-function setLoading(btn, on, label){
-  if (!btn) return;
-  if (on) {
-    btn.dataset.prev = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="loading"></span> ' + (label || "Memproses…");
-  } else {
-    btn.disabled = false;
-    if (btn.dataset.prev) btn.innerHTML = btn.dataset.prev;
-  }
-}
-
-function confirmModal(title, text){
-  return new Promise(resolve => {
-    $("modalTitle").textContent = title;
-    $("modalText").textContent = text;
-    $("modalBg").className = "modal-bg on";
-    modalResolve = resolve;
-  });
-}
-$("modalCancel").onclick = () => { $("modalBg").className = "modal-bg"; if (modalResolve) modalResolve(false); };
-$("modalOk").onclick = () => { $("modalBg").className = "modal-bg"; if (modalResolve) modalResolve(true); };
-
-async function post(payload){
-  if (!API) throw new Error("API_URL belum diatur di config.js");
-  const res = await fetch(API, {
-    method: "POST",
-    body: JSON.stringify(Object.assign({ pw: PW }, payload))
-  });
-  const txt = await res.text();
-  let data;
-  try { data = JSON.parse(txt); } catch (e) { throw new Error("Respons server tidak valid. Coba muat ulang."); }
-  if (!data.ok) throw new Error(data.error || "Permintaan gagal.");
-  return data;
-}
-
-function readFileB64(file){
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onerror = () => reject(new Error("Gagal membaca file."));
-    r.onload = () => {
-      const s = String(r.result || "");
-      const idx = s.indexOf(",");
-      resolve(idx >= 0 ? s.slice(idx + 1) : s);
-    };
-    r.readAsDataURL(file);
-  });
-}
-
-function currentItem(){
-  return ITEMS.find(x => x.k === SELECTED_KODE) || null;
-}
-
-function renderStats(stats){
-  if (!stats) { $("stats").innerHTML = ""; return; }
-  $("stats").innerHTML =
-    '<div class="stat"><b>' + stats.total + '</b><span>Total produk</span></div>' +
-    '<div class="stat"><b>' + stats.aktif + '</b><span>Aktif</span></div>' +
-    '<div class="stat"><b>' + stats.nonaktif + '</b><span>Nonaktif</span></div>' +
-    '<div class="stat"><b>' + stats.punyaPng + '</b><span>Punya PNG</span></div>' +
-    '<div class="stat"><b>' + stats.punyaGlb + '</b><span>Punya GLB</span></div>' +
-    '<div class="stat"><b>' + (stats.totalStok || 0) + '</b><span>Total stok</span></div>';
-}
-
-function renderSelectedBadge(){
-  const it = currentItem();
-  const el = $("produkTerpilih");
-  if (!it){ el.className = "selected-badge"; el.innerHTML = ""; return; }
-  el.className = "selected-badge on";
-  el.innerHTML = '<div><b>' + esc(it.k) + '</b> · ' + esc(it.n) + '</div><span class="pill">' + (it.aktif ? "Aktif" : "Nonaktif") + '</span>';
-}
-
-function getFiltered(){
-  const kw = $("qProduk").value.trim().toLowerCase();
-  const filter = $("fFilter").value;
-  let list = ITEMS.slice();
-  if (filter === "aktif") list = list.filter(x => x.aktif);
-  else if (filter === "nonaktif") list = list.filter(x => !x.aktif);
-  else if (filter === "png") list = list.filter(x => !!x.png);
-  else if (filter === "glb") list = list.filter(x => !!x.glb);
-  else if (filter === "nofoto") list = list.filter(x => !(x.foto && x.foto.length));
-  if (kw.length >= 2) {
-    list = list.filter(x => (x.k + " " + x.n + " " + x.c).toLowerCase().includes(kw));
-  }
-  return list;
-}
-
-function renderSearch(){
-  const kw = $("qProduk").value.trim().toLowerCase();
-  const box = $("hasilCari");
-  const list = getFiltered();
-  if (kw.length < 2 && $("fFilter").value === "all"){
-    box.innerHTML = '<div class="note">Ketik minimal 2 huruf atau pilih filter untuk menampilkan produk.</div>';
-    return;
-  }
-  if (!list.length){
-    box.innerHTML = '<div class="note">Tidak ada produk yang cocok.</div>';
-    return;
-  }
-  const show = list.slice(0, 40);
-  box.innerHTML = '<div class="note" style="margin-bottom:6px">' + list.length + ' produk ditemukan' + (list.length > 40 ? ' (menampilkan 40)' : '') + '</div>' +
-    show.map(x =>
-      '<div class="search-item' + (x.k === SELECTED_KODE ? " on" : "") + '" data-k="' + esc(x.k) + '">' +
-      '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1">' +
-      '<input type="checkbox" class="bulk-cb" data-k="' + esc(x.k) + '"' + (SELECTED_BULK.has(x.k) ? " checked" : "") + ' onclick="event.stopPropagation()">' +
-      '<div><b>' + esc(x.n) + '</b><br><small>' + esc(x.k) + ' · ' + esc(x.c || "-") + ' · ' + (x.aktif ? "Aktif" : "Nonaktif") + '</small></div></label>' +
-      '<span class="pill">Pilih</span></div>'
-    ).join("");
-}
-
-function updateBulkBar(){
-  const bar = $("bulkBar");
-  const n = SELECTED_BULK.size;
-  if (n > 0) {
-    bar.className = "bulk-bar on";
-    $("bulkCount").textContent = n + " dipilih";
-  } else {
-    bar.className = "bulk-bar";
-  }
-}
-
-function fillForm(it){
-  MODE_BARU = !it;
-  $("dkode").value = it ? it.k : "";
-  $("dkode").disabled = !!it;
-  $("dnama").value = it ? it.n : "";
-  $("dkat").value = it ? it.c : "";
-  $("dilus").value = it ? it.e : "";
-  $("dharga").value = it && it.p ? it.p : "";
-  $("dstok").value = it && it.s != null ? it.s : "";
-  $("dpj").value = it && it.pj ? it.pj : "";
-  $("dlb").value = it && it.l ? it.l : "";
-  $("dtg").value = it && it.t ? it.t : "";
-  $("dmat").value = it ? it.m : "";
-  $("dket").value = it ? it.d : "";
-  $("daktif").checked = it ? !!it.aktif : true;
-  $("dskala").checked = it ? it.sk !== 0 : true;
-  clearMsg($("dmsg"));
-  updateArHint();
-}
-
-function updateArHint(){
-  const pj = parseFloat($("dpj").value) || 0;
-  const l  = parseFloat($("dlb").value) || 0;
-  const t  = parseFloat($("dtg").value) || 0;
-  const el = $("arHint");
-  if (pj > 0 && l > 0 && t > 0) {
-    el.textContent = "Dimensi AR: " + pj + " × " + l + " × " + t + " cm. Skala otomatis akan menyesuaikan model 3D ke ukuran ini.";
-  } else {
-    el.textContent = "Isi Panjang, Lebar, dan Tinggi agar skala AR otomatis akurat.";
-  }
-}
-
-function renderManualDetails(){
-  const it = currentItem();
-  renderSelectedBadge();
-  $("fthumbs").innerHTML = "";
-  $("pcur").innerHTML = "";
-  $("gcur").innerHTML = "";
-  $("lpng").style.display = "none";
-  $("lglb").style.display = "none";
-  POOF_RESULT = null;
-  $("poofPreview").className = "poof-preview";
-  $("fotoPreview").className = "preview-box";
-  $("pngPreview").className = "preview-box";
-  clearMsg($("fmsg"));
-  clearMsg($("poofMsg"));
-  clearMsg($("pmsg"));
-  clearMsg($("gmsg"));
-
-  if (!it){
-    $("fthumbs").innerHTML = '<div class="note">Pilih produk lewat pencarian di atas untuk mengelola foto, PNG, atau .glb.</div>';
-    $("pcur").textContent = "Belum ada produk dipilih.";
-    $("gcur").textContent = "Belum ada produk dipilih.";
-    $("bfoto").disabled = true;
-    $("bpoof").disabled = true;
-    $("bpng").disabled = true;
-    $("bglb").disabled = true;
-    return;
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
   }
 
-  if ((it.foto || []).length) {
-    $("fthumbs").innerHTML = it.foto.map((u, idx) =>
-      '<div class="th">' +
-        '<img src="' + esc(u) + '" alt="Foto ' + (idx + 1) + '">' +
-        '<div class="th-act">' +
-          (idx > 0 ? '<button type="button" title="Naik" data-act="up" data-idx="' + idx + '">↑</button>' : '') +
-          (idx < it.foto.length - 1 ? '<button type="button" title="Turun" data-act="down" data-idx="' + idx + '">↓</button>' : '') +
-          '<button type="button" title="Lepas foto" data-act="del" data-idx="' + idx + '">×</button>' +
-        '</div>' +
-        '<span>Foto ' + (idx + 1) + '</span></div>'
-    ).join("");
-  } else {
-    $("fthumbs").innerHTML = '<div class="note">Belum ada foto produk.</div>';
+  var PW = "";
+  var ITEMS = [];
+  var SELECTED_KODE = "";
+  var MODE_BARU = false;
+  var POOF_RESULT = null;
+  var SELECTED_BULK = {};
+  var modalResolve = null;
+
+  function bulkSize() {
+    var n = 0;
+    for (var k in SELECTED_BULK) if (SELECTED_BULK[k]) n++;
+    return n;
+  }
+  function bulkList() {
+    var a = [];
+    for (var k in SELECTED_BULK) if (SELECTED_BULK[k]) a.push(k);
+    return a;
+  }
+  function bulkClear() {
+    SELECTED_BULK = {};
   }
 
-  $("pcur").innerHTML = it.png
-    ? 'PNG aktif: <a href="' + esc(it.png) + '" target="_blank" rel="noopener">Lihat PNG</a>'
-    : 'PNG transparan: belum ada.';
-  $("lpng").style.display = it.png ? "inline-flex" : "none";
-
-  $("gcur").innerHTML = it.glb
-    ? 'Model 3D aktif: <a href="' + esc(it.glb) + '" target="_blank" rel="noopener">' + esc(it.glb) + '</a>'
-    : 'Model 3D (.glb): belum ada.';
-  $("lglb").style.display = it.glb ? "inline-flex" : "none";
-
-  \( ("bfoto").disabled = ! \)("ffoto").files.length;
-  \( ("bpoof").disabled = ! \)("fpoofsrc").files[0];
-  \( ("bpng").disabled = ! \)("fpng").files[0];
-  \( ("bglb").disabled = ! \)("fglb").files[0];
-  fillForm(it);
-}
-
-async function loadList(keepKode){
-  const r = await post({ action: "list" });
-  ITEMS = r.items || [];
-  $("gh").textContent = "GitHub: " + (r.info && r.info.github ? "Siap" : "Belum");
-  $("pf").textContent = "Poof: " + (r.info && r.info.poof ? "Siap" : "Belum");
-  renderStats(r.stats);
-  if (keepKode && ITEMS.some(x => x.k === keepKode)){
-    SELECTED_KODE = keepKode;
-  } else if (!ITEMS.some(x => x.k === SELECTED_KODE)){
-    SELECTED_KODE = "";
+  /* Theme */
+  function applyTheme(dark) {
+    document.documentElement.classList.toggle("dark", !!dark);
+    var btn = $("themeBtn");
+    if (btn) btn.title = dark ? "Mode terang" : "Mode gelap";
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", dark ? "#1a1f1c" : "#eef3ee");
+    try { localStorage.setItem("admin_theme", dark ? "dark" : "light"); } catch (e) {}
   }
-  SELECTED_BULK.clear();
-  updateBulkBar();
-  renderSearch();
-  renderManualDetails();
-}
-
-function showPreview(input, boxId){
-  const box = $(boxId);
-  box.innerHTML = "";
-  box.className = "preview-box";
-  const files = input.files;
-  if (!files || !files.length) return;
-  box.className = "preview-box on";
-  Array.from(files).slice(0, 6).forEach(f => {
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(f);
-    img.onload = () => URL.revokeObjectURL(img.src);
-    box.appendChild(img);
-  });
-  if (files.length > 6) {
-    const n = document.createElement("div");
-    n.className = "note";
-    n.textContent = "+" + (files.length - 6) + " file lainnya";
-    box.appendChild(n);
+  function initTheme() {
+    var dark = false;
+    try {
+      var saved = localStorage.getItem("admin_theme");
+      if (saved === "dark") dark = true;
+      else if (saved === "light") dark = false;
+      else if (window.matchMedia) dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    } catch (e) {}
+    applyTheme(dark);
   }
-}
 
-// ---- Events ----
-$("go").onclick = async () => {
-  clearMsg($("lmsg"));
-  PW = $("pw").value;
-  if (!PW){ showMsg($("lmsg"), "Masukkan sandi admin terlebih dahulu.", true); return; }
-  setLoading($("go"), true, "Masuk…");
-  try {
-    await loadList("");
-    $("login").style.display = "none";
-    $("panel").style.display = "block";
-  } catch (e) {
-    showMsg($("lmsg"), e.message, true);
-  } finally {
-    setLoading($("go"), false);
+  function showMsg(el, text, isErr) {
+    if (!el) return;
+    el.textContent = text;
+    el.className = "msg on " + (isErr ? "err" : "ok");
   }
-};
-
-$("out").onclick = () => {
-  PW = "";
-  SELECTED_KODE = "";
-  SELECTED_BULK.clear();
-  $("pw").value = "";
-  $("panel").style.display = "none";
-  $("login").style.display = "block";
-};
-
-$("ref").onclick = async () => {
-  setLoading($("ref"), true, "Memuat…");
-  try { await loadList(SELECTED_KODE); } finally { setLoading($("ref"), false); }
-};
-
-$("qProduk").oninput = renderSearch;
-$("fFilter").onchange = renderSearch;
-
-$("hasilCari").onclick = e => {
-  const cb = e.target.closest(".bulk-cb");
-  if (cb) {
-    if (cb.checked) SELECTED_BULK.add(cb.dataset.k);
-    else SELECTED_BULK.delete(cb.dataset.k);
-    updateBulkBar();
-    return;
+  function clearMsg(el) {
+    if (!el) return;
+    el.className = "msg";
+    el.textContent = "";
   }
-  const item = e.target.closest(".search-item");
-  if (!item) return;
-  SELECTED_KODE = item.dataset.k;
-  renderSearch();
-  renderManualDetails();
-};
 
-$("bBulkClear").onclick = () => { SELECTED_BULK.clear(); updateBulkBar(); renderSearch(); };
+  function setLoading(btn, on, label) {
+    if (!btn) return;
+    if (on) {
+      btn.setAttribute("data-prev", btn.innerHTML);
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> ' + (label || "Memproses…");
+    } else {
+      btn.disabled = false;
+      var prev = btn.getAttribute("data-prev");
+      if (prev) btn.innerHTML = prev;
+    }
+  }
 
-$("bBulkAktif").onclick = async () => {
-  if (!SELECTED_BULK.size) return;
-  if (!await confirmModal("Aktifkan produk", "Aktifkan " + SELECTED_BULK.size + " produk terpilih?")) return;
-  try {
-    await post({ action: "bulk", mode: "aktif", kodes: Array.from(SELECTED_BULK) });
-    await loadList(SELECTED_KODE);
-  } catch (e) { alert(e.message); }
-};
+  function confirmModal(title, text) {
+    return new Promise(function (resolve) {
+      $("modalTitle").textContent = title;
+      $("modalText").textContent = text;
+      $("modalBg").className = "modal-bg on";
+      modalResolve = resolve;
+    });
+  }
 
-$("bBulkNonaktif").onclick = async () => {
-  if (!SELECTED_BULK.size) return;
-  if (!await confirmModal("Nonaktifkan produk", "Nonaktifkan " + SELECTED_BULK.size + " produk terpilih?")) return;
-  try {
-    await post({ action: "bulk", mode: "nonaktif", kodes: Array.from(SELECTED_BULK) });
-    await loadList(SELECTED_KODE);
-  } catch (e) { alert(e.message); }
-};
+  function post(payload) {
+    if (!API) return Promise.reject(new Error("API_URL belum diatur di config.js"));
+    var body = {};
+    for (var k in payload) body[k] = payload[k];
+    body.pw = PW;
+    return fetch(API, {
+      method: "POST",
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.text();
+    }).then(function (txt) {
+      var data;
+      try { data = JSON.parse(txt); } catch (e) {
+        throw new Error("Respons server tidak valid. Coba muat ulang.");
+      }
+      if (!data.ok) throw new Error(data.error || "Permintaan gagal.");
+      return data;
+    });
+  }
 
-$("bExport").onclick = () => {
-  const list = getFiltered();
-  if (!list.length) { alert("Tidak ada data untuk diexport."); return; }
-  const header = ["Kode","Nama","Kategori","Harga","Stok","Panjang","Lebar","Tinggi","Material","Keterangan","Aktif","PNG","GLB"];
-  const rows = list.map(x => [
-    x.k, x.n, x.c, x.p, x.s, x.pj, x.l, x.t, x.m, x.d,
-    x.aktif ? "YA" : "TIDAK", x.png ? "YA" : "", x.glb ? "YA" : ""
-  ]);
-  const csv = [header].concat(rows).map(r => r.map(c => '"' + String(c == null ? "" : c).replace(/"/g, '""') + '"').join(",")).join("\n");
-  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "katalog-scandia-" + new Date().toISOString().slice(0,10) + ".csv";
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
+  function readFileB64(file) {
+    return new Promise(function (resolve, reject) {
+      var r = new FileReader();
+      r.onerror = function () { reject(new Error("Gagal membaca file.")); };
+      r.onload = function () {
+        var s = String(r.result || "");
+        var idx = s.indexOf(",");
+        resolve(idx >= 0 ? s.slice(idx + 1) : s);
+      };
+      r.readAsDataURL(file);
+    });
+  }
 
-$("ffoto").onchange = () => {
-  const files = $("ffoto").files;
-  $("bfoto").disabled = !SELECTED_KODE || !files.length;
-  showPreview($("ffoto"), "fotoPreview");
-  for (const f of files) {
-    if (f.size > MAX_FOTO) {
-      showMsg($("fmsg"), "File \"" + f.name + "\" terlalu besar (maks 12 MB).", true);
-      $("bfoto").disabled = true;
+  function currentItem() {
+    for (var i = 0; i < ITEMS.length; i++) {
+      if (ITEMS[i].k === SELECTED_KODE) return ITEMS[i];
+    }
+    return null;
+  }
+
+  function renderStats(stats) {
+    var el = $("stats");
+    if (!el) return;
+    if (!stats) { el.innerHTML = ""; return; }
+    el.innerHTML =
+      '<div class="stat"><b>' + stats.total + '</b><span>Total produk</span></div>' +
+      '<div class="stat"><b>' + stats.aktif + '</b><span>Aktif</span></div>' +
+      '<div class="stat"><b>' + stats.nonaktif + '</b><span>Nonaktif</span></div>' +
+      '<div class="stat"><b>' + stats.punyaPng + '</b><span>Punya PNG</span></div>' +
+      '<div class="stat"><b>' + stats.punyaGlb + '</b><span>Punya GLB</span></div>' +
+      '<div class="stat"><b>' + (stats.totalStok || 0) + '</b><span>Total stok</span></div>';
+  }
+
+  function renderSelectedBadge() {
+    var it = currentItem();
+    var el = $("produkTerpilih");
+    if (!el) return;
+    if (!it) { el.className = "selected-badge"; el.innerHTML = ""; return; }
+    el.className = "selected-badge on";
+    el.innerHTML = '<div><b>' + esc(it.k) + '</b> · ' + esc(it.n) + '</div><span class="pill">' + (it.aktif ? "Aktif" : "Nonaktif") + '</span>';
+  }
+
+  function getFiltered() {
+    var kw = ($("qProduk").value || "").trim().toLowerCase();
+    var filter = $("fFilter").value;
+    var list = ITEMS.slice();
+    if (filter === "aktif") list = list.filter(function (x) { return x.aktif; });
+    else if (filter === "nonaktif") list = list.filter(function (x) { return !x.aktif; });
+    else if (filter === "png") list = list.filter(function (x) { return !!x.png; });
+    else if (filter === "glb") list = list.filter(function (x) { return !!x.glb; });
+    else if (filter === "nofoto") list = list.filter(function (x) { return !(x.foto && x.foto.length); });
+    if (kw.length >= 2) {
+      list = list.filter(function (x) {
+        return (x.k + " " + x.n + " " + x.c).toLowerCase().indexOf(kw) >= 0;
+      });
+    }
+    return list;
+  }
+
+  function renderSearch() {
+    var kw = ($("qProduk").value || "").trim().toLowerCase();
+    var box = $("hasilCari");
+    if (!box) return;
+    var list = getFiltered();
+    if (kw.length < 2 && $("fFilter").value === "all") {
+      box.innerHTML = '<div class="note">Ketik minimal 2 huruf atau pilih filter untuk menampilkan produk.</div>';
       return;
     }
-  }
-  clearMsg($("fmsg"));
-};
-
-$("bfoto").onclick = async () => {
-  const files = Array.from($("ffoto").files || []);
-  if (!SELECTED_KODE || !files.length) return;
-  clearMsg($("fmsg"));
-  setLoading($("bfoto"), true, "Mengunggah…");
-  try {
-    for (let i = 0; i < files.length; i++) {
-      const f = files[i];
-      if (f.size > MAX_FOTO) throw new Error("File terlalu besar: " + f.name);
-      const b64 = await readFileB64(f);
-      const mode = (i === 0) ? $("fmode").value : "tambah";
-      await post({ action: "foto", kode: SELECTED_KODE, mime: f.type, data: b64, mode });
+    if (!list.length) {
+      box.innerHTML = '<div class="note">Tidak ada produk yang cocok.</div>';
+      return;
     }
-    $("ffoto").value = "";
+    var show = list.slice(0, 40);
+    var html = '<div class="note" style="margin-bottom:6px">' + list.length + ' produk ditemukan' + (list.length > 40 ? ' (menampilkan 40)' : '') + '</div>';
+    for (var i = 0; i < show.length; i++) {
+      var x = show[i];
+      html += '<div class="search-item' + (x.k === SELECTED_KODE ? ' on' : '') + '" data-k="' + esc(x.k) + '">' +
+        '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1">' +
+        '<input type="checkbox" class="bulk-cb" data-k="' + esc(x.k) + '"' + (SELECTED_BULK[x.k] ? ' checked' : '') + '>' +
+        '<div><b>' + esc(x.n) + '</b><br><small>' + esc(x.k) + ' · ' + esc(x.c || '-') + ' · ' + (x.aktif ? 'Aktif' : 'Nonaktif') + '</small></div></label>' +
+        '<span class="pill">Pilih</span></div>';
+    }
+    box.innerHTML = html;
+  }
+
+  function updateBulkBar() {
+    var bar = $("bulkBar");
+    if (!bar) return;
+    var n = bulkSize();
+    if (n > 0) {
+      bar.className = "bulk-bar on";
+      $("bulkCount").textContent = n + " dipilih";
+    } else {
+      bar.className = "bulk-bar";
+    }
+  }
+
+  function fillForm(it) {
+    MODE_BARU = !it;
+    $("dkode").value = it ? it.k : "";
+    $("dkode").disabled = !!it;
+    $("dnama").value = it ? it.n : "";
+    $("dkat").value = it ? it.c : "";
+    $("dilus").value = it ? it.e : "";
+    $("dharga").value = it && it.p ? it.p : "";
+    $("dstok").value = it && it.s != null ? it.s : "";
+    $("dpj").value = it && it.pj ? it.pj : "";
+    $("dlb").value = it && it.l ? it.l : "";
+    $("dtg").value = it && it.t ? it.t : "";
+    $("dmat").value = it ? it.m : "";
+    $("dket").value = it ? it.d : "";
+    $("daktif").checked = it ? !!it.aktif : true;
+    $("dskala").checked = it ? it.sk !== 0 : true;
+    clearMsg($("dmsg"));
+    updateArHint();
+  }
+
+  function updateArHint() {
+    var pj = parseFloat($("dpj").value) || 0;
+    var l = parseFloat($("dlb").value) || 0;
+    var t = parseFloat($("dtg").value) || 0;
+    var el = $("arHint");
+    if (!el) return;
+    if (pj > 0 && l > 0 && t > 0) {
+      el.textContent = "Dimensi AR: " + pj + " × " + l + " × " + t + " cm. Skala otomatis akan menyesuaikan model 3D ke ukuran ini.";
+    } else {
+      el.textContent = "Isi Panjang, Lebar, dan Tinggi agar skala AR otomatis akurat.";
+    }
+  }
+
+  function renderManualDetails() {
+    var it = currentItem();
+    renderSelectedBadge();
+    $("fthumbs").innerHTML = "";
+    $("pcur").innerHTML = "";
+    $("gcur").innerHTML = "";
+    $("lpng").style.display = "none";
+    $("lglb").style.display = "none";
+    POOF_RESULT = null;
+    $("poofPreview").className = "poof-preview";
     $("fotoPreview").className = "preview-box";
-    await loadList(SELECTED_KODE);
-    showMsg($("fmsg"), files.length + " foto berhasil disimpan.", false);
-  } catch (e) {
-    showMsg($("fmsg"), e.message, true);
-  } finally {
-    setLoading($("bfoto"), false);
-    \( ("bfoto").disabled = ! \)("ffoto").files.length;
-  }
-};
-
-$("fthumbs").onclick = async e => {
-  const btn = e.target.closest("button[data-act]");
-  if (!btn || !SELECTED_KODE) return;
-  const act = btn.dataset.act;
-  const idx = Number(btn.dataset.idx);
-  clearMsg($("fmsg"));
-  try {
-    if (act === "del") {
-      if (!await confirmModal("Lepas foto", "Hapus foto ini dari produk?")) return;
-      await post({ action: "lepas", kode: SELECTED_KODE, kolom: "foto", index: idx });
-      await loadList(SELECTED_KODE);
-      showMsg($("fmsg"), "Foto dilepas.", false);
-    } else if (act === "up" || act === "down") {
-      const to = act === "up" ? idx - 1 : idx + 1;
-      await post({ action: "urutanFoto", kode: SELECTED_KODE, from: idx, to });
-      await loadList(SELECTED_KODE);
-    }
-  } catch (err) {
-    showMsg($("fmsg"), err.message, true);
-  }
-};
-
-$("fpoofsrc").onchange = () => {
-  const f = $("fpoofsrc").files[0];
-  $("bpoof").disabled = !SELECTED_KODE || !f;
-  POOF_RESULT = null;
-  $("poofPreview").className = "poof-preview";
-  if (f && f.size > MAX_FOTO) {
-    showMsg($("poofMsg"), "File terlalu besar (maks 12 MB).", true);
-    $("bpoof").disabled = true;
-  } else clearMsg($("poofMsg"));
-};
-
-$("bpoof").onclick = async () => {
-  const f = $("fpoofsrc").files[0];
-  if (!SELECTED_KODE || !f) return;
-  clearMsg($("poofMsg"));
-  setLoading($("bpoof"), true, "Memproses Poof…");
-  try {
-    const b64 = await readFileB64(f);
-    const r = await post({ action: "editFoto", kode: SELECTED_KODE, mime: f.type, data: b64, mode: $("poofMode").value });
-    POOF_RESULT = { mime: r.mime || "image/png", data: r.data };
-    $("poofImg").src = "data:" + POOF_RESULT.mime + ";base64," + POOF_RESULT.data;
-    $("poofPreview").className = "poof-preview on";
-    showMsg($("poofMsg"), "Hasil Poof siap. Pilih tempat menyimpan atau unduh.", false);
-  } catch (err) {
-    showMsg($("poofMsg"), err.message, true);
-  } finally {
-    setLoading($("bpoof"), false);
-    \( ("bpoof").disabled = ! \)("fpoofsrc").files[0];
-  }
-};
-
-$("bsavePng").onclick = async () => {
-  if (!SELECTED_KODE || !POOF_RESULT) return;
-  clearMsg($("poofMsg"));
-  setLoading($("bsavePng"), true);
-  try {
-    await post({ action: "png", kode: SELECTED_KODE, mime: "image/png", data: POOF_RESULT.data });
-    await loadList(SELECTED_KODE);
-    showMsg($("poofMsg"), "Disimpan ke kolom Foto transparan PNG.", false);
-  } catch (err) {
-    showMsg($("poofMsg"), err.message, true);
-  } finally { setLoading($("bsavePng"), false); }
-};
-
-$("bsaveFoto").onclick = async () => {
-  if (!SELECTED_KODE || !POOF_RESULT) return;
-  clearMsg($("poofMsg"));
-  setLoading($("bsaveFoto"), true);
-  try {
-    await post({ action: "foto", kode: SELECTED_KODE, mime: "image/png", data: POOF_RESULT.data, mode: $("fmode").value });
-    await loadList(SELECTED_KODE);
-    showMsg($("poofMsg"), "Disimpan ke Foto produk.", false);
-  } catch (err) {
-    showMsg($("poofMsg"), err.message, true);
-  } finally { setLoading($("bsaveFoto"), false); }
-};
-
-$("bdlPoof").onclick = () => {
-  if (!POOF_RESULT) return;
-  const a = document.createElement("a");
-  a.href = "data:" + POOF_RESULT.mime + ";base64," + POOF_RESULT.data;
-  a.download = (SELECTED_KODE || "poof") + "-transparent.png";
-  a.click();
-};
-
-$("fpng").onchange = () => {
-  const f = $("fpng").files[0];
-  $("bpng").disabled = !SELECTED_KODE || !f;
-  showPreview($("fpng"), "pngPreview");
-  if (f && f.size > MAX_FOTO) {
-    showMsg($("pmsg"), "File terlalu besar (maks 12 MB).", true);
-    $("bpng").disabled = true;
-  } else clearMsg($("pmsg"));
-};
-
-$("bpng").onclick = async () => {
-  const f = $("fpng").files[0];
-  if (!SELECTED_KODE || !f) return;
-  clearMsg($("pmsg"));
-  setLoading($("bpng"), true, "Mengunggah…");
-  try {
-    const b64 = await readFileB64(f);
-    await post({ action: "png", kode: SELECTED_KODE, mime: f.type, data: b64 });
-    $("fpng").value = "";
     $("pngPreview").className = "preview-box";
-    await loadList(SELECTED_KODE);
-    showMsg($("pmsg"), "PNG transparan berhasil disimpan.", false);
-  } catch (e) {
-    showMsg($("pmsg"), e.message, true);
-  } finally {
-    setLoading($("bpng"), false);
-    \( ("bpng").disabled = ! \)("fpng").files[0];
-  }
-};
+    clearMsg($("fmsg"));
+    clearMsg($("poofMsg"));
+    clearMsg($("pmsg"));
+    clearMsg($("gmsg"));
 
-$("lpng").onclick = async () => {
-  if (!SELECTED_KODE) return;
-  if (!await confirmModal("Lepas PNG", "Hapus PNG transparan dari produk ini?")) return;
-  clearMsg($("pmsg"));
-  try {
-    await post({ action: "lepas", kode: SELECTED_KODE, kolom: "png" });
-    await loadList(SELECTED_KODE);
-    showMsg($("pmsg"), "PNG transparan dilepas.", false);
-  } catch (e) {
-    showMsg($("pmsg"), e.message, true);
-  }
-};
+    if (!it) {
+      $("fthumbs").innerHTML = '<div class="note">Pilih produk lewat pencarian di atas untuk mengelola foto, PNG, atau .glb.</div>';
+      $("pcur").textContent = "Belum ada produk dipilih.";
+      $("gcur").textContent = "Belum ada produk dipilih.";
+      $("bfoto").disabled = true;
+      $("bpoof").disabled = true;
+      $("bpng").disabled = true;
+      $("bglb").disabled = true;
+      return;
+    }
 
-$("fglb").onchange = () => {
-  const f = $("fglb").files[0];
-  $("bglb").disabled = !SELECTED_KODE || !f;
-  if (f && f.size > MAX_GLB) {
-    showMsg($("gmsg"), "File terlalu besar (maks 25 MB).", true);
-    $("bglb").disabled = true;
-  } else clearMsg($("gmsg"));
-};
-
-$("bglb").onclick = async () => {
-  const f = $("fglb").files[0];
-  if (!SELECTED_KODE || !f) return;
-  clearMsg($("gmsg"));
-  setLoading($("bglb"), true, "Mengunggah…");
-  try {
-    const b64 = await readFileB64(f);
-    const r = await post({ action: "glb", kode: SELECTED_KODE, data: b64 });
-    $("fglb").value = "";
-    await loadList(SELECTED_KODE);
-    showMsg($("gmsg"), "Model .glb terunggah. " + (r.note || ""), false);
-  } catch (e) {
-    showMsg($("gmsg"), e.message, true);
-  } finally {
-    setLoading($("bglb"), false);
-    \( ("bglb").disabled = ! \)("fglb").files[0];
-  }
-};
-
-$("lglb").onclick = async () => {
-  if (!SELECTED_KODE) return;
-  if (!await confirmModal("Lepas model 3D", "Hapus tautan model .glb dari produk ini?")) return;
-  clearMsg($("gmsg"));
-  try {
-    await post({ action: "lepas", kode: SELECTED_KODE, kolom: "glb" });
-    await loadList(SELECTED_KODE);
-    showMsg($("gmsg"), "Model .glb dilepas.", false);
-  } catch (e) {
-    showMsg($("gmsg"), e.message, true);
-  }
-};
-
-$("bmodeEdit").onclick = () => {
-  const it = currentItem();
-  if (!it){ showMsg($("dmsg"), "Pilih produk terlebih dahulu lewat pencarian.", true); return; }
-  fillForm(it);
-};
-$("bmodeNew").onclick = () => fillForm(null);
-
-$("bDuplikat").onclick = async () => {
-  const it = currentItem();
-  if (!it) { showMsg($("dmsg"), "Pilih produk yang ingin diduplikat.", true); return; }
-  const kodeBaru = prompt("Masukkan kode produk baru:", it.k + "-copy");
-  if (!kodeBaru) return;
-  clearMsg($("dmsg"));
-  setLoading($("bDuplikat"), true);
-  try {
-    const r = await post({ action: "duplikat", kode: it.k, kodeBaru: kodeBaru.trim() });
-    await loadList(r.kode);
-    showMsg($("dmsg"), "Produk berhasil diduplikat sebagai " + r.kode, false);
-  } catch (e) {
-    showMsg($("dmsg"), e.message, true);
-  } finally { setLoading($("bDuplikat"), false); }
-};
-
-$("bHapus").onclick = async () => {
-  const it = currentItem();
-  if (!it) { showMsg($("dmsg"), "Pilih produk yang ingin dihapus.", true); return; }
-  if (!await confirmModal("Hapus produk", "Hapus permanen produk \"" + it.n + "\" (" + it.k + ")? Tindakan ini tidak bisa dibatalkan.")) return;
-  clearMsg($("dmsg"));
-  setLoading($("bHapus"), true);
-  try {
-    await post({ action: "hapus", kode: it.k });
-    SELECTED_KODE = "";
-    await loadList("");
-    showMsg($("dmsg"), "Produk berhasil dihapus.", false);
-    fillForm(null);
-  } catch (e) {
-    showMsg($("dmsg"), e.message, true);
-  } finally { setLoading($("bHapus"), false); }
-};
-
-["dpj","dlb","dtg"].forEach(id => $(id).oninput = updateArHint);
-
-$("bsimpan").onclick = async () => {
-  clearMsg($("dmsg"));
-  setLoading($("bsimpan"), true, "Menyimpan…");
-  try {
-    const kode = $("dkode").value.trim();
-    const payload = {
-      action: MODE_BARU ? "tambah" : "ubah",
-      kode: kode,
-      data: {
-        nama: $("dnama").value,
-        kategori: $("dkat").value,
-        ilustrasi: $("dilus").value,
-        harga: $("dharga").value,
-        stok: $("dstok").value,
-        pj: $("dpj").value,
-        l: $("dlb").value,
-        t: $("dtg").value,
-        material: $("dmat").value,
-        ket: $("dket").value,
-        aktif: $("daktif").checked ? "YA" : "TIDAK",
-        skala: $("dskala").checked ? "" : "TIDAK"
+    if (it.foto && it.foto.length) {
+      var th = "";
+      for (var i = 0; i < it.foto.length; i++) {
+        th += '<div class="th"><img src="' + esc(it.foto[i]) + '" alt="Foto ' + (i + 1) + '">' +
+          '<div class="th-act">' +
+          (i > 0 ? '<button type="button" title="Naik" data-act="up" data-idx="' + i + '">↑</button>' : '') +
+          (i < it.foto.length - 1 ? '<button type="button" title="Turun" data-act="down" data-idx="' + i + '">↓</button>' : '') +
+          '<button type="button" title="Lepas foto" data-act="del" data-idx="' + i + '">×</button>' +
+          '</div><span>Foto ' + (i + 1) + '</span></div>';
       }
-    };
-    await post(payload);
-    await loadList(kode);
-    showMsg($("dmsg"), MODE_BARU ? "Produk baru berhasil ditambahkan." : "Perubahan produk berhasil disimpan.", false);
-    if (MODE_BARU) fillForm(currentItem());
-  } catch (e) {
-    showMsg($("dmsg"), e.message, true);
-  } finally {
-    setLoading($("bsimpan"), false);
+      $("fthumbs").innerHTML = th;
+    } else {
+      $("fthumbs").innerHTML = '<div class="note">Belum ada foto produk.</div>';
+    }
+
+    $("pcur").innerHTML = it.png
+      ? 'PNG aktif: <a href="' + esc(it.png) + '" target="_blank" rel="noopener">Lihat PNG</a>'
+      : 'PNG transparan: belum ada.';
+    $("lpng").style.display = it.png ? "inline-flex" : "none";
+
+    $("gcur").innerHTML = it.glb
+      ? 'Model 3D aktif: <a href="' + esc(it.glb) + '" target="_blank" rel="noopener">' + esc(it.glb) + '</a>'
+      : 'Model 3D (.glb): belum ada.';
+    $("lglb").style.display = it.glb ? "inline-flex" : "none";
+
+    \( ("bfoto").disabled = ! \)("ffoto").files.length;
+    \( ("bpoof").disabled = ! \)("fpoofsrc").files[0];
+    \( ("bpng").disabled = ! \)("fpng").files[0];
+    \( ("bglb").disabled = ! \)("fglb").files[0];
+    fillForm(it);
   }
-};
+
+  function loadList(keepKode) {
+    return post({ action: "list" }).then(function (r) {
+      ITEMS = r.items || [];
+      $("gh").textContent = "GitHub: " + (r.info && r.info.github ? "Siap" : "Belum");
+      $("pf").textContent = "Poof: " + (r.info && r.info.poof ? "Siap" : "Belum");
+      renderStats(r.stats);
+      var found = false;
+      if (keepKode) {
+        for (var i = 0; i < ITEMS.length; i++) if (ITEMS[i].k === keepKode) { found = true; break; }
+      }
+      if (found) SELECTED_KODE = keepKode;
+      else {
+        var still = false;
+        for (var j = 0; j < ITEMS.length; j++) if (ITEMS[j].k === SELECTED_KODE) { still = true; break; }
+        if (!still) SELECTED_KODE = "";
+      }
+      bulkClear();
+      updateBulkBar();
+      renderSearch();
+      renderManualDetails();
+    });
+  }
+
+  function showPreview(input, boxId) {
+    var box = $(boxId);
+    if (!box) return;
+    box.innerHTML = "";
+    box.className = "preview-box";
+    var files = input.files;
+    if (!files || !files.length) return;
+    box.className = "preview-box on";
+    var max = Math.min(files.length, 6);
+    for (var i = 0; i < max; i++) {
+      var img = document.createElement("img");
+      img.src = URL.createObjectURL(files[i]);
+      img.onload = (function (im) { return function () { URL.revokeObjectURL(im.src); }; })(img);
+      box.appendChild(img);
+    }
+    if (files.length > 6) {
+      var n = document.createElement("div");
+      n.className = "note";
+      n.textContent = "+" + (files.length - 6) + " file lainnya";
+      box.appendChild(n);
+    }
+  }
+
+  function on(id, ev, fn) {
+    var el = $(id);
+    if (el) el.addEventListener(ev, fn);
+  }
+
+  /* Bind after DOM ready */
+  function bindAll() {
+    initTheme();
+
+    on("themeBtn", "click", function () {
+      applyTheme(!document.documentElement.classList.contains("dark"));
+    });
+
+    on("modalCancel", "click", function () {
+      $("modalBg").className = "modal-bg";
+      if (modalResolve) modalResolve(false);
+    });
+    on("modalOk", "click", function () {
+      $("modalBg").className = "modal-bg";
+      if (modalResolve) modalResolve(true);
+    });
+
+    on("go", "click", function () {
+      clearMsg($("lmsg"));
+      PW = $("pw").value;
+      if (!PW) { showMsg($("lmsg"), "Masukkan sandi admin terlebih dahulu.", true); return; }
+      setLoading($("go"), true, "Masuk…");
+      loadList("").then(function () {
+        $("login").style.display = "none";
+        $("panel").style.display = "block";
+      }).catch(function (e) {
+        showMsg($("lmsg"), e.message || String(e), true);
+      }).then(function () {
+        setLoading($("go"), false);
+      });
+    });
+
+    on("out", "click", function () {
+      PW = "";
+      SELECTED_KODE = "";
+      bulkClear();
+      $("pw").value = "";
+      $("panel").style.display = "none";
+      $("login").style.display = "block";
+    });
+
+    on("ref", "click", function () {
+      setLoading($("ref"), true, "Memuat…");
+      loadList(SELECTED_KODE).catch(function (e) { alert(e.message); }).then(function () {
+        setLoading($("ref"), false);
+      });
+    });
+
+    on("qProduk", "input", renderSearch);
+    on("fFilter", "change", renderSearch);
+
+    on("hasilCari", "click", function (e) {
+      var t = e.target;
+      if (t.classList && t.classList.contains("bulk-cb")) {
+        var ck = t.getAttribute("data-k");
+        if (t.checked) SELECTED_BULK[ck] = true;
+        else delete SELECTED_BULK[ck];
+        updateBulkBar();
+        e.stopPropagation();
+        return;
+      }
+      var item = t.closest ? t.closest(".search-item") : null;
+      if (!item) return;
+      SELECTED_KODE = item.getAttribute("data-k");
+      renderSearch();
+      renderManualDetails();
+    });
+
+    on("bBulkClear", "click", function () {
+      bulkClear();
+      updateBulkBar();
+      renderSearch();
+    });
+
+    on("bBulkAktif", "click", function () {
+      if (!bulkSize()) return;
+      confirmModal("Aktifkan produk", "Aktifkan " + bulkSize() + " produk terpilih?").then(function (ok) {
+        if (!ok) return;
+        return post({ action: "bulk", mode: "aktif", kodes: bulkList() }).then(function () {
+          return loadList(SELECTED_KODE);
+        });
+      }).catch(function (e) { alert(e.message); });
+    });
+
+    on("bBulkNonaktif", "click", function () {
+      if (!bulkSize()) return;
+      confirmModal("Nonaktifkan produk", "Nonaktifkan " + bulkSize() + " produk terpilih?").then(function (ok) {
+        if (!ok) return;
+        return post({ action: "bulk", mode: "nonaktif", kodes: bulkList() }).then(function () {
+          return loadList(SELECTED_KODE);
+        });
+      }).catch(function (e) { alert(e.message); });
+    });
+
+    on("bExport", "click", function () {
+      var list = getFiltered();
+      if (!list.length) { alert("Tidak ada data untuk diexport."); return; }
+      var header = ["Kode","Nama","Kategori","Harga","Stok","Panjang","Lebar","Tinggi","Material","Keterangan","Aktif","PNG","GLB"];
+      var rows = list.map(function (x) {
+        return [x.k, x.n, x.c, x.p, x.s, x.pj, x.l, x.t, x.m, x.d, x.aktif ? "YA" : "TIDAK", x.png ? "YA" : "", x.glb ? "YA" : ""];
+      });
+      var csv = [header].concat(rows).map(function (r) {
+        return r.map(function (c) { return '"' + String(c == null ? "" : c).replace(/"/g, '""') + '"'; }).join(",");
+      }).join("\n");
+      var blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "katalog-scandia-" + new Date().toISOString().slice(0, 10) + ".csv";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    on("ffoto", "change", function () {
+      var files = $("ffoto").files;
+      $("bfoto").disabled = !SELECTED_KODE || !files.length;
+      showPreview($("ffoto"), "fotoPreview");
+      for (var i = 0; i < files.length; i++) {
+        if (files[i].size > MAX_FOTO) {
+          showMsg($("fmsg"), 'File "' + files[i].name + '" terlalu besar (maks 12 MB).', true);
+          $("bfoto").disabled = true;
+          return;
+        }
+      }
+      clearMsg($("fmsg"));
+    });
+
+    on("bfoto", "click", function () {
+      var files = Array.prototype.slice.call($("ffoto").files || []);
+      if (!SELECTED_KODE || !files.length) return;
+      clearMsg($("fmsg"));
+      setLoading($("bfoto"), true, "Mengunggah…");
+      var i = 0;
+      function next() {
+        if (i >= files.length) {
+          $("ffoto").value = "";
+          $("fotoPreview").className = "preview-box";
+          return loadList(SELECTED_KODE).then(function () {
+            showMsg($("fmsg"), files.length + " foto berhasil disimpan.", false);
+          });
+        }
+        var f = files[i++];
+        if (f.size > MAX_FOTO) return Promise.reject(new Error("File terlalu besar: " + f.name));
+        var mode = (i === 1) ? $("fmode").value : "tambah";
+        return readFileB64(f).then(function (b64) {
+          return post({ action: "foto", kode: SELECTED_KODE, mime: f.type, data: b64, mode: mode });
+        }).then(next);
+      }
+      next().catch(function (e) {
+        showMsg($("fmsg"), e.message, true);
+      }).then(function () {
+        setLoading($("bfoto"), false);
+        \( ("bfoto").disabled = ! \)("ffoto").files.length;
+      });
+    });
+
+    on("fthumbs", "click", function (e) {
+      var btn = e.target.closest ? e.target.closest("button[data-act]") : null;
+      if (!btn || !SELECTED_KODE) return;
+      var act = btn.getAttribute("data-act");
+      var idx = Number(btn.getAttribute("data-idx"));
+      clearMsg($("fmsg"));
+      if (act === "del") {
+        confirmModal("Lepas foto", "Hapus foto ini dari produk?").then(function (ok) {
+          if (!ok) return;
+          return post({ action: "lepas", kode: SELECTED_KODE, kolom: "foto", index: idx }).then(function () {
+            return loadList(SELECTED_KODE);
+          }).then(function () {
+            showMsg($("fmsg"), "Foto dilepas.", false);
+          });
+        }).catch(function (err) { showMsg($("fmsg"), err.message, true); });
+      } else if (act === "up" || act === "down") {
+        var to = act === "up" ? idx - 1 : idx + 1;
+        post({ action: "urutanFoto", kode: SELECTED_KODE, from: idx, to: to }).then(function () {
+          return loadList(SELECTED_KODE);
+        }).catch(function (err) { showMsg($("fmsg"), err.message, true); });
+      }
+    });
+
+    on("fpoofsrc", "change", function () {
+      var f = $("fpoofsrc").files[0];
+      $("bpoof").disabled = !SELECTED_KODE || !f;
+      POOF_RESULT = null;
+      $("poofPreview").className = "poof-preview";
+      if (f && f.size > MAX_FOTO) {
+        showMsg($("poofMsg"), "File terlalu besar (maks 12 MB).", true);
+        $("bpoof").disabled = true;
+      } else clearMsg($("poofMsg"));
+    });
+
+    on("bpoof", "click", function () {
+      var f = $("fpoofsrc").files[0];
+      if (!SELECTED_KODE || !f) return;
+      clearMsg($("poofMsg"));
+      setLoading($("bpoof"), true, "Memproses Poof…");
+      readFileB64(f).then(function (b64) {
+        return post({ action: "editFoto", kode: SELECTED_KODE, mime: f.type, data: b64, mode: $("poofMode").value });
+      }).then(function (r) {
+        POOF_RESULT = { mime: r.mime || "image/png", data: r.data };
+        $("poofImg").src = "data:" + POOF_RESULT.mime + ";base64," + POOF_RESULT.data;
+        $("poofPreview").className = "poof-preview on";
+        showMsg($("poofMsg"), "Hasil Poof siap. Pilih tempat menyimpan atau unduh.", false);
+      }).catch(function (err) {
+        showMsg($("poofMsg"), err.message, true);
+      }).then(function () {
+        setLoading($("bpoof"), false);
+        \( ("bpoof").disabled = ! \)("fpoofsrc").files[0];
+      });
+    });
+
+    on("bsavePng", "click", function () {
+      if (!SELECTED_KODE || !POOF_RESULT) return;
+      clearMsg($("poofMsg"));
+      setLoading($("bsavePng"), true);
+      post({ action: "png", kode: SELECTED_KODE, mime: "image/png", data: POOF_RESULT.data }).then(function () {
+        return loadList(SELECTED_KODE);
+      }).then(function () {
+        showMsg($("poofMsg"), "Disimpan ke kolom Foto transparan PNG.", false);
+      }).catch(function (err) {
+        showMsg($("poofMsg"), err.message, true);
+      }).then(function () { setLoading($("bsavePng"), false); });
+    });
+
+    on("bsaveFoto", "click", function () {
+      if (!SELECTED_KODE || !POOF_RESULT) return;
+      clearMsg($("poofMsg"));
+      setLoading($("bsaveFoto"), true);
+      post({ action: "foto", kode: SELECTED_KODE, mime: "image/png", data: POOF_RESULT.data, mode: $("fmode").value }).then(function () {
+        return loadList(SELECTED_KODE);
+      }).then(function () {
+        showMsg($("poofMsg"), "Disimpan ke Foto produk.", false);
+      }).catch(function (err) {
+        showMsg($("poofMsg"), err.message, true);
+      }).then(function () { setLoading($("bsaveFoto"), false); });
+    });
+
+    on("bdlPoof", "click", function () {
+      if (!POOF_RESULT) return;
+      var a = document.createElement("a");
+      a.href = "data:" + POOF_RESULT.mime + ";base64," + POOF_RESULT.data;
+      a.download = (SELECTED_KODE || "poof") + "-transparent.png";
+      a.click();
+    });
+
+    on("fpng", "change", function () {
+      var f = $("fpng").files[0];
+      $("bpng").disabled = !SELECTED_KODE || !f;
+      showPreview($("fpng"), "pngPreview");
+      if (f && f.size > MAX_FOTO) {
+        showMsg($("pmsg"), "File terlalu besar (maks 12 MB).", true);
+        $("bpng").disabled = true;
+      } else clearMsg($("pmsg"));
+    });
+
+    on("bpng", "click", function () {
+      var f = $("fpng").files[0];
+      if (!SELECTED_KODE || !f) return;
+      clearMsg($("pmsg"));
+      setLoading($("bpng"), true, "Mengunggah…");
+      readFileB64(f).then(function (b64) {
+        return post({ action: "png", kode: SELECTED_KODE, mime: f.type, data: b64 });
+      }).then(function () {
+        $("fpng").value = "";
+        $("pngPreview").className = "preview-box";
+        return loadList(SELECTED_KODE);
+      }).then(function () {
+        showMsg($("pmsg"), "PNG transparan berhasil disimpan.", false);
+      }).catch(function (e) {
+        showMsg($("pmsg"), e.message, true);
+      }).then(function () {
+        setLoading($("bpng"), false);
+        \( ("bpng").disabled = ! \)("fpng").files[0];
+      });
+    });
+
+    on("lpng", "click", function () {
+      if (!SELECTED_KODE) return;
+      confirmModal("Lepas PNG", "Hapus PNG transparan dari produk ini?").then(function (ok) {
+        if (!ok) return;
+        clearMsg($("pmsg"));
+        return post({ action: "lepas", kode: SELECTED_KODE, kolom: "png" }).then(function () {
+          return loadList(SELECTED_KODE);
+        }).then(function () {
+          showMsg($("pmsg"), "PNG transparan dilepas.", false);
+        });
+      }).catch(function (e) { showMsg($("pmsg"), e.message, true); });
+    });
+
+    on("fglb", "change", function () {
+      var f = $("fglb").files[0];
+      $("bglb").disabled = !SELECTED_KODE || !f;
+      if (f && f.size > MAX_GLB) {
+        showMsg($("gmsg"), "File terlalu besar (maks 25 MB).", true);
+        $("bglb").disabled = true;
+      } else clearMsg($("gmsg"));
+    });
+
+    on("bglb", "click", function () {
+      var f = $("fglb").files[0];
+      if (!SELECTED_KODE || !f) return;
+      clearMsg($("gmsg"));
+      setLoading($("bglb"), true, "Mengunggah…");
+      readFileB64(f).then(function (b64) {
+        return post({ action: "glb", kode: SELECTED_KODE, data: b64 });
+      }).then(function (r) {
+        $("fglb").value = "";
+        return loadList(SELECTED_KODE).then(function () {
+          showMsg($("gmsg"), "Model .glb terunggah. " + (r.note || ""), false);
+        });
+      }).catch(function (e) {
+        showMsg($("gmsg"), e.message, true);
+      }).then(function () {
+        setLoading($("bglb"), false);
+        \( ("bglb").disabled = ! \)("fglb").files[0];
+      });
+    });
+
+    on("lglb", "click", function () {
+      if (!SELECTED_KODE) return;
+      confirmModal("Lepas model 3D", "Hapus tautan model .glb dari produk ini?").then(function (ok) {
+        if (!ok) return;
+        clearMsg($("gmsg"));
+        return post({ action: "lepas", kode: SELECTED_KODE, kolom: "glb" }).then(function () {
+          return loadList(SELECTED_KODE);
+        }).then(function () {
+          showMsg($("gmsg"), "Model .glb dilepas.", false);
+        });
+      }).catch(function (e) { showMsg($("gmsg"), e.message, true); });
+    });
+
+    on("bmodeEdit", "click", function () {
+      var it = currentItem();
+      if (!it) { showMsg($("dmsg"), "Pilih produk terlebih dahulu lewat pencarian.", true); return; }
+      fillForm(it);
+    });
+    on("bmodeNew", "click", function () { fillForm(null); });
+
+    on("bDuplikat", "click", function () {
+      var it = currentItem();
+      if (!it) { showMsg($("dmsg"), "Pilih produk yang ingin diduplikat.", true); return; }
+      var kodeBaru = prompt("Masukkan kode produk baru:", it.k + "-copy");
+      if (!kodeBaru) return;
+      clearMsg($("dmsg"));
+      setLoading($("bDuplikat"), true);
+      post({ action: "duplikat", kode: it.k, kodeBaru: kodeBaru.trim() }).then(function (r) {
+        return loadList(r.kode).then(function () {
+          showMsg($("dmsg"), "Produk berhasil diduplikat sebagai " + r.kode, false);
+        });
+      }).catch(function (e) {
+        showMsg($("dmsg"), e.message, true);
+      }).then(function () { setLoading($("bDuplikat"), false); });
+    });
+
+    on("bHapus", "click", function () {
+      var it = currentItem();
+      if (!it) { showMsg($("dmsg"), "Pilih produk yang ingin dihapus.", true); return; }
+      confirmModal("Hapus produk", 'Hapus permanen produk "' + it.n + '" (' + it.k + ')? Tindakan ini tidak bisa dibatalkan.').then(function (ok) {
+        if (!ok) return;
+        clearMsg($("dmsg"));
+        setLoading($("bHapus"), true);
+        return post({ action: "hapus", kode: it.k }).then(function () {
+          SELECTED_KODE = "";
+          return loadList("");
+        }).then(function () {
+          showMsg($("dmsg"), "Produk berhasil dihapus.", false);
+          fillForm(null);
+        });
+      }).catch(function (e) {
+        showMsg($("dmsg"), e.message, true);
+      }).then(function () { setLoading($("bHapus"), false); });
+    });
+
+    ["dpj", "dlb", "dtg"].forEach(function (id) {
+      on(id, "input", updateArHint);
+    });
+
+    on("bsimpan", "click", function () {
+      clearMsg($("dmsg"));
+      setLoading($("bsimpan"), true, "Menyimpan…");
+      var kode = $("dkode").value.trim();
+      var payload = {
+        action: MODE_BARU ? "tambah" : "ubah",
+        kode: kode,
+        data: {
+          nama: $("dnama").value,
+          kategori: $("dkat").value,
+          ilustrasi: $("dilus").value,
+          harga: $("dharga").value,
+          stok: $("dstok").value,
+          pj: $("dpj").value,
+          l: $("dlb").value,
+          t: $("dtg").value,
+          material: $("dmat").value,
+          ket: $("dket").value,
+          aktif: $("daktif").checked ? "YA" : "TIDAK",
+          skala: $("dskala").checked ? "" : "TIDAK"
+        }
+      };
+      post(payload).then(function () {
+        return loadList(kode);
+      }).then(function () {
+        showMsg($("dmsg"), MODE_BARU ? "Produk baru berhasil ditambahkan." : "Perubahan produk berhasil disimpan.", false);
+        if (MODE_BARU) fillForm(currentItem());
+      }).catch(function (e) {
+        showMsg($("dmsg"), e.message, true);
+      }).then(function () {
+        setLoading($("bsimpan"), false);
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindAll);
+  } else {
+    bindAll();
+  }
+})();
 </script>
 </body>
 </html>
