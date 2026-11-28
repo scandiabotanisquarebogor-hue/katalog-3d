@@ -31,8 +31,13 @@ button,input,select,textarea{font-family:inherit}
 header{padding:18px 20px 14px;text-align:center;background:var(--header-bg);position:relative}
 header h1{margin:0;font:700 clamp(20px,6vw,26px)/1.2 Poppins,sans-serif;letter-spacing:.08em}
 header small{display:block;color:var(--mut);font-size:12px;margin-top:4px}
-.theme-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:.15s}
+.theme-btn{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
 .theme-btn:hover{border-color:var(--ac);background:var(--sage)}
+.theme-btn svg{display:block;width:20px;height:20px}
+html.dark .theme-btn .icon-sun{display:none}
+html.dark .theme-btn .icon-moon{display:block}
+html:not(.dark) .theme-btn .icon-moon{display:none}
+html:not(.dark) .theme-btn .icon-sun{display:block}
 .wrap{max-width:780px;margin:0 auto;padding:0 16px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;transition:background .2s,border-color .2s}
 .box h2{margin:0 0 12px;font:600 15px Poppins,sans-serif;display:flex;align-items:center;gap:8px}
@@ -119,7 +124,15 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
 </head>
 <body>
 <header>
-  <button type="button" class="theme-btn" id="themeBtn" title="Ganti tema" aria-label="Ganti tema gelap/terang">🌙</button>
+  <button type="button" class="theme-btn" id="themeBtn" title="Ganti tema" aria-label="Ganti tema gelap/terang">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/>
+    </svg>
+  </button>
   <h1>ADMIN KATALOG</h1>
   <small id="sub">SCANDIA BOTANI · Kelola foto, PNG &amp; model 3D (.glb)</small>
 </header>
@@ -175,11 +188,11 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
       <h2><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg></span>Update Manual</h2>
       <p class="note" style="margin-top:0">Pilih bagian yang ingin diperbarui. Fitur Poof tersedia langsung di bagian foto/PNG.</p>
 
-      <details class="dd" id="ddFoto" open>
-        <summary>
+      **Summary:**
+
           <span><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 20"/></svg></span> Foto produk &amp; PNG (manual + Poof)</span>
           <span class="pill">Foto / PNG</span>
-        </summary>
+        
         <div class="dd-body">
           <div class="thumbs" id="fthumbs"></div>
           <label class="f" for="fmode">Mode unggah foto biasa</label>
@@ -234,13 +247,12 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
           </div>
           <div class="msg" id="pmsg"></div>
         </div>
-      </details>
 
-      <details class="dd" id="ddGlb">
-        <summary>
+      **Summary:**
+
           <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></span> Model 3D (.glb)</span>
           <span class="pill">3D / AR</span>
-        </summary>
+        
         <div class="dd-body">
           <div class="cur" id="gcur"></div>
           <label class="f" for="fglb">Pilih file model (.glb, maks 25 MB)</label>
@@ -249,16 +261,15 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
             <button class="btn" id="bglb" disabled>Unggah .glb ke GitHub</button>
             <button class="btn dan" id="lglb" style="display:none">Lepas .glb</button>
           </div>
-          <p class="note">File diunggah ke folder <code>models/</code> di repo GitHub lalu tautannya disimpan ke kolom Model 3D .glb.</p>
+          <p class="note">File diunggah ke folder <code>models/</code> di repo GitHub lalu tautannya disimpan ke kolom Model 3D .glb. Untuk AI Image→3D gratis, generate di situs eksternal lalu unggah di sini.</p>
           <div class="msg" id="gmsg"></div>
         </div>
-      </details>
 
-      <details class="dd" id="ddInfo">
-        <summary>
+      **Summary:**
+
           <span><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> Tambah / Edit data produk</span>
           <span class="pill">Data</span>
-        </summary>
+        
         <div class="dd-body">
           <div class="row" style="margin-bottom:10px">
             <button class="btn sec sm" id="bmodeEdit">Ubah produk terpilih</button>
@@ -305,7 +316,6 @@ code{background:var(--sage);padding:1px 5px;border-radius:4px;font-size:12px}
           </div>
           <div class="msg" id="dmsg"></div>
         </div>
-      </details>
     </div>
   </div>
 </div>
@@ -330,10 +340,9 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp
 let PW = "", ITEMS = [], SELECTED_KODE = "", MODE_BARU = false, POOF_RESULT = null, SELECTED_BULK = new Set();
 let modalResolve = null;
 
-/* ===== Dark Mode ===== */
+/* ===== Dark Mode (line art icons) ===== */
 function applyTheme(dark) {
   document.documentElement.classList.toggle("dark", dark);
-  $("themeBtn").textContent = dark ? "☀️" : "🌙";
   $("themeBtn").title = dark ? "Mode terang" : "Mode gelap";
   document.querySelector('meta[name="theme-color"]').content = dark ? "#1a1f1c" : "#eef3ee";
   try { localStorage.setItem("admin_theme", dark ? "dark" : "light"); } catch (e) {}
@@ -562,10 +571,10 @@ function renderManualDetails(){
     : 'Model 3D (.glb): belum ada.';
   $("lglb").style.display = it.glb ? "inline-flex" : "none";
 
-  $("bfoto").disabled = !$("ffoto").files.length;
-  $("bpoof").disabled = !$("fpoofsrc").files[0];
-  $("bpng").disabled = !$("fpng").files[0];
-  $("bglb").disabled = !$("fglb").files[0];
+  \( ("bfoto").disabled = ! \)("ffoto").files.length;
+  \( ("bpoof").disabled = ! \)("fpoofsrc").files[0];
+  \( ("bpng").disabled = ! \)("fpng").files[0];
+  \( ("bglb").disabled = ! \)("fglb").files[0];
   fillForm(it);
 }
 
@@ -728,7 +737,7 @@ $("bfoto").onclick = async () => {
     showMsg($("fmsg"), e.message, true);
   } finally {
     setLoading($("bfoto"), false);
-    $("bfoto").disabled = !$("ffoto").files.length;
+    \( ("bfoto").disabled = ! \)("ffoto").files.length;
   }
 };
 
@@ -781,7 +790,7 @@ $("bpoof").onclick = async () => {
     showMsg($("poofMsg"), err.message, true);
   } finally {
     setLoading($("bpoof"), false);
-    $("bpoof").disabled = !$("fpoofsrc").files[0];
+    \( ("bpoof").disabled = ! \)("fpoofsrc").files[0];
   }
 };
 
@@ -845,7 +854,7 @@ $("bpng").onclick = async () => {
     showMsg($("pmsg"), e.message, true);
   } finally {
     setLoading($("bpng"), false);
-    $("bpng").disabled = !$("fpng").files[0];
+    \( ("bpng").disabled = ! \)("fpng").files[0];
   }
 };
 
@@ -886,7 +895,7 @@ $("bglb").onclick = async () => {
     showMsg($("gmsg"), e.message, true);
   } finally {
     setLoading($("bglb"), false);
-    $("bglb").disabled = !$("fglb").files[0];
+    \( ("bglb").disabled = ! \)("fglb").files[0];
   }
 };
 
